@@ -1,0 +1,41 @@
+buildscript {
+    ext {
+        springBootVersion = SPRING_BOOT_VERSION
+    }
+    repositories { mavenCentral() }
+    dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") }
+}
+
+allprojects {
+    group = 'com.masi'
+    version = PROJECT_VERSION
+
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+
+    buildscript {
+        repositories {
+            mavenLocal()
+            mavenCentral()
+        }
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+subprojects {
+    project.ext.springBootVersion = SPRING_BOOT_VERSION
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    dependencies {
+        compile('org.springframework.boot:spring-boot-starter')
+        compile('org.springframework.boot:spring-boot-starter-web')
+        compile('org.springframework.boot:spring-boot-starter-actuator')
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+    }
+}

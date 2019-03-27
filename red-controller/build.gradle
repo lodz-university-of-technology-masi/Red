@@ -1,0 +1,9 @@
+plugins { id "io.spring.dependency-management" }
+
+jar {
+    baseName = 'red-controller'
+}
+
+dependencyManagement {
+    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+}

@@ -1,0 +1,12 @@
+pluginManagement {
+	repositories {
+		gradlePluginPortal()
+	}
+}
+rootProject.name = 'red'
+include 'red-app'
+include 'red-api'
+include 'red-service'
+include 'red-controller'
+include 'red-security'
+

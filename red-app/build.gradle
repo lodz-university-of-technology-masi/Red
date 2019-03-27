@@ -1,0 +1,13 @@
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+bootJar {
+    baseName = 'red-app'
+}
+
+dependencies {
+    compile project(':red-api')
+    compile project(':red-service')
+    compile project(':red-controller')
+    compile project(':red-security')
+}
