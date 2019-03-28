@@ -6,6 +6,8 @@ bootJar {
 }
 
 dependencies {
+    compile project(':red-model')
+    compile project(':red-repository')
     compile project(':red-api')
     compile project(':red-service')
     compile project(':red-controller')

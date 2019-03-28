@@ -4,9 +4,11 @@ pluginManagement {
 	}
 }
 rootProject.name = 'red'
+include 'red-model'
 include 'red-app'
 include 'red-api'
 include 'red-service'
 include 'red-controller'
 include 'red-security'
+include 'red-repository'
 
