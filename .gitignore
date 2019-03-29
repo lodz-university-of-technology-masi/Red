@@ -28,3 +28,14 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+red-model/out/production/classes/com/masi/red/entity/JobTitle.class
+red-model/out/production/classes/com/masi/red/entity/JobTitle.class
+red-model/out/production/classes/com/masi/red/entity/JobTitle.class
+red-model/out/production/classes/com/masi/red/entity/JobTitle.class
+*.class
+*.class
+red-model/out/production/classes/com/masi/red/entity/JobTitle.class
+red-model/out/production/classes/com/masi/red/entity/Question.class
+red-model/out/production/classes/com/masi/red/entity/Role.class
+red-model/out/production/classes/com/masi/red/entity/Test.class
+red-app/out/production/classes/META-INF/red.red-app.main.kotlin_module
