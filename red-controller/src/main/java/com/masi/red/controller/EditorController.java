@@ -1,40 +1,40 @@
 package com.masi.red.controller;
 
-import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import java.util.prefs.Preferences;
+
+@RestController
 @RequestMapping(value = "/redaktor")
 public class EditorController {
 
-    @ResponseBody @RequestMapping( value="{editorName}/{editorSurname}", method = RequestMethod.PUT)
+    @RequestMapping( value="{editorName}/{editorSurname}", method = RequestMethod.PUT)
     public Object createEditor(@PathVariable String editorName, @PathVariable String editorSurname){
 
         String response = editorName + " " + editorSurname;
         return new String("utworzono redaktora: " + response);
     }
 
-    @ResponseBody @RequestMapping( value="{editorId}/", method = RequestMethod.GET)
+    @RequestMapping( value="{editorId}/", method = RequestMethod.GET)
     public Object readEditor(@PathVariable Integer editorId){
 
         String response = editorId.toString();
         return new String("pobrano redaktora o ID: " + response);
     }
 
-    @ResponseBody @RequestMapping( value="{editorId}/{editorName}/{editorSurname}", method = RequestMethod.POST)
-    public Object updateEditor(@PathVariable Integer editorId, @PathVariable String editorName, @PathVariable String editorSurname){
+    @RequestMapping( value="{editorId}/{editorName}/{editorSurname}", method = RequestMethod.POST)
+    public void updateEditor(@PathVariable Integer editorId, @PathVariable String editorName, @PathVariable String editorSurname){
 
-        String response = editorId.toString();
-        return new String("aktualizacja redaktora o ID: " + response);
+        System.out.println("Aktualizacja redaktora o ID: " + editorId);
     }
 
-    @ResponseBody @RequestMapping( value="{editorId}/{editorName}/{editorSurname}", method = RequestMethod.POST)
-    public Object deleteEditor(@PathVariable Integer editorId, @PathVariable String editorName, @PathVariable String editorSurname){
+    @RequestMapping( value="{editorId}", method = RequestMethod.DELETE)
+    public void deleteEditor(@PathVariable Integer editorId){
 
-        String response = editorId.toString();
-        return new String("aktualizacja redaktora o ID: " + response);
+        System.out.println("Usunięto redaktora o ID: " + editorId);
     }
 }
