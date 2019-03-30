@@ -1,7 +1,7 @@
-INSERT INTO masi.job_title(id, name) VALUES (1, 'Junior Java Developer');
-INSERT INTO masi.job_title(id, name) VALUES (2, 'Senior Java Developer');
-INSERT INTO masi.job_title(id, name) VALUES (3, 'Junior Software Tester');
-INSERT INTO masi.job_title(id, name) VALUES (4, 'Senior Software Tester');
+INSERT INTO masi.job_title(id, name, active) VALUES (1, 'Junior Java Developer', true);
+INSERT INTO masi.job_title(id, name, active) VALUES (2, 'Senior Java Developer', true);
+INSERT INTO masi.job_title(id, name, active) VALUES (3, 'Junior Software Tester', true);
+INSERT INTO masi.job_title(id, name, active) VALUES (4, 'Senior Software Tester', true);
 
 ALTER SEQUENCE masi.job_title_seq RESTART WITH 5;
 
