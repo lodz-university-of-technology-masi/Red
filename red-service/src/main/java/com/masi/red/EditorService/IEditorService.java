@@ -2,6 +2,8 @@ package com.masi.red.EditorService;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.List;
+
 
 public interface IEditorService {
 
@@ -12,4 +14,7 @@ public interface IEditorService {
     void updateEditor(Integer id, String name, String surname) throws NotImplementedException;
 
     void deleteEditor(Integer id) throws NotImplementedException;
+
+    List<Object> getAllEditors() throws NotImplementedException;
+
 }

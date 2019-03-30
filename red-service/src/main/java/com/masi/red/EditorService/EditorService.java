@@ -3,6 +3,8 @@ package com.masi.red.EditorService;
 import org.springframework.stereotype.Service;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.List;
+
 @Service
 public class EditorService implements IEditorService {
 
@@ -26,5 +28,10 @@ public class EditorService implements IEditorService {
     @Override
     public void deleteEditor(Integer id) throws NotImplementedException {
 
+    }
+
+    @Override
+    public List<Object> getAllEditors() throws NotImplementedException {
+        return null;
     }
 }
