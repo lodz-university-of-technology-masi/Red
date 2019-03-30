@@ -27,4 +27,7 @@ public @Data class JobTitle {
 
     @OneToMany(mappedBy = "jobTitle")
     private List<Test> testList = new ArrayList<>();
+
+    @Column(name = "active")
+    private boolean active;
 }

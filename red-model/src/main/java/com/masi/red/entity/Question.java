@@ -1,5 +1,6 @@
 package com.masi.red.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.CascadeType;
@@ -23,6 +24,7 @@ public @Data class Question {
     @Column(name = "id", nullable = false, unique = true)
     private int id ;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "questionsList", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Test> testList = new ArrayList<>();
 
