@@ -26,7 +26,7 @@
 
         <div class="tab-pane fade show active" id="redaktor" role="tabpanel" aria-labelledby="home-tab">
 
-            <button class="btn btn-outline-success btn-block mt-5 mb-5"><i class="material-icons md-24">add_circle</i> Dodaj Redaktora</button>
+            <button class="btn btn-outline-success btn-block mt-5 mb-5" data-toggle="modal" data-target="#createEditor"><i class="material-icons md-24">add_circle</i> Dodaj Redaktora</button>
 
             <table class="table">
                 <thead>
@@ -38,6 +38,13 @@
                 </tr>
                 </thead>
                 <tbody id="resultEditor">
+                <td>0</td>
+                <td>Jan</td>
+                <td>Kowalski</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-info " data-toggle="modal" data-target="#updateEditor"><i class="material-icons md-24">add_circle_outline</i> Edytuj Redaktora</button>
+                    <button id="0" class="btn btn-sm btn-outline-danger deleteButton" type="button"><i class="material-icons md-24">remove_circle_outline</i> Usuń Redaktora</button>
+                </td>
                 </tbody>
             </table>
 
@@ -60,6 +67,97 @@
 
     <!-- MODAL PANELS --><!-- MODAL PANELS --><!-- MODAL PANELS --><!-- MODAL PANELS --><!-- MODAL PANELS -->
 
+    <!-- The Modal N E W   E D I T O R -->
+    <div class="modal" id="createEditor">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Dodaj Redaktora</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form id="FormCreateEditor">
+
+                        <div class="form-group row">
+                            <label for="FCEName" class="col-sm-2 col-form-label">Imie</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="FCEName" name="FCEName">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="FCESurname" class="col-sm-2 col-form-label">Nazwisko</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="FCESurname" name="FCESurname">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="FormCreateButton" type="button" class="btn btn-success" >Zapisz</button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal E D I T   E D I T O R -->
+    <div class="modal" id="updateEditor">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Dodaj Redaktora</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form id="FormUpdateEditor">
+
+                        <div class="form-group row">
+                            <label for="FUEID" class="col-sm-2 col-form-label">ID</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="FUEID" name="FUEID" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="FUEName" class="col-sm-2 col-form-label">Imie</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="FUEName" name="FUEName">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="FUESurname" class="col-sm-2 col-form-label">Nazwisko</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="FUESurname" name="FUESurname">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="FormUpdateButton" type="button" class="btn btn-success" >Aktualizuj</button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 <script>
 
     window.onload = function () {
@@ -77,6 +175,72 @@
         // });
 
     }
+
+
+    editor_api = "/redaktor/";
+
+    $(document).ready(function() {
+
+        $("#FormCreateButton").click(function () {
+
+            var dataForm = $('#FormCreateEditor').serializeArray();
+
+            console.log(dataForm);
+
+            $.post(editor_api + dataForm[0].value + "/" + dataForm[1].value,
+                function (data) {
+                    console.log(data);
+
+                    setTimeout(function(){
+                        window.location.reload(true);
+                    }, 2000);
+
+
+                });
+
+        });
+
+        $("#FormUpdateButton").click(function () {
+
+            var dataForm = $('#FormUpdateEditor').serializeArray();
+
+            console.log(dataForm);
+
+            $.ajax({
+                type: "PUT",
+                url: editor_api + dataForm[0].value + "/" + dataForm[1].value + "/" + dataForm[2].value,
+                success: function(data) {
+                    console.log(data);
+
+                    setTimeout(function(){
+                        window.location.reload(true);
+                    }, 2000);
+                }
+            });
+
+        });
+
+        $(".deleteButton").click(function(event){
+            console.log(event.target.id);
+
+            $.ajax({
+                type: "DELETE",
+                url: editor_api + event.target.id,
+                success: function(data) {
+                    console.log(data);
+
+                    setTimeout(function(){
+                        window.location.reload(true);
+                    }, 1000);
+                }
+            });
+
+        });
+
+
+    });
+
+
 
 </script>
 
