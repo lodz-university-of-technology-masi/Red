@@ -19,7 +19,7 @@ public class EditorController {
     @Autowired
     EditorService editorService;
 
-    @PutMapping( value="{editorName}/{editorSurname}")
+    @PostMapping( value="{editorName}/{editorSurname}")
     public ResponseEntity<String> createEditor(@PathVariable String editorName, @PathVariable String editorSurname){
 
         String response = editorName + " " + editorSurname;
@@ -37,7 +37,7 @@ public class EditorController {
         return new ResponseEntity<>(editor, HttpStatus.OK);
     }
 
-    @PostMapping( value="{editorId}/{editorName}/{editorSurname}")
+    @PutMapping( value="{editorId}/{editorName}/{editorSurname}")
     public ResponseEntity<String> updateEditor(@PathVariable Integer editorId, @PathVariable String editorName, @PathVariable String editorSurname){
 
         editorService.updateEditor(editorId, editorName, editorSurname);
