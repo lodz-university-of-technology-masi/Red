@@ -1,11 +1,15 @@
 package com.masi.red.controller;
 
 
+
 import com.masi.red.EditorService.EditorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+
+import java.util.List;
 
 
 @RestController
@@ -25,7 +29,7 @@ public class EditorController {
         return new ResponseEntity<>("Created Editor ID : " + editorID, HttpStatus.OK);
     }
 
-    @GetMapping( value="{editorId}/")
+    @GetMapping( value="{editorId}")
     public ResponseEntity<Object> readEditor(@PathVariable Integer editorId){
 
         Object editor = editorService.readEditor(editorId);
@@ -48,4 +52,15 @@ public class EditorController {
 
         return new ResponseEntity<>("Usunięto Redaktora o ID : " + editorId, HttpStatus.OK);
     }
+
+    // Metody dodatkowe
+
+    @GetMapping( value="all")
+    public ResponseEntity<Object> getAllEditors(){
+
+        List<Object> editor = editorService.getAllEditors();
+
+        return new ResponseEntity<>(editor, HttpStatus.OK);
+    }
+
 }
