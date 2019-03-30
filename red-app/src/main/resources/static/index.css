@@ -1,0 +1,25 @@
+.parallax {
+    /* The image used */
+    background-image: url("index.jpg");
+
+    /* Set a specific height */
+    min-height: 400px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.title{
+    font-family: 'Josefin Sans', sans-serif;
+    color: white;
+    font-size: 60pt;
+    padding-top: 170px;
+}
+
+.moderator-btn{
+    letter-spacing: 2px;
+    border-radius: 2px;
+}
