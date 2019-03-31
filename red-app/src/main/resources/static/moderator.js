@@ -17,9 +17,9 @@ $(document).ready(function() {
             function (data) {
                 console.log(data);
 
-                // setTimeout(function(){
-                //     window.location.reload(true);
-                // }, 2000);
+                setTimeout(function(){
+                    window.location.reload(true);
+                }, 2000);
 
 
             });
@@ -38,9 +38,9 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
 
-                // setTimeout(function(){
-                //     window.location.reload(true);
-                // }, 2000);
+                setTimeout(function(){
+                    window.location.reload(true);
+                }, 2000);
             },
             error: function (e) {
                 console.log("ERROR : ", e);
@@ -62,9 +62,9 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
 
-                // setTimeout(function(){
-                //     window.location.reload(true);
-                // }, 1000);
+                setTimeout(function(){
+                    window.location.reload(true);
+                }, 2000);
             }
         });
 
@@ -98,9 +98,9 @@ $(document).ready(function() {
             success: function(data) {
                 console.log("response: " + data);
 
-                // setTimeout(function(){
-                //     window.location.reload(true);
-                // }, 1000);
+                setTimeout(function(){
+                    window.location.reload(true);
+                }, 2000);
             },
             error: function (e) {
                 console.log("ERROR : ", e);
@@ -128,9 +128,9 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
 
-                // setTimeout(function(){
-                //     window.location.reload(true);
-                // }, 2000);
+                setTimeout(function(){
+                    window.location.reload(true);
+                }, 2000);
             },
             error: function (e) {
                 console.log("ERROR : ", e);
@@ -152,9 +152,9 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
 
-                // setTimeout(function(){
-                //     window.location.reload(true);
-                // }, 1000);
+                setTimeout(function(){
+                    window.location.reload(true);
+                }, 2000);
             },
             error: function (e) {
                 console.log("ERROR : ", e);
@@ -175,9 +175,9 @@ $(document).ready(function() {
             success: function(data) {
                 console.log("response: " + data);
 
-                // setTimeout(function(){
-                //     window.location.reload(true);
-                // }, 1000);
+                setTimeout(function(){
+                    window.location.reload(true);
+                }, 2000);
             },
             error: function (e) {
                 console.log("ERROR : ", e);
@@ -200,9 +200,9 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
 
-                // setTimeout(function(){
-                //     window.location.reload(true);
-                // }, 1000);
+                setTimeout(function(){
+                    window.location.reload(true);
+                }, 2000);
             },
             error: function (e) {
                 console.log("ERROR : ", e);
