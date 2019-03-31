@@ -52,7 +52,7 @@
 
         </div>
 
-        <!-- STANOWSIKO PANEL --><!-- STANOWSIKO PANEL --><!-- STANOWSIKO PANEL --><!-- STANOWSIKO PANEL --><!-- STANOWSIKO PANEL --><!-- STANOWSIKO PANEL --><!-- STANOWSIKO PANEL --><!-- STANOWSIKO PANEL -->
+        <!-- STANOWISKO PANEL --><!-- STANOWISKO PANEL --><!-- STANOWISKO PANEL --><!-- STANOWISKO PANEL --><!-- STANOWISKO PANEL --><!-- STANOWISKO PANEL --><!-- STANOWISKO PANEL --><!-- STANOWISKO PANEL -->
 
         <div class="tab-pane fade" id="stanowisko" role="tabpanel" aria-labelledby="profile-tab">
 
@@ -88,7 +88,21 @@
         <!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL -->
 
         <div class="tab-pane fade" id="test" role="tabpanel" aria-labelledby="contact-tab">
-            Test...
+            <button class="btn btn-outline-success btn-block mt-5 mb-5" data-toggle="modal" data-target="#createTest"><i class="material-icons md-24">add_circle</i> Dodaj test</button>
+
+            <table id="TestTable" class="table " style="width:100%">
+                <thead>
+                <tr>
+                    <th style="width:10%">ID</th>
+                    <th style="width:20%">Stanowisko</th>
+                    <th style="width:20%">Liczba pytań</th>
+                    <th style="width:20%">Data utworzenia</th>
+                    <th style="width:30%">Opcje</th>
+                </tr>
+                </thead>
+                <tbody id="resultTest">
+                </tbody>
+            </table>
         </div>
 
     </div>
@@ -389,6 +403,99 @@
             </div>
         </div>
 
+    <!-- The Modal N E W  T E S T -->
+    <div class="modal" id="createTest">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Dodaj test</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form id="FormCreateTest">
+
+                        <div class="form-group row">
+                            <label for="jobTitleInput" class="col-sm-2 col-form-label">ID stanowiska</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="jobTitleCreateInput" name="jobTitleInput">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="QuestionIdInput" class="col-sm-2 col-form-label">ID pytań</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="QuestionIdCreateInput" name="QuestionIdInput"> <button class="btn btn-sm btn-outline-success addQuestionToTestButton" type="button">Dodaj pytanie</button>
+                            </div>
+                            <div id="questionsToTestCreate" class="col-sm-2 col-form-label">Id pytań: </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="FormCreateTestButton" type="button" class="btn btn-success" >Zapisz</button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Zamknij</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal E D I T      T E S T -->
+    <div class="modal" id="updateTest">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Edytuj test</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form id="FormUpdateTest">
+
+                        <div class="form-group row">
+                            <label for="testId" class="col-sm-2 col-form-label">ID</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="testId" name="testId">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="jobTitleInput" class="col-sm-2 col-form-label">ID stanowiska</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="jobTitleInput" name="jobTitleInput">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="QuestionIdInput" class="col-sm-2 col-form-label">ID pytań</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="QuestionIdInput" name="QuestionIdInput"> <button class="btn btn-sm btn-outline-success addQuestionToTestButton" type="button">Dodaj pytanie</button>
+                            </div>
+                            <div id="questionsToTest" class="col-sm-2 col-form-label">Id pytań: </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="FormUpdateTestButton" type="button" class="btn btn-success" >Aktualizuj</button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Zamknij</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
 <script>
 
@@ -457,6 +564,30 @@
                     "                    <button id=\'TJD" + value.id + "T" + testID +"\' class=\"btn btn-sm btn-outline-warning detachJobTestButton\" type=\"button\"><i class=\"material-icons md-24\">remove_circle_outline</i> Odepnij Test</button>\n" +
                     "                    <!--<button id=\"DJ0\" class=\"btn btn-sm btn-outline-default deactivateJobTitleButton\" type=\"button\"><i class=\"material-icons md-24\">remove_circle_outline</i> Dezaktywuj Stanowisko</button>-->\n" +
                     "                </td></tr>");
+                });
+            }
+        });
+
+        $.get( "/tests", function( data ) {
+
+            console.log(data);
+
+            $("#resultTest").html("");
+
+            if(data) {
+
+                $.each(data, function (index, value) {
+                    console.log(value);
+                    $("#resultTest").append("<tr><td>" + value.id + "</td>\n" +
+                        "                <td>" + value.jobTitle + "</td>\n" +
+                        "                <td>" + value.questionsList.length + "</td>\n" +
+                        "                <td>" + value.creationTime + "</td>\n" +
+                        "                <td>\n" +
+                        "                    <button class=\"btn btn-sm btn-outline-info \" data-toggle=\"modal\" data-target=\"#updateTest\"><i class=\"material-icons md-24\">add_circle_outline</i> Edytuj test</button>\n" +
+                        "                    <button id=\'J" + value.id + "\' class=\"btn btn-sm btn-outline-danger deleteTestButton\" type=\"button\"><i class=\"material-icons md-24\">remove_circle_outline</i> Usuń test</button>\n" +
+                        "                    <button class=\"btn btn-sm btn-outline-success attachTestButton\" type=\"button\" data-toggle=\"modal\" data-target=\"#attachQuestion\" ><i class=\"material-icons md-24\">add_circle_outline</i> Dodaj Test</button>\n" +
+                        // "                    <button id=\'TJD" + value.id + "T" + questionID +"\' class=\"btn btn-sm btn-outline-warning detachQuestionButton\" type=\"button\"><i class=\"material-icons md-24\">remove_circle_outline</i> Odepnij pytanie</button>\n" +
+                        "                </td></tr>");
                 });
             }
         });
