@@ -1,5 +1,6 @@
-package com.masi.red;
+package com.masi.red.controller;
 
+import com.masi.red.JobTitleRepository;
 import com.masi.red.entity.JobTitle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

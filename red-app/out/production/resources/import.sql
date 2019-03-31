@@ -1,3 +1,4 @@
+
 INSERT INTO masi.job_title(id, name, active) VALUES (1, 'Junior Java Developer', true);
 INSERT INTO masi.job_title(id, name, active) VALUES (2, 'Senior Java Developer', true);
 INSERT INTO masi.job_title(id, name, active) VALUES (3, 'Junior Software Tester', true);
@@ -27,4 +28,3 @@ INSERT INTO masi.test_question(test_id, question_id) VALUES (1, 1);
 INSERT INTO masi.test_question(test_id, question_id) VALUES (1, 2);
 INSERT INTO masi.test_question(test_id, question_id) VALUES (2, 3);
 INSERT INTO masi.test_question(test_id, question_id) VALUES (2, 4);
-
