@@ -24,7 +24,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(generator = "optimized-sequence")
     @Column(name = "id", nullable = false, unique = true)
-    private String id;
+    private Integer id;
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
