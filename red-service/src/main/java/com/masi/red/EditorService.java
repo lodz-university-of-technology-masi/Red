@@ -1,8 +1,8 @@
 package com.masi.red;
 
+import com.masi.red.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -14,51 +14,45 @@ public class EditorService implements IEditorService {
     EditorRepository editorRepository;
 
     @Override
-    public Object createEditor(String name, String Surname) {
+    public User createEditor(String firstName, String lastName) {
 
-        //User editor = new User();
-        //editor.setName(name);
-        //editor.setSurname(surname);
+        User editor = new User();
+        editor.setFirstName(firstName);
+        editor.setLastName(lastName);
 
-        //return editorRepository.save(editor);
-
-        return null;
-    }
-
-    @Override
-    public Object readEditor(Integer id) {
-
-//        return editorRepository.findById(id)
-//                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono redaktora o id " + id));
+        return editorRepository.save(editor);
 
         return null;
     }
 
     @Override
-    public Object updateEditor(Integer id, String name, String surname) {
+    public User readEditor(Integer id) {
 
-        //User editor = new User();
-        //editor.setId(id);
-        //editor.setName(name);
-        //editor.setSurname(surname);
+        return editorRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono redaktora o id " + id));
 
-        //editorRepository.save(editor);
-
-        return null;
     }
 
     @Override
-    public Object deleteEditor(Integer id) {
+    public User updateEditor(Integer id, String name, String surname) {
 
-        //return editorRepository.deleteById(id);
+        User editor = new User();
+        editor.setId(id);
+        editor.setFirstName(name);
+        editor.setLastName(surname);
 
-        return null;
+        return editorRepository.save(editor);
     }
 
     @Override
-    public List<Object> getAllEditors() {
+    public User deleteEditor(Integer id) {
 
-        //return editorRepository.findAll();
-        return null;
+        return editorRepository.deleteById(id);
+    }
+
+    @Override
+    public List<User> getAllEditors() {
+
+        return editorRepository.findAll();
     }
 }

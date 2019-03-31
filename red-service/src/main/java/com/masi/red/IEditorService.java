@@ -1,15 +1,16 @@
 package com.masi.red;
 
+import com.masi.red.entity.User;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
 public interface IEditorService {
 
-    Object createEditor(String name, String Surname);
-    Object readEditor(Integer id);
-    Object updateEditor(Integer id, String name, String surname);
-    Object deleteEditor(Integer id);
-    List<Object> getAllEditors();
+    User createEditor(String name, String Surname);
+    User readEditor(Integer id);
+    User updateEditor(Integer id, String name, String surname);
+    User deleteEditor(Integer id);
+    List<User> getAllEditors();
 
 }

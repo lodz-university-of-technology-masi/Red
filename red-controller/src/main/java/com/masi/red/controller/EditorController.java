@@ -3,6 +3,7 @@ package com.masi.red.controller;
 
 
 import com.masi.red.IEditorService;
+import com.masi.red.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +32,9 @@ public class EditorController {
     }
 
     @GetMapping( value="{editorId}")
-    public ResponseEntity<Object> readEditor(@PathVariable Integer editorId){
+    public ResponseEntity<User> readEditor(@PathVariable Integer editorId){
 
-        Object editor = editorService.readEditor(editorId);
+        User editor = editorService.readEditor(editorId);
 
         return new ResponseEntity<>(editor, HttpStatus.OK);
     }
