@@ -3,7 +3,6 @@ package com.masi.red.controller;
 
 
 import com.masi.red.IEditorService;
-import com.masi.red.entity.Editor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,12 +59,7 @@ public class EditorController {
     @GetMapping( value="all")
     public ResponseEntity<Object> getAllEditors(){
 
-//        Editor editor1 = new Editor(1,"Jan","Kowalski");
-//        Editor editor2 = new Editor(2,"Janina","Kowalska");
-//
-//        List<Editor> editors = new ArrayList<>();
-//        editors.add(editor1);
-//        editors.add(editor2);
+
         List<Object> editors = editorService.getAllEditors();
 
         return new ResponseEntity<>(editors, HttpStatus.OK);

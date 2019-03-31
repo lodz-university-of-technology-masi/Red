@@ -10,8 +10,8 @@ import java.util.List;
 @Service
 public class EditorService implements IEditorService {
 
-//    @Autowired
-//    EditorRepository editorRepository;
+    @Autowired
+    EditorRepository editorRepository;
 
     @Override
     public Object createEditor(String name, String Surname) {
