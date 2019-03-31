@@ -1,4 +1,4 @@
-package com.masi.red.EditorService;
+package com.masi.red;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
