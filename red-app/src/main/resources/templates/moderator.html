@@ -400,7 +400,7 @@
 
             $("#resultEditor").html("");
 
-            if(!data) {
+            if(data) {
 
                 $.each(data, function (index, value) {
                     console.log(index + " : " + value.id + value.firstName + value.lastName);
@@ -427,14 +427,14 @@
 
             $("#resultJobTitle").html("");
 
-            if(!data) {
+            if(data) {
 
                 $.each(data, function (index, value) {
 
                     var testName = "";
                     var testID = 0;
 
-                    if(!value.testList){
+                    if(value.testList){
 
                         console.log(value.testList);
 
