@@ -1,8 +1,9 @@
 package com.masi.red;
 
+import com.masi.red.common.RoleName;
+import com.masi.red.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -10,55 +11,62 @@ import java.util.List;
 @Service
 public class EditorService implements IEditorService {
 
-//    @Autowired
-//    EditorRepository editorRepository;
+    @Autowired
+    EditorRepository editorRepository;
 
     @Override
-    public Object createEditor(String name, String Surname) {
+    public User createEditor(String username, String email, String password, RoleName role, String firstName, String lastName) {
 
-        //User editor = new User();
-        //editor.setName(name);
-        //editor.setSurname(surname);
 
-        //return editorRepository.save(editor);
 
-        return null;
+        User editor = User.builder()
+                .username(username)
+                .email(email)
+                .password(password)
+                .role(role)
+                .firstName(firstName)
+                .lastName(lastName)
+                .build();
+
+
+
+        return editorRepository.save(editor);
     }
 
     @Override
-    public Object readEditor(Integer id) {
+    public User readEditor(Integer id) {
 
-//        return editorRepository.findById(id)
-//                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono redaktora o id " + id));
-
-        return null;
+        return editorRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono redaktora o id " + id));
     }
 
     @Override
-    public Object updateEditor(Integer id, String name, String surname) {
+    public User updateEditor(Integer id, String username, String email, String password, RoleName role, String firstName, String lastName) {
 
-        //User editor = new User();
-        //editor.setId(id);
-        //editor.setName(name);
-        //editor.setSurname(surname);
 
-        //editorRepository.save(editor);
 
-        return null;
+        User editor = User.builder()
+                .id(id)
+                .username(username)
+                .email(email)
+                .password(password)
+                .role(role)
+                .firstName(firstName)
+                .lastName(lastName)
+                .build();
+
+        return editorRepository.save(editor);
     }
 
     @Override
-    public Object deleteEditor(Integer id) {
+    public void deleteEditor(Integer id) {
 
-        //return editorRepository.deleteById(id);
-
-        return null;
+        editorRepository.deleteById(id);
     }
 
     @Override
-    public List<Object> getAllEditors() {
+    public List<User> getAllEditors() {
 
-        //return editorRepository.findAll();
-        return null;
+        return editorRepository.findAll();
     }
 }
