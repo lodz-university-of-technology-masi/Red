@@ -43,6 +43,8 @@ subprojects {
         annotationProcessor("org.projectlombok:lombok:${LOMBOK_VERSION}")
         compile("org.postgresql:postgresql:${POSTGRES_VERSION}")
         compile("org.webjars:bootstrap:4.1.0")
+        compile ("org.webjars:datatables:1.10.19")
+
 
     }
 }

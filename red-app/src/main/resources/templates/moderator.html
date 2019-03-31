@@ -3,6 +3,16 @@
 <head>
     <th:block th:include="includes :: header" />
 
+    <script type="text/javascript" th:src="@{/moderator.js}" src="/resources/static/moderator.js"></script>
+
+    <!--<script th:src="@{/jquery.dataTables.min.js}" src="/resources/static/jquery.dataTables.min.js" type="text/javascript"></script>-->
+    <script type="text/javascript" src="/webjars/datatables/1.10.19/css/dataTables.bootstrap4.min.css"></script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 </head>
 <body>
 
@@ -28,13 +38,13 @@
 
             <button class="btn btn-outline-success btn-block mt-5 mb-5" data-toggle="modal" data-target="#createEditor"><i class="material-icons md-24">add_circle</i> Dodaj Redaktora</button>
 
-            <table class="table">
+            <table id="EditorsTable" class="table" style="width:100%" >
                 <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Imię</th>
-                    <th>Nazwisko</th>
-                    <th>Opcje</th>
+                    <th style="width:10%">ID</th>
+                    <th style="width:30%">Imię</th>
+                    <th style="width:30%">Nazwisko</th>
+                    <th style="width:30%">Opcje</th>
                 </tr>
                 </thead>
                 <tbody id="resultEditor">
@@ -43,7 +53,7 @@
                 <td>Kowalski</td>
                 <td>
                     <button class="btn btn-sm btn-outline-info " data-toggle="modal" data-target="#updateEditor"><i class="material-icons md-24">add_circle_outline</i> Edytuj Redaktora</button>
-                    <button id="0" class="btn btn-sm btn-outline-danger deleteButton" type="button"><i class="material-icons md-24">remove_circle_outline</i> Usuń Redaktora</button>
+                    <button id="E0" class="btn btn-sm btn-outline-danger deleteEditorButton" type="button"><i class="material-icons md-24">remove_circle_outline</i> Usuń Redaktora</button>
                 </td>
                 </tbody>
             </table>
@@ -53,7 +63,33 @@
         <!-- STANOWSIKO PANEL --><!-- STANOWSIKO PANEL --><!-- STANOWSIKO PANEL --><!-- STANOWSIKO PANEL --><!-- STANOWSIKO PANEL --><!-- STANOWSIKO PANEL --><!-- STANOWSIKO PANEL --><!-- STANOWSIKO PANEL -->
 
         <div class="tab-pane fade" id="stanowisko" role="tabpanel" aria-labelledby="profile-tab">
-            Stanowisko...
+
+            <button class="btn btn-outline-success btn-block mt-5 mb-5" data-toggle="modal" data-target="#createJobTitle"><i class="material-icons md-24">add_circle</i> Dodaj Stanowisko</button>
+
+            <table id="JobTitleTable" class="table " style="width:100%">
+                <thead>
+                <tr>
+                    <th style="width:10%">ID</th>
+                    <th style="width:20%">Nazwa</th>
+                    <th style="width:20%">Test</th>
+                    <th style="width:10%">Aktywność</th>
+                    <th style="width:40%">Opcje</th>
+                </tr>
+                </thead>
+                <tbody id="resultJobTitle">
+                <td>0</td>
+                <td>Junior Dev</td>
+                <td>Test-01</td>
+                <td>Tak</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-info " data-toggle="modal" data-target="#updateJobTitle"><i class="material-icons md-24">add_circle_outline</i> Edytuj Stanowisko</button>
+                    <button id="J0" class="btn btn-sm btn-outline-danger deleteJobTitleButton" type="button"><i class="material-icons md-24">remove_circle_outline</i> Usuń Stanowisko</button>
+                    <button id="JT0" class="btn btn-sm btn-outline-warning deleteJobTestButton" type="button"><i class="material-icons md-24">remove_circle_outline</i> Odepnij Test</button>
+                    <button id="DJ0" class="btn btn-sm btn-outline-default deactivateJobTitleButton" type="button"><i class="material-icons md-24">remove_circle_outline</i> Dezaktywuj Stanowisko</button>
+                </td>
+                </tbody>
+            </table>
+
         </div>
 
         <!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL -->
@@ -101,8 +137,8 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button id="FormCreateButton" type="button" class="btn btn-success" >Zapisz</button>
-                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                    <button id="FormCreateEditorButton" type="button" class="btn btn-success" >Zapisz</button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Zamknij</button>
                 </div>
 
             </div>
@@ -116,7 +152,7 @@
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Dodaj Redaktora</h4>
+                    <h4 class="modal-title">Edytuj Redaktora</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
@@ -150,13 +186,107 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button id="FormUpdateButton" type="button" class="btn btn-success" >Aktualizuj</button>
-                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                    <button id="FormUpdateEditorButton" type="button" class="btn btn-success" >Aktualizuj</button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Zamknij</button>
                 </div>
 
             </div>
         </div>
     </div>
+
+
+
+    <!-- The Modal N E W   J O B    T I T L E -->
+    <div class="modal" id="createJobTitle">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Dodaj Stanowisko</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form id="FormCreateJobTitle">
+
+                        <div class="form-group row">
+                            <label for="FCJTName" class="col-sm-2 col-form-label">Nazwa</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="FCJTName" name="FCJTName">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="FCJActive" class="col-sm-2 col-form-label">Aktywność</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="FCJActive" name="FCJActive">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="FormCreateJobTitleButton" type="button" class="btn btn-success" >Zapisz</button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Zamknij</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal E D I T   J O B      T I T L E -->
+    <div class="modal" id="updateJobTitle">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Edytuj Stanowisko</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form id="FormUpdateJobTitle">
+
+                        <div class="form-group row">
+                            <label for="FUJTID" class="col-sm-2 col-form-label">ID</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="FUJTID" name="FUJTID" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="FUJTName" class="col-sm-2 col-form-label">Imie</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="FUJTName" name="FUJTName">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="FUJTActive" class="col-sm-2 col-form-label">Aktywność</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="FUJTActive" name="FUJTActive">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="FormUpdateJobTitleButton" type="button" class="btn btn-success" >Aktualizuj</button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Zamknij</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
 <script>
 
@@ -176,73 +306,12 @@
 
     }
 
-
-    editor_api = "/redaktor/";
-
     $(document).ready(function() {
-
-        $("#FormCreateButton").click(function () {
-
-            var dataForm = $('#FormCreateEditor').serializeArray();
-
-            console.log(dataForm);
-
-            $.post(editor_api + dataForm[0].value + "/" + dataForm[1].value,
-                function (data) {
-                    console.log(data);
-
-                    setTimeout(function(){
-                        window.location.reload(true);
-                    }, 2000);
-
-
-                });
-
-        });
-
-        $("#FormUpdateButton").click(function () {
-
-            var dataForm = $('#FormUpdateEditor').serializeArray();
-
-            console.log(dataForm);
-
-            $.ajax({
-                type: "PUT",
-                url: editor_api + dataForm[0].value + "/" + dataForm[1].value + "/" + dataForm[2].value,
-                success: function(data) {
-                    console.log(data);
-
-                    setTimeout(function(){
-                        window.location.reload(true);
-                    }, 2000);
-                }
-            });
-
-        });
-
-        $(".deleteButton").click(function(event){
-            console.log(event.target.id);
-
-            $.ajax({
-                type: "DELETE",
-                url: editor_api + event.target.id,
-                success: function(data) {
-                    console.log(data);
-
-                    setTimeout(function(){
-                        window.location.reload(true);
-                    }, 1000);
-                }
-            });
-
-        });
-
-
-    });
-
-
-
+        $('#EditorsTable').DataTable();
+        $('#JobTitleTable').DataTable();
+    } );
 </script>
+
 
 </body>
 </html>
