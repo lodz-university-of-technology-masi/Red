@@ -1,9 +1,10 @@
 plugins { id "io.spring.dependency-management" }
 
-jar {
-    baseName = 'red-security'
-}
-
 dependencyManagement {
     imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+}
+
+dependencies {
+    compile project(':red-model')
+    compile project(':red-repository')
 }
