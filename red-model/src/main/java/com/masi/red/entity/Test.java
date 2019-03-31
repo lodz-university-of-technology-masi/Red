@@ -1,5 +1,6 @@
 package com.masi.red.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class Test {
             inverseJoinColumns = {@JoinColumn(name = "question_id")})
     private List<Question> questionsList = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "job_title_id")
     private JobTitle jobTitle;

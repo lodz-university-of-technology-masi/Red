@@ -23,4 +23,15 @@ public class JobTitle {
 
     @OneToMany(mappedBy = "jobTitle")
     private List<Test> testList = new ArrayList<>();
+
+    @Column(name = "active")
+    private boolean active;
+
+    public void attachTest(Test test) {
+        testList.add(test);
+    }
+
+    public void detachTest(Test test) {
+        testList.remove(test);
+    }
 }
