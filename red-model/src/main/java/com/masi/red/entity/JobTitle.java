@@ -30,4 +30,12 @@ public @Data class JobTitle {
 
     @Column(name = "active")
     private boolean active;
+
+    public void attachTest(Test test) {
+        testList.add(test);
+    }
+
+    public void detachTest(Test test) {
+        testList.remove(test);
+    }
 }

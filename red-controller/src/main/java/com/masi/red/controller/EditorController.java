@@ -2,7 +2,7 @@ package com.masi.red.controller;
 
 
 
-import com.masi.red.EditorService.EditorService;
+import com.masi.red.IEditorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import java.util.List;
 public class EditorController {
 
     @Autowired
-    EditorService editorService;
+    IEditorService editorService;
 
     @PostMapping( value="{editorName}/{editorSurname}")
     public ResponseEntity<String> createEditor(@PathVariable String editorName, @PathVariable String editorSurname){
