@@ -3,18 +3,13 @@ package com.masi.red.entity;
 import com.masi.red.common.RoleName;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@Data
 @Entity
 @Table(name = "role")
-public @Data class Role {
+public class Role {
 
     @Id
     @GeneratedValue(generator = "optimized-sequence")

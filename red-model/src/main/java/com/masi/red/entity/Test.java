@@ -2,24 +2,16 @@ package com.masi.red.entity;
 
 import lombok.Data;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "test")
-public @Data class Test {
+public class Test {
 
     @Id
     @GeneratedValue(generator = "optimized-sequence")
@@ -39,5 +31,8 @@ public @Data class Test {
     @NotNull
     @Column(name = "creation_time", nullable = false)
     private OffsetDateTime creationTime;
-    //TODO - dodac id usera
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
