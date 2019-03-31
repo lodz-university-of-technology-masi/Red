@@ -3,6 +3,7 @@ package com.masi.red.controller;
 
 
 import com.masi.red.IEditorService;
+import com.masi.red.common.RoleName;
 import com.masi.red.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +22,13 @@ public class EditorController {
     @Autowired
     IEditorService editorService;
 
-    @PostMapping( value="{editorName}/{editorSurname}")
-    public ResponseEntity<String> createEditor(@PathVariable String editorName, @PathVariable String editorSurname){
+    @PostMapping( value="{username}/{email}/{password}/{role}/{firstName}/{lastName}")
+    public ResponseEntity<String> createEditor(@PathVariable String username,@PathVariable String email,@PathVariable String password,
+                                               @PathVariable RoleName role,@PathVariable String firstName,@PathVariable String lastName){
 
-        String response = editorName + " " + editorSurname;
+        String response = firstName + " " + lastName;
 
-        editorService.createEditor(editorName,editorSurname);
+        editorService.createEditor(username,email, password, role, firstName, lastName);
 
         return new ResponseEntity<>("Created Editor : " + response, HttpStatus.CREATED);
     }
@@ -39,12 +41,13 @@ public class EditorController {
         return new ResponseEntity<>(editor, HttpStatus.OK);
     }
 
-    @PutMapping( value="{editorId}/{editorName}/{editorSurname}")
-    public ResponseEntity<String> updateEditor(@PathVariable Integer editorId, @PathVariable String editorName, @PathVariable String editorSurname){
+    @PutMapping( value="{editorId}/{username}/{email}/{password}/{role}/{firstName}/{lastName}")
+    public ResponseEntity<String> updateEditor(@PathVariable Integer editorId, @PathVariable String username,@PathVariable String email,@PathVariable String password,
+                                               @PathVariable RoleName role,@PathVariable String firstName,@PathVariable String lastName){
 
-        editorService.updateEditor(editorId, editorName, editorSurname);
+        editorService.updateEditor(editorId, username, email, password, role, firstName, lastName);
 
-        return new ResponseEntity<>("Aktualizacja Redaktora", HttpStatus.OK);
+        return new ResponseEntity<>("Aktualizacja Redaktora o ID:" + editorId.toString() , HttpStatus.OK);
     }
 
     @DeleteMapping( value="{editorId}")
@@ -52,16 +55,15 @@ public class EditorController {
 
         editorService.deleteEditor(editorId);
 
-        return new ResponseEntity<>("Usunięto Redaktora o ID : " + editorId, HttpStatus.OK);
+        return new ResponseEntity<>("Usunięto Redaktora o ID : " + editorId.toString() , HttpStatus.OK);
     }
 
     // Metody dodatkowe
 
     @GetMapping( value="all")
-    public ResponseEntity<Object> getAllEditors(){
+    public ResponseEntity<List<User>> getAllEditors(){
 
-
-        List<Object> editors = editorService.getAllEditors();
+        List<User> editors = editorService.getAllEditors();
 
         return new ResponseEntity<>(editors, HttpStatus.OK);
     }

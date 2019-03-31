@@ -1,5 +1,6 @@
 package com.masi.red;
 
+import com.masi.red.common.RoleName;
 import com.masi.red.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,15 +15,22 @@ public class EditorService implements IEditorService {
     EditorRepository editorRepository;
 
     @Override
-    public User createEditor(String firstName, String lastName) {
+    public User createEditor(String username, String email, String password, RoleName role, String firstName, String lastName) {
 
-        User editor = new User();
-        editor.setFirstName(firstName);
-        editor.setLastName(lastName);
+
+
+        User editor = User.builder()
+                .username(username)
+                .email(email)
+                .password(password)
+                .role(role)
+                .firstName(firstName)
+                .lastName(lastName)
+                .build();
+
+
 
         return editorRepository.save(editor);
-
-        return null;
     }
 
     @Override
@@ -30,24 +38,30 @@ public class EditorService implements IEditorService {
 
         return editorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono redaktora o id " + id));
-
     }
 
     @Override
-    public User updateEditor(Integer id, String name, String surname) {
+    public User updateEditor(Integer id, String username, String email, String password, RoleName role, String firstName, String lastName) {
 
-        User editor = new User();
-        editor.setId(id);
-        editor.setFirstName(name);
-        editor.setLastName(surname);
+
+
+        User editor = User.builder()
+                .id(id)
+                .username(username)
+                .email(email)
+                .password(password)
+                .role(role)
+                .firstName(firstName)
+                .lastName(lastName)
+                .build();
 
         return editorRepository.save(editor);
     }
 
     @Override
-    public User deleteEditor(Integer id) {
+    public void deleteEditor(Integer id) {
 
-        return editorRepository.deleteById(id);
+        editorRepository.deleteById(id);
     }
 
     @Override

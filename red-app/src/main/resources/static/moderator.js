@@ -13,17 +13,14 @@ $(document).ready(function() {
 
         console.log(dataForm);
 
-        $.post(editor_api + dataForm[0].value + "/" + dataForm[1].value,
+        $.post(editor_api + dataForm[0].value + "/" + dataForm[1].value + "/" + dataForm[2].value + "/" + dataForm[3].value + "/" + dataForm[4].value + "/" + dataForm[5].value,
             function (data) {
                 console.log(data);
 
                 setTimeout(function(){
                     window.location.reload(true);
                 }, 2000);
-
-
             });
-
     });
 
     $("#FormUpdateEditorButton").click(function () {
@@ -34,7 +31,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "PUT",
-            url: editor_api + dataForm[0].value + "/" + dataForm[1].value + "/" + dataForm[2].value,
+            url: editor_api + dataForm[0].value + "/" + dataForm[1].value + "/" + dataForm[2].value + "/" + dataForm[3].value + "/" + dataForm[4].value + "/" + dataForm[5].value + "/" + dataForm[6].value,
             success: function(data) {
                 console.log(data);
 
@@ -45,9 +42,7 @@ $(document).ready(function() {
             error: function (e) {
                 console.log("ERROR : ", e);
             }
-
         });
-
     });
 
     $(".deleteEditorButton").click(function(event){
@@ -65,11 +60,12 @@ $(document).ready(function() {
                 setTimeout(function(){
                     window.location.reload(true);
                 }, 2000);
+            },
+            error: function (e) {
+                console.log("ERROR : ", e);
             }
         });
-
     });
-
 });
 
 //***************************************************************
