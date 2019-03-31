@@ -1,37 +1,64 @@
 package com.masi.red;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
 public class EditorService implements IEditorService {
 
-    @Override
-    public Integer createEditor(String name, String Surname) throws NotImplementedException {
+//    @Autowired
+//    EditorRepository editorRepository;
 
-        return new Integer(1); //TODO: jakieś prepared statement? żeby zwrócić ostatnie wstawione ID z DB
+    @Override
+    public Object createEditor(String name, String Surname) {
+
+        //User editor = new User();
+        //editor.setName(name);
+        //editor.setSurname(surname);
+
+        //return editorRepository.save(editor);
+
+        return null;
     }
 
     @Override
-    public Object readEditor(Integer id) throws NotImplementedException {
+    public Object readEditor(Integer id) {
 
-        return new Object();
+//        return editorRepository.findById(id)
+//                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono redaktora o id " + id));
+
+        return null;
     }
 
     @Override
-    public void updateEditor(Integer id, String name, String surname) throws NotImplementedException {
+    public Object updateEditor(Integer id, String name, String surname) {
 
+        //User editor = new User();
+        //editor.setId(id);
+        //editor.setName(name);
+        //editor.setSurname(surname);
+
+        //editorRepository.save(editor);
+
+        return null;
     }
 
     @Override
-    public void deleteEditor(Integer id) throws NotImplementedException {
+    public Object deleteEditor(Integer id) {
 
+        //return editorRepository.deleteById(id);
+
+        return null;
     }
 
     @Override
-    public List<Object> getAllEditors() throws NotImplementedException {
+    public List<Object> getAllEditors() {
+
+        //return editorRepository.findAll();
         return null;
     }
 }
