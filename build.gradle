@@ -38,6 +38,7 @@ subprojects {
         compile("org.springframework.boot:spring-boot-starter-actuator:${SPRING_BOOT_VERSION}")
         compile("org.springframework.boot:spring-boot-starter-thymeleaf:${SPRING_BOOT_VERSION}")
         compile("org.springframework.boot:spring-boot-starter-security:${SPRING_BOOT_VERSION}")
+        compile group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.10.RELEASE'
         compile("org.springframework.boot:spring-boot-starter-data-jpa:${SPRING_BOOT_VERSION}")
         testCompile("org.springframework.boot:spring-boot-starter-test:${SPRING_BOOT_VERSION}")
         compileOnly("org.projectlombok:lombok:${LOMBOK_VERSION}")
