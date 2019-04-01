@@ -26,7 +26,7 @@ public class EditorService implements IEditorService {
                 .username(username)
                 .email(email)
                 .password(password)
-                .roles(Collections.singletonList(rolee))
+                .roles(Collections.singleton(rolee))
                 .firstName(firstName)
                 .lastName(lastName)
                 .build();
@@ -52,7 +52,7 @@ public class EditorService implements IEditorService {
                 .username(username)
                 .email(email)
                 .password(password)
-                .roles(Collections.singletonList(rolee))
+                .roles(Collections.singleton(rolee))
                 .firstName(firstName)
                 .lastName(lastName)
                 .build();

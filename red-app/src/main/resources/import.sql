@@ -29,5 +29,6 @@ INSERT INTO masi.test_question(test_id, question_id) VALUES (1, 2);
 INSERT INTO masi.test_question(test_id, question_id) VALUES (2, 3);
 INSERT INTO masi.test_question(test_id, question_id) VALUES (2, 4);
 
--- INSERT INTO masi.users(id, email, first_name, last_name, password, username) VALUES (1, 'test@test.com', 'test', 'test', '$2y$11$8KvXgB.vYjQWS16CFQwZxeCsh8g/A5BFjjD/xMdcuwDtgwnHOd1fm', 'test');
 INSERT INTO masi.users(id, email, first_name, last_name, password, username) VALUES (1, 'test@test.com', 'test', 'test', '$2a$11$koESAmGxKKtlIk4dT8z6peg17Fw3A/WThS.bYLBBuekreP4j/mo9m', 'test');
+
+INSERT INTO masi.user_role(user_id, role_id) VALUES (1, 1)
