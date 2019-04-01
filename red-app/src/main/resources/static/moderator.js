@@ -220,7 +220,7 @@ $(document).ready(function() {
         var dataForm = $('#FormCreateTest').serializeArray();
 
         var jsonObject = {};
-        jsonObject["jobTitle"] = dataForm[0].value;
+        jsonObject["jobTitleId"] = dataForm[0].value;
 
 
         console.log(JSON.stringify(jsonObject));
@@ -250,7 +250,7 @@ $(document).ready(function() {
 
         var jsonObject = {};
         jsonObject["id"] = dataForm[0].value;
-        jsonObject["jobTitle"] = dataForm[1].value;
+        jsonObject["jobTitleId"] = dataForm[1].value;
 
         console.log(JSON.stringify(jsonObject));
 
@@ -273,7 +273,7 @@ $(document).ready(function() {
         });
     });
 
-    $(".deleteTestButton").click(function (event) {
+    $("#resultTest").on("click", ".deleteTestButton", function (event) {
 
         console.log(event.target.id);
 
@@ -298,7 +298,10 @@ $(document).ready(function() {
 
     });
 
-    $(".addQuestionToTestButton").click(function () {
+    $(".addQuestionToTestCreateButton").click(function () {
        $("#questionsToTestCreate")[0].innerHTML += $('#QuestionIdCreateInput')[0].value + ', ';
+    });
+    $(".addQuestionToTestUpdateButton").click(function () {
+        $("#questionsToTest")[0].innerHTML += $('#QuestionIdInput')[0].value + ', ';
     });
 });

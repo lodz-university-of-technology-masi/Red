@@ -1,7 +1,10 @@
 package com.masi.red.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,6 +15,9 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "test")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Test {
 
     @Id

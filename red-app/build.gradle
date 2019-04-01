@@ -12,5 +12,4 @@ dependencies {
     compile project(':red-service')
     compile project(':red-controller')
     compile project(':red-security')
-    compile("org.springframework.boot:spring-boot-devtools")
 }

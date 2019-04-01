@@ -1,6 +1,8 @@
 package com.masi.red.controller;
 
 import com.masi.red.TestService;
+import com.masi.red.dto.NewTestDTO;
+import com.masi.red.dto.TestDTO;
 import com.masi.red.entity.Test;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ public class TestController {
 
     @GetMapping("/tests")
     public ResponseEntity<Object> getAllTests(){
-        List<Test> tests = testService.getAllTests();
+        List<TestDTO> tests = testService.getAllTests();
         return new ResponseEntity<>(tests, HttpStatus.OK);
     }
 
@@ -45,8 +47,8 @@ public class TestController {
     }
 
     @PostMapping("/tests")
-    public ResponseEntity<Object> addTest(@Valid @RequestBody Test test){
-        testService.addTest(test);
+    public ResponseEntity<Object> addTest(@Valid @RequestBody NewTestDTO testDTO){
+        Test test = testService.addTest(testDTO);
         return new ResponseEntity<>("Test "+test.getId()+" został dodany",HttpStatus.CREATED);
     }
 
