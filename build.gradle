@@ -39,6 +39,7 @@ subprojects {
         compile("org.springframework.boot:spring-boot-starter-thymeleaf:${SPRING_BOOT_VERSION}")
         compile("org.springframework.boot:spring-boot-starter-security:${SPRING_BOOT_VERSION}")
         compile group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.10.RELEASE'
+        compile group: 'ma.glasnost.orika', name: 'orika-core', version: '1.5.4'
         compile("org.springframework.boot:spring-boot-starter-data-jpa:${SPRING_BOOT_VERSION}")
         compile("org.springframework.boot:spring-boot-devtools")
         testCompile("org.springframework.boot:spring-boot-starter-test:${SPRING_BOOT_VERSION}")
