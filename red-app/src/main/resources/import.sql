@@ -28,3 +28,7 @@ INSERT INTO masi.test_question(test_id, question_id) VALUES (1, 1);
 INSERT INTO masi.test_question(test_id, question_id) VALUES (1, 2);
 INSERT INTO masi.test_question(test_id, question_id) VALUES (2, 3);
 INSERT INTO masi.test_question(test_id, question_id) VALUES (2, 4);
+
+INSERT INTO masi.users(id, email, first_name, last_name, password, username) VALUES (1, 'test@test.com', 'test', 'test', '$2a$11$861IllaJKGyZQ8nBZNlCZufEAxiOsHVAMWb3E.UUMzMposZlSwVqS', 'test');
+
+ALTER SEQUENCE masi.user_seq RESTART WITH 2;
