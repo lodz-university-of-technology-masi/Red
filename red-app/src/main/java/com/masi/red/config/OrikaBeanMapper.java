@@ -64,7 +64,7 @@ public class OrikaBeanMapper extends ConfigurableMapper implements ApplicationCo
     }
 
     /**
-     * Scans the appliaction context and registers all Mappers and Converters found in it.
+     * Scans the application context and registers all Mappers and Converters found in it.
      *
      * @param applicationContext
      */

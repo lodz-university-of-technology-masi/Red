@@ -1,10 +1,7 @@
 package com.masi.red.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -23,6 +20,7 @@ public class Test {
     @Id
     @GeneratedValue(generator = "optimized-sequence")
     @Column(name = "id", nullable = false, unique = true)
+    @Setter(AccessLevel.NONE)
     private int id;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -43,4 +41,9 @@ public class Test {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @PrePersist
+    private void initializeCreationTime() {
+        creationTime = OffsetDateTime.now();
+    }
 }

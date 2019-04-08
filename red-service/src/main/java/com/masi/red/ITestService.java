@@ -1,16 +1,17 @@
 package com.masi.red;
 
+import com.masi.red.dto.EditedTestDTO;
 import com.masi.red.dto.NewTestDTO;
 import com.masi.red.dto.TestDTO;
-import com.masi.red.entity.Test;
+import com.masi.red.entity.User;
 
 import java.util.List;
 
 public interface ITestService {
 
-    Test addTest(NewTestDTO test);
+    TestDTO addTest(NewTestDTO test, User user);
     List<TestDTO> getAllTests();
-    Test getTestById(Integer id);
-    Test updateTest(Integer id, Test test);
+    TestDTO getTestById(Integer id);
+    TestDTO updateTest(Integer id, EditedTestDTO test);
     void deleteTest(Integer id);
 }

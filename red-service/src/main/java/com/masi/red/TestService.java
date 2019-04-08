@@ -1,19 +1,19 @@
 package com.masi.red;
 
+import com.masi.red.dto.EditedTestDTO;
 import com.masi.red.dto.NewTestDTO;
 import com.masi.red.dto.TestDTO;
 import com.masi.red.entity.JobTitle;
+import com.masi.red.entity.Question;
 import com.masi.red.entity.Test;
 import com.masi.red.entity.User;
+import com.masi.red.helper.EntityFinder;
 import lombok.RequiredArgsConstructor;
+import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,25 +23,20 @@ import java.util.stream.Collectors;
 public class TestService implements ITestService {
 
     private final TestRepository testRepository;
-    private final JobTitleRepository jobTitleRepository;
-    private final UserRepository userRepository;
+    private final EntityFinder entityFinder;
+    private final MapperFacade mapper;
 
     @Override
-    public Test addTest(NewTestDTO testDTO) {
-        JobTitle jobTitle = jobTitleRepository.findById(testDTO.getJobTitleId())
-                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono stanowiska o id " + testDTO.getJobTitleId()));
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        User user = userRepository.findByUsername(currentPrincipalName)
-                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono użytkownika o loginie " + currentPrincipalName));
+    public TestDTO addTest(NewTestDTO testDTO, User user) {
+        JobTitle jobTitle = entityFinder.findJobTitleById(testDTO.getJobTitleId());
         Test test = Test.builder()
-                .jobTitle(jobTitle)
-                .creationTime(OffsetDateTime.now())
-                //.questionsList(questionRepository...) TODO: implement
                 .user(user)
+                .jobTitle(jobTitle)
                 .build();
+        //TODO: implement set questions
         jobTitle.attachTest(test);
-        return testRepository.save(test);
+
+        return mapper.map(testRepository.save(test), TestDTO.class);
     }
 
     @Override
@@ -49,36 +44,33 @@ public class TestService implements ITestService {
 
         return testRepository.findAll()
                 .stream()
-                .map(test -> TestDTO.builder().id(test.getId())
-                        .editorName((test.getUser() != null) ? (test.getUser().getFirstName() + " " + test.getUser().getLastName()) : null)
-                        .creationDate(test.getCreationTime())
-                        .jobTitleName(test.getJobTitle().getName())
-                        .questionsNumber(test.getQuestionsList().size())
-                        .build())
+                .map(test -> mapper.map(test, TestDTO.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Test getTestById(Integer id) {
-        return testRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Nie ma testu o id " + id));
+    public TestDTO getTestById(Integer id) {
+        Test test = entityFinder.findTestById(id);
+        return mapper.map(test, TestDTO.class);
     }
 
     @Override
-    public Test updateTest(Integer id, Test test) {
-        Test testToEdit = testRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Nie ma testu o id " + id));
-        if(jobTitleChanged(test, testToEdit)) {
+    public TestDTO updateTest(Integer id, EditedTestDTO editedTest) {
+        Test testToEdit = entityFinder.findTestById(id);
+        mapper.map(editedTest, testToEdit);
+        if(jobTitleChanged(editedTest, testToEdit)) {
+            JobTitle jobTitle = entityFinder.findJobTitleById(editedTest.getJobTitleId());
             testToEdit.getJobTitle().detachTest(testToEdit);
-            testToEdit.setJobTitle(test.getJobTitle());
+            testToEdit.setJobTitle(jobTitle);
             testToEdit.getJobTitle().attachTest(testToEdit);
         }
-        testToEdit.setQuestionsList(test.getQuestionsList());
-        return testToEdit;
+
+        //testToEdit.setQuestionsList(editedTest.getQuestionsList()); TODO implement
+        return mapper.map(testToEdit, TestDTO.class);
     }
 
-    private boolean jobTitleChanged(Test test, Test testToEdit) {
-        return test.getJobTitle().getId() != testToEdit.getJobTitle().getId();
+    private boolean jobTitleChanged(EditedTestDTO editedTest, Test testToEdit) {
+        return !editedTest.getJobTitleId().equals(testToEdit.getJobTitle().getId());
     }
 
     @Override
