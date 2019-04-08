@@ -12,10 +12,10 @@ INSERT INTO masi.role(id, name, active) VALUES (3, 'CANDIDATE', true);
 
 ALTER SEQUENCE masi.role_seq RESTART WITH 4;
 
-INSERT INTO masi.question(id, content, creation_time) VALUES (1, 'How long is your experience in Java?', NOW());
-INSERT INTO masi.question(id, content, creation_time) VALUES (2, 'Can boolean be null in Java?', NOW());
-INSERT INTO masi.question(id, content, creation_time) VALUES (3, 'How to compare Strings for structural equality?', NOW());
-INSERT INTO masi.question(id, content, creation_time) VALUES (4, 'What is 2+2?', NOW());
+INSERT INTO masi.question(id, content, creation_time, language, original_question_id) VALUES (1, 'How long is your experience in Java?', NOW(), 'EN', 1);
+INSERT INTO masi.question(id, content, creation_time, language, original_question_id) VALUES (2, 'Can boolean be null in Java?', NOW(), 'EN', 2);
+INSERT INTO masi.question(id, content, creation_time, language, original_question_id) VALUES (3, 'How to compare Strings for structural equality?', NOW(), 'EN', 3);
+INSERT INTO masi.question(id, content, creation_time, language, original_question_id) VALUES (4, 'What is 2+2?', NOW(), 'EN', 4);
 
 ALTER SEQUENCE masi.question_seq RESTART WITH 5;
 

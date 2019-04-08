@@ -7,7 +7,6 @@ import com.masi.red.dto.TestDTO;
 import com.masi.red.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
-@EnableJpaAuditing(setDates = false)
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TestController {
