@@ -21,16 +21,7 @@ $(document).ready(function() {
 
 
         console.log(JSON.stringify(jsonObject));
-        console.log(dataForm);
-
-        // $.post(editor_api + "/" + dataForm[0].value + "/" + dataForm[1].value + "/" + dataForm[2].value + "/" + dataForm[3].value + "/" + dataForm[4].value + "/" + dataForm[5].value,
-        //     function (data) {
-        //         console.log(data);
-        //
-        //         setTimeout(function(){
-        //             window.location.reload(true);
-        //         }, 2000);
-        // });
+        //console.log(dataForm);
 
         $.ajax({
             type: "POST",
@@ -39,7 +30,7 @@ $(document).ready(function() {
             data: JSON.stringify(jsonObject),
             dataType: 'json',
             success: function(data) {
-                console.log("response: " + data);
+                console.log("Created: " + data.firstName);
 
                 setTimeout(function(){
                     window.location.reload(true);

@@ -18,7 +18,7 @@ public class Role {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false)
     private RoleName name;
 
     @Column(name = "active")

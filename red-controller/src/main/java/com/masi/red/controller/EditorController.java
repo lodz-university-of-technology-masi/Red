@@ -27,7 +27,7 @@ public class EditorController {
 
         editorService.createEditor(editor);
 
-        return new ResponseEntity<>("Created Editor : " + editor.getFirstName(), HttpStatus.CREATED);
+        return new ResponseEntity<>(editor, HttpStatus.CREATED);
     }
 
     @GetMapping(value="/redaktor/{editorId}")
