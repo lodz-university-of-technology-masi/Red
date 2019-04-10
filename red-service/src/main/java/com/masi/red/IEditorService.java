@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IEditorService {
 
-    User createEditor(String username, String email, String password, RoleName role, String firstName, String lastName);
+    User createEditor(User editor);
     User readEditor(Integer id);
     User updateEditor(Integer id, String username, String email, String password, RoleName role, String firstName, String lastName);
     void deleteEditor(Integer id);
