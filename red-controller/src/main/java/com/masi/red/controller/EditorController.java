@@ -11,29 +11,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @RestController
-@RequestMapping(value = "/redaktor")
 public class EditorController {
 
     @Autowired
     IEditorService editorService;
 
-    @PostMapping( value="{username}/{email}/{password}/{role}/{firstName}/{lastName}")
-    public ResponseEntity<String> createEditor(@PathVariable String username,@PathVariable String email,@PathVariable String password,
-                                               @PathVariable RoleName role,@PathVariable String firstName,@PathVariable String lastName){
+    @PostMapping(value="/redaktor")
+    public ResponseEntity<Object> createEditor(@Valid @RequestBody User editor){
 
-        String response = firstName + " " + lastName;
+        editorService.createEditor(editor);
 
-        editorService.createEditor(username,email, password, role, firstName, lastName);
-
-        return new ResponseEntity<>("Created Editor : " + response, HttpStatus.CREATED);
+        return new ResponseEntity<>("Created Editor : " + editor.getFirstName(), HttpStatus.CREATED);
     }
 
-    @GetMapping( value="{editorId}")
+    @GetMapping(value="/redaktor/{editorId}")
     public ResponseEntity<User> readEditor(@PathVariable Integer editorId){
 
         User editor = editorService.readEditor(editorId);
@@ -41,7 +38,7 @@ public class EditorController {
         return new ResponseEntity<>(editor, HttpStatus.OK);
     }
 
-    @PutMapping( value="{editorId}/{username}/{email}/{password}/{role}/{firstName}/{lastName}")
+    @PutMapping(value="/redaktor/{editorId}/{username}/{email}/{password}/{role}/{firstName}/{lastName}")
     public ResponseEntity<String> updateEditor(@PathVariable Integer editorId, @PathVariable String username,@PathVariable String email,@PathVariable String password,
                                                @PathVariable RoleName role,@PathVariable String firstName,@PathVariable String lastName){
 
@@ -50,7 +47,7 @@ public class EditorController {
         return new ResponseEntity<>("Aktualizacja Redaktora o ID:" + editorId.toString() , HttpStatus.OK);
     }
 
-    @DeleteMapping( value="{editorId}")
+    @DeleteMapping(value="/redaktor/{editorId}")
     public ResponseEntity<String> deleteEditor(@PathVariable Integer editorId){
 
         editorService.deleteEditor(editorId);
@@ -60,7 +57,7 @@ public class EditorController {
 
     // Metody dodatkowe
 
-    @GetMapping( value="all")
+    @GetMapping( value="/redaktor/all")
     public ResponseEntity<List<User>> getAllEditors(){
 
         List<User> editors = editorService.getAllEditors();
