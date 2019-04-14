@@ -46,6 +46,10 @@ public class Question {
     @JoinColumn(name = "original_question_id", nullable = false)
     private Question originalQuestion;
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "question")
+    private List<CandidateAnswer> answers = new ArrayList<>();
+
     @PrePersist
     private void initializeCreationTime() {
         creationTime = OffsetDateTime.now();
