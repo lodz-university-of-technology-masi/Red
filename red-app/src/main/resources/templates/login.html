@@ -7,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/login.css}" href="/resources/static/login.css" />
 
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <script type="text/javascript" th:src="@{/js/register.js}" src="/resources/static/js/register.js" ></script>
 
 </head>
 <body>
@@ -17,7 +18,7 @@
 <div class="container login-container">
     <div class="row">
         <div class="col-md-6 login-form-1">
-            <form action="#" name="loginForm">
+            <form th:action="@{/login}" method="POST" name="loginForm">
                 <h3>Logowanie</h3>
 
                 <div class="form-group">
@@ -30,35 +31,43 @@
                     <button type="submit" class="btnSubmit">Zaloguj</button>
                 </div>
                 <div class="form-group">
-                    <a href="#" class="btnForgetPwd">Zapomniałeś hasła?</a>
+                    <div th:if="${param.error}" style="color: #d13c46">
+                        Invalid username and password.
+                    </div>
                 </div>
             </form>
         </div>
         <div class="col-md-6 login-form-2">
-            <form action="#" name="registerForm">
+            <form id="FormCreateCandidate">
                 <div class="login-logo">
                     <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
                 </div>
-                <h3>Rejestracja</h3>
+                <h3>Rejestracja Kandydatów</h3>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Nazwa Użytkownika" value="" required />
+                    <input id="cUsername" name="cUsername" type="text" class="form-control" placeholder="Nazwa Użytkownika" required />
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Email" value="" required />
+                    <input id="cEmail" name="cEmail" type="text" class="form-control" placeholder="Email" required />
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Hasło" value="" required />
+                    <input id="cPassword" name="cPassword" type="password" class="form-control" placeholder="Hasło" required />
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Imie" value="" required />
+                    <input id="cName" name="cName" type="text" class="form-control" placeholder="Imie"required />
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Nazwisko" value="" required />
+                    <input id="cSurname" name="cSurname" type="text" class="form-control" placeholder="Nazwisko" required />
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btnSubmit" >Rejestruj</button>
+                    <button id="FormCreateCandidateButton" type="button" class="btnSubmit" >Rejestruj</button>
                 </div>
             </form>
+        </div>
+    </div>
+    <div class="row">
+
+        <div th:if="${param.logout}" class="alert alert-success">
+            You have been logged out.
         </div>
     </div>
 </div>

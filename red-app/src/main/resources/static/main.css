@@ -1,3 +1,20 @@
 .btn > i{
 vertical-align: middle !important;
 }
+
+nav > a {
+    color: white !important;
+}
+
+nav .nav-link {
+    color: white !important;
+    border-collapse: collapse;
+}
+
+nav .active{
+    border-bottom: 2px solid #d13c46 !important;
+}
+
+.rounded-1{
+    border-radius: 1px;
+}

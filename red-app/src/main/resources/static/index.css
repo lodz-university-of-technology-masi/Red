@@ -3,7 +3,21 @@
     background-image: url("index.jpg");
 
     /* Set a specific height */
-    min-height: 400px;
+    min-height: 340px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.parallax-2 {
+    /* The image used */
+    background-image: url("index.jpg");
+
+    /* Set a specific height */
+    min-height: 190px;
 
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
@@ -16,7 +30,14 @@
     font-family: 'Josefin Sans', sans-serif;
     color: white;
     font-size: 60pt;
-    padding-top: 170px;
+    padding-top: 120px;
+}
+
+.title-2{
+    font-family: 'Josefin Sans', sans-serif;
+    color: white;
+    font-size: 60pt;
+    padding-top: 40px;
 }
 
 .moderator-btn{

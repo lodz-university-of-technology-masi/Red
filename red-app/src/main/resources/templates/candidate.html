@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="includes :: header" />
+
+    <link rel="stylesheet" th:href="@{/index.css}" href="/resources/static/index.css" />
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+
+</head>
+<body>
+    <th:block th:include="includes :: menu" />
+
+    <div class="parallax-2">
+        <div class="text-center title-2" >MASI RED.2</div>
+    </div>
+
+    <div class="container" >
+        <div class="row justify-content-md-center mt-lg-5 mt-sm-3">
+            <div class="col col-md-4 text-center mt-2">
+                <button type="button" class="btn btn-outline-primary btn-lg text-uppercase rounded-1 col-sm-12">Język Angielski&nbsp;<small style="letter-spacing: 2px;">[EN]</small></button>
+            </div>
+            <div class="col col-md-4 text-center mt-2">
+                <button type="button" class="btn btn-outline-danger btn-lg text-uppercase rounded-1 col-sm-12">Język Polski&nbsp;<small style="letter-spacing: 2px;">[PL]</small></button>
+            </div>
+        </div>
+
+        <div class="row justify-content-md-center mt-lg-2 mt-sm-1">
+
+            <div class="col col-md-4 text-center mt-2">
+                <hr/>
+                <h3>Wybierz Stanowisko:</h3>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
