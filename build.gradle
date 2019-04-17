@@ -48,6 +48,7 @@ subprojects {
         compile("org.postgresql:postgresql:${POSTGRES_VERSION}")
         compile("org.webjars:bootstrap:4.1.0")
         compile ("org.webjars:datatables:1.10.19")
+        compile group: 'com.google.guava', name: 'guava', version: '27.1-jre'
 
 
     }
