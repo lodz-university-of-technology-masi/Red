@@ -1,5 +1,6 @@
 package com.masi.red;
 
+import com.masi.red.common.QuestionTypeMapper;
 import com.masi.red.dto.QuestionDTO;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
@@ -19,7 +20,8 @@ public class QuestionService implements IQuestionService {
     @Override
     public List<QuestionDTO> findAll() {
         return questionRepository.findAll().stream()
-                .map(question -> mapper.map(question, QuestionDTO.class))
+                .map(question -> mapper.map(question, QuestionTypeMapper.getDTOClass(question)))
                 .collect(Collectors.toList());
+
     }
 }

@@ -3,6 +3,7 @@ package com.masi.red.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.masi.red.common.Language;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,10 +14,11 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Entity
 @Table(name = "question")
-public class Question {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Question {
 
     @Id
     @Setter(AccessLevel.NONE)
@@ -45,6 +47,9 @@ public class Question {
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "original_question_id", nullable = false)
     private Question originalQuestion;
+
+    @Column(name = "suggested_answer")
+    private String suggestedAnswer;
 
     @PrePersist
     private void initializeCreationTime() {
