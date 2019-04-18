@@ -1,5 +1,4 @@
 package com.masi.red.entity;
-import com.masi.red.common.Language;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,17 +16,17 @@ public class CandidateAnswer {
     private int id;
 
     @NotNull
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @NotNull
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "test_id", nullable = false)
     private Test test;
 
     @NotNull
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
@@ -36,11 +35,11 @@ public class CandidateAnswer {
     private String answer;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "language", nullable = false)
-    private Language language;
-
-    @NotNull
     @Column(name = "creation_time", nullable = false)
     private OffsetDateTime creationTime;
+
+    @PrePersist
+    private void initializeCreationTime() {
+        creationTime = OffsetDateTime.now();
+    }
 }

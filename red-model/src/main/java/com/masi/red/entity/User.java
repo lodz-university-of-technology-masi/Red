@@ -63,10 +63,6 @@ public class User implements UserDetails {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private List<Test> testList = new ArrayList<>();
 
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private List<CandidateAnswer> answers = new ArrayList<>();
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();

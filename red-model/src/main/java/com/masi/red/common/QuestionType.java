@@ -1,5 +1,5 @@
 package com.masi.red.common;
 
 public enum QuestionType {
-    OPEN, SINGLECHOICE, RANGE, NUMERIC
+    OPEN, SINGLE_CHOICE, SCALE, NUMERIC
 }
