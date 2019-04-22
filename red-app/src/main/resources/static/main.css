@@ -16,5 +16,9 @@ nav .active{
 }
 
 .rounded-1{
-    border-radius: 1px;
+    border-radius: 1px !important;
+}
+
+.blue-input{
+    border: 2px solid #364299 !important;
 }
