@@ -27,7 +27,7 @@ public abstract class Question {
     private int id;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "questionsList", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "questions", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Test> testList = new ArrayList<>();
 
     @NotNull
