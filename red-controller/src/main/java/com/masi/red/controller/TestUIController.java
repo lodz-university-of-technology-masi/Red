@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class TestUIController {
 
-    @GetMapping(value = "/kandydat/{jobID}")
+    @GetMapping(value = "/kandydat/stanowisko/{jobID}")
     public String getJobTestPage(@PathVariable Integer jobID, @RequestParam String language, Model model){
 
         model.addAttribute("job", jobID);
