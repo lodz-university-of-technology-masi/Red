@@ -3,6 +3,7 @@ package com.masi.red;
 import com.masi.red.dto.EditedTestDTO;
 import com.masi.red.dto.NewTestDTO;
 import com.masi.red.dto.TestDTO;
+import com.masi.red.dto.TestWithQuestionsDTO;
 import com.masi.red.entity.JobTitle;
 import com.masi.red.entity.Question;
 import com.masi.red.entity.Test;
@@ -49,9 +50,9 @@ public class TestService implements ITestService {
     }
 
     @Override
-    public TestDTO getTestById(Integer id) {
+    public TestWithQuestionsDTO getTestById(Integer id) {
         Test test = entityFinder.findTestById(id);
-        return mapper.map(test, TestDTO.class);
+        return mapper.map(test, TestWithQuestionsDTO.class);
     }
 
     @Override
@@ -65,7 +66,7 @@ public class TestService implements ITestService {
             testToEdit.getJobTitle().attachTest(testToEdit);
         }
 
-        //testToEdit.setQuestionsList(editedTest.getQuestionsList()); TODO implement
+        //testToEdit.setQuestions(editedTest.getQuestions()); TODO implement
         return mapper.map(testToEdit, TestDTO.class);
     }
 

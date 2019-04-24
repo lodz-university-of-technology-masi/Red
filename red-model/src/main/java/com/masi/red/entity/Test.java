@@ -27,7 +27,7 @@ public class Test {
     @JoinTable(name = "test_question",
             joinColumns = {@JoinColumn(name = "test_id")},
             inverseJoinColumns = {@JoinColumn(name = "question_id")})
-    private List<Question> questionsList = new ArrayList<>();
+    private List<Question> questions = new ArrayList<>();
 
     @JsonIgnore
     @ManyToOne
