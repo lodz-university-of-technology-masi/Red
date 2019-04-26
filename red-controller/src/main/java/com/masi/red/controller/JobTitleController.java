@@ -1,6 +1,7 @@
 package com.masi.red.controller;
 
 import com.masi.red.IJobTitleService;
+import com.masi.red.common.Language;
 import com.masi.red.entity.JobTitle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +62,11 @@ public class JobTitleController {
         jobTitleService.detachTestFromJobTitle(testId, jobTitleId);
         return new ResponseEntity<>("Test " + testId
                 + " został odpięty od stanowiska " + jobTitleId, HttpStatus.OK);
+    }
+
+    @GetMapping("/jobTitles/language/{languageName}")
+    public ResponseEntity<Object> findByTestLanguage(@PathVariable Language languageName){
+        List<JobTitle> jobTitles = jobTitleService.findByTestLanguage(languageName);
+        return new ResponseEntity<>(jobTitles, HttpStatus.OK);
     }
 }

@@ -27,8 +27,8 @@ INSERT INTO masi.single_choice_question_possible_answers(single_choice_question_
 
 ALTER SEQUENCE masi.question_seq RESTART WITH 5;
 
-INSERT INTO masi.test(id, creation_time, job_title_id) VALUES (1, NOW(), 1);
-INSERT INTO masi.test(id, creation_time, job_title_id) VALUES (2, NOW(), 2);
+INSERT INTO masi.test(id, creation_time, job_title_id, language) VALUES (1, NOW(), 1, 'EN');
+INSERT INTO masi.test(id, creation_time, job_title_id, language) VALUES (2, NOW(), 2, 'EN');
 
 ALTER SEQUENCE masi.test_seq RESTART WITH 3;
 

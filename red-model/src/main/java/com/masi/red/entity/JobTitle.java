@@ -1,5 +1,6 @@
 package com.masi.red.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class JobTitle {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "jobTitle")
     private List<Test> testList = new ArrayList<>();
 
