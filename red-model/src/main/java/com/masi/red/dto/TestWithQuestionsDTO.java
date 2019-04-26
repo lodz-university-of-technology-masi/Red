@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
@@ -14,5 +15,8 @@ import java.util.List;
 public class TestWithQuestionsDTO {
 
     private Integer id;
+    private String editorName;
+    private String jobTitleName;
+    private OffsetDateTime creationTime;
     private List<QuestionDTO> questions;
 }

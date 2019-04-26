@@ -46,4 +46,14 @@ public class Test {
     private void initializeCreationTime() {
         creationTime = OffsetDateTime.now();
     }
+
+    public void attachQuestion(Question question) {
+        if(!questions.contains(question)) {
+            questions.add(question);
+        }
+    }
+
+    public void detachQuestion(int questionId) {
+        questions.removeIf(question -> question.getId() == questionId);
+    }
 }

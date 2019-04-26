@@ -44,7 +44,7 @@ public abstract class Question {
     private Language language;
 
     @NotNull
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "original_question_id", nullable = false)
     private Question originalQuestion;
 
@@ -54,5 +54,15 @@ public abstract class Question {
     @PrePersist
     private void initializeCreationTime() {
         creationTime = OffsetDateTime.now();
+    }
+
+    public void attachtoTest(Test test) {
+        if(!testList.contains(test)) {
+            testList.add(test);
+        }
+    }
+
+    public void detachTest(int testId) {
+        testList.removeIf(test -> test.getId() == testId);
     }
 }

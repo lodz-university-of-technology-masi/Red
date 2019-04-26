@@ -24,4 +24,11 @@ public class QuestionService implements IQuestionService {
                 .collect(Collectors.toList());
 
     }
+
+    @Override
+    public List<QuestionDTO> findNotAttachedQuestions(Integer testId) {
+        return questionRepository.findNotAttachedQuestions(testId).stream()
+                .map(question -> mapper.map(question, QuestionTypeMapper.getDTOClass(question)))
+                .collect(Collectors.toList());
+    }
 }

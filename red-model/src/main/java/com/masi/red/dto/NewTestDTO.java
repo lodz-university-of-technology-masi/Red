@@ -11,5 +11,5 @@ import java.util.Set;
 @AllArgsConstructor
 public class NewTestDTO {
     private Integer jobTitleId;
-    private Set<Integer> questionsIds;
+    private Set<QuestionDTO> questions;
 }

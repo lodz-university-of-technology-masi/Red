@@ -17,7 +17,7 @@ public class TestDTOMapper extends BidirectionalConverter<Test, TestDTO> {
         return TestDTO.builder()
                 .id(source.getId())
                 .creationTime(source.getCreationTime())
-                .editorName(editor != null ? editor.getFirstName() + " " + editor.getLastName() : null)
+                .editorName(editor != null ? editor.getFullName() : null)
                 .jobTitleName(source.getJobTitle().getName())
                 .questionsNumber(source.getQuestions().size())
                 .build();
