@@ -74,19 +74,18 @@ window.onload = function () {
         $("#resultTest").html("");
 
         if(data) {
-
+            var baseHref = location.href.replace(/\/+$/, "");
             $.each(data, function (index, value) {
                 console.log(value);
                 $("#resultTest").append("<tr><td>" + value.id + "</td>\n" +
                     "                <td>" + value.jobTitleName + "</td>\n" +
                     "                <td>" + ((value.editorName) ? value.editorName : "brak") + "</td>\n" +
                     "                <td>" + value.questionsNumber + "</td>\n" +
-                    "                <td>" + value.creationTime + "</td>\n" +
+                    "                <td>" + moment(value.creationTime).format('YYYY-MM-DD HH:mm:ss') + "</td>\n" +
                     "                <td>\n" +
                     "                    <button class=\"btn btn-sm btn-outline-info \" data-toggle=\"modal\" data-target=\"#updateTest\"><i class=\"material-icons md-24\">add_circle_outline</i> Edytuj test</button>\n" +
-                    "                    <button id=\'J" + value.id + "\' class=\"btn btn-sm btn-outline-danger deleteTestButton\" type=\"button\"><i class=\"material-icons md-24\">remove_circle_outline</i> Usuń test</button>\n" +
-                    "                    <button class=\"btn btn-sm btn-outline-success attachTestButton\" type=\"button\" data-toggle=\"modal\" data-target=\"#attachQuestion\" ><i class=\"material-icons md-24\">add_circle_outline</i> Dodaj pytanie</button>\n" +
-                    // "                    <button id=\'TJD" + value.id + "T" + questionID +"\' class=\"btn btn-sm btn-outline-warning detachQuestionButton\" type=\"button\"><i class=\"material-icons md-24\">remove_circle_outline</i> Odepnij pytanie</button>\n" +
+                    "                    <button id=\'T" + value.id + "\' class=\"btn btn-sm btn-outline-danger deleteTestButton\" type=\"button\"><i class=\"material-icons md-24\">remove_circle_outline</i> Usuń test</button>\n" +
+                    "                    <a href=\'" + baseHref + "/tests/" + value.id + "\' class=\"btn btn-sm btn-outline-success\"><i class=\"material-icons md-24\">add_circle_outline</i> Zarządzaj pytaniami</a>\n" +
                     "                </td></tr>");
             });
         }

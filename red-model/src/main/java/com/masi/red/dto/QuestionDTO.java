@@ -33,4 +33,6 @@ public abstract class QuestionDTO {
     private String content;
     private OffsetDateTime creationTime;
     private Language language;
+    private Integer originalQuestionId;
+    private String suggestedAnswer;
 }

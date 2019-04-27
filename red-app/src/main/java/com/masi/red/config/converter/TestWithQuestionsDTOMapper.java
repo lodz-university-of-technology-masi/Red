@@ -5,6 +5,7 @@ import com.masi.red.dto.QuestionDTO;
 import com.masi.red.dto.TestWithQuestionsDTO;
 import com.masi.red.entity.Question;
 import com.masi.red.entity.Test;
+import com.masi.red.entity.User;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
@@ -28,8 +29,12 @@ public class TestWithQuestionsDTOMapper extends BidirectionalConverter<Test, Tes
     public TestWithQuestionsDTO convertTo(Test source, Type<TestWithQuestionsDTO> destinationType, MappingContext mappingContext) {
         List<QuestionDTO> questions = source.getQuestions()
                 .stream().map(question -> mapper.map(question, QuestionTypeMapper.getDTOClass(question))).collect(Collectors.toList());
+        User editor = source.getUser();
         return TestWithQuestionsDTO.builder()
                 .id(source.getId())
+                .creationTime(source.getCreationTime())
+                .editorName(editor != null ? editor.getFullName() : null)
+                .jobTitleName(source.getJobTitle().getName())
                 .questions(questions)
                 .build();
     }
