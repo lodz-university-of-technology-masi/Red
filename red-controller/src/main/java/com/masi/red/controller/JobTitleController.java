@@ -64,7 +64,7 @@ public class JobTitleController {
                 + " został odpięty od stanowiska " + jobTitleId, HttpStatus.OK);
     }
 
-    @GetMapping("/jobTitles/language/{languageName}")
+    @GetMapping("/jobTitles/language={languageName}")
     public ResponseEntity<Object> findByTestLanguage(@PathVariable Language languageName){
         List<JobTitle> jobTitles = jobTitleService.findByTestLanguage(languageName);
         return new ResponseEntity<>(jobTitles, HttpStatus.OK);
