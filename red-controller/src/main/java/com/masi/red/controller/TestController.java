@@ -1,10 +1,7 @@
 package com.masi.red.controller;
 
 import com.masi.red.TestService;
-import com.masi.red.dto.EditedTestDTO;
-import com.masi.red.dto.NewTestDTO;
-import com.masi.red.dto.TestDTO;
-import com.masi.red.dto.TestWithQuestionsDTO;
+import com.masi.red.dto.*;
 import com.masi.red.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +49,17 @@ public class TestController {
     public ResponseEntity<String> deleteTest(@PathVariable Integer testId) {
         testService.deleteTest(testId);
         return ResponseEntity.ok("Test " + testId + " został usunięty");
+    }
+
+    @DeleteMapping("/tests/{testId}/questions/{questionId}")
+    public ResponseEntity<String> detachQuestionFromTest(@PathVariable Integer testId, @PathVariable Integer questionId) {
+        testService.detachQuestionFromTest(testId, questionId);
+        return ResponseEntity.ok("Pytanie " + questionId + " zostało usunięte z testu " + testId);
+    }
+
+    @PostMapping("/tests/{testId}/questions")
+    public ResponseEntity<String> attachQuestionToTest(@PathVariable Integer testId, @Valid @RequestBody QuestionDTO question) {
+        testService.attachQuestionToTest(question, testId);
+        return ResponseEntity.ok("Pytanie zostało dodane do testu " + testId);
     }
 }

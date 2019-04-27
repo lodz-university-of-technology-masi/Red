@@ -22,3 +22,7 @@ nav .active{
 .blue-input{
     border: 2px solid #364299 !important;
 }
+
+.tooltip-main {
+    opacity: 1;
+}
