@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="includes :: header"/>
+    <script type="text/javascript" th:src="@{/test-details.js}" src="/resources/static/test-details.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.css"
+          rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/index.css}" href="/resources/static/index.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Szczegółowy widok testu</title>
+</head>
+<body>
+<th:block th:include="includes :: menu"/>
+
+<div class="parallax-2">
+    <div class="text-center title-2">MASI RED.2</div>
+</div>
+
+<div class="container text-center mt-2">
+    <h1 th:text="${test.jobTitleName}"></h1>
+    <h3>TEST <span th:text="${test.id}"/></h3>
+    <h6 th:if="${test.editorName}">Redaktor: <span th:text="${test.editorName}"/></h6>
+    <h6>Czas utworzenia:
+        <time th:datetime="${test.creationTime}"/>
+    </h6>
+    <hr/>
+</div>
+
+<div class="container text-center mb-3">
+    <button id="showAddNewQuestionFormButton" class="btn btn-outline-success align-center" onclick="showAddNewQuestionForm()">Dodaj pytanie do testu</button>
+</div>
+
+<div class="container text-center d-none" id="addNewQuestionForm">
+
+    <p><strong>Wybierz istniejące pytanie: </strong></p>
+    <div class="row input-group">
+        <select id="existingQuestionSelect" class="form-control rounded-1 blue-input mr-3" onchange="updateNewQuestionFields()">
+            <option value="" selected disabled>Wybierz pytanie:</option>
+            <option th:each="existingQuestion : ${existingQuestions}" th:value="${{existingQuestion}}" th:text="${existingQuestion.content}">
+            </option>
+        </select>
+        <button class="btn btn-outline-danger" onclick="resetFields()">Resetuj</button>
+    </div>
+    <p class="my-2"><strong>lub dodaj nowe...</strong></p>
+    <label class="row" for="newQuestionType">Typ pytania: </label>
+    <select id="newQuestionType" class="row form-control rounded-1 blue-input"
+            onchange="toggleNewQuestionFieldsVisibility(this)">
+        <option value="" selected disabled>Wybierz typ pytania:</option>
+        <option value="SingleChoice">Pojedynczego wyboru</option>
+        <option value="Open">Otwarte</option>
+        <option value="Numeric">Typu liczbowego</option>
+        <option value="Scale">Skali</option>
+    </select>
+    <label class="row" for="newQuestionLanguage">Język pytania: </label>
+    <select id="newQuestionLanguage" class="row form-control rounded-1 blue-input">
+        <option value="" selected disabled>Wybierz język pytania:</option>
+        <option value="PL">polski</option>
+        <option value="EN">angielski</option>
+    </select>
+    <label class="row" for="newQuestionContent">Treść pytania: </label>
+    <textarea type="text" id="newQuestionContent" class="form-control rounded-1 blue-input row"></textarea>
+    <label class="row" for="newQuestionSuggestedAnswer">Sugerowana odpowiedź: </label>
+    <input type="text" id="newQuestionSuggestedAnswer" class="form-control rounded-1 blue-input row">
+
+    <div id="possibleAnswersFields" class="d-none">
+        <div id="possibleAnswers">
+            <div id="newQuestionPossibleAnswer1">
+                <label class="row" for="newQuestionPossibleAnswerInput1">Możliwa odpowiedź:
+                    <a class="material-icons text-danger" role="button"
+                       onclick="deletePossibleAnswer(this)" style="cursor:pointer;">delete</a></label>
+                <input type="text" id="newQuestionPossibleAnswerInput1" class="form-control rounded-1 blue-input row">
+            </div>
+        </div>
+        <button class="btn btn-outline-success mt-3" onclick="addPossibleAnswer()">Dodaj możliwą odpowiedź</button>
+    </div>
+
+    <div id="newQuestionScaleProperties" class="d-none">
+        <label class="row" for="newQuestionMinValueInput">Minimalna wartość: </label>
+        <input type="text" id="newQuestionMinValueInput" class="form-control rounded-1 blue-input row">
+        <label class="row" for="newQuestionMaxValueInput">Maksymalna wartość: </label>
+        <input type="text" id="newQuestionMaxValueInput" class="form-control rounded-1 blue-input row">
+        <label class="row" for="newQuestionIntervalInput">Skok: </label>
+        <input type="text" id="newQuestionIntervalInput" class="form-control rounded-1 blue-input row">
+    </div>
+
+    <div class="my-3">
+        <button class="btn btn-outline-success" th:onclick="'addQuestionToTest(' + ${test.id} + ')'">Dodaj pytanie do testu</button>
+        <button class="btn btn-outline-danger" onclick="hideAddNewQuestionForm()">Anuluj dodawanie pytania</button>
+    </div>
+    <hr/>
+</div>
+
+<div class="container text-center">
+    <th:block th:each="question : ${test.questions}">
+        <div class="row mb-2" th:id="|question${question.id}|">
+            <div class="col-2 text-right font-weight-bold" th:text="${questionStat.index} + 1 + ."></div>
+            <div class="col text-left">
+                <div class="row">
+                    <strong th:text="${question.content}"></strong>
+                    <time class="mx-3 font-weight-light font-italic" th:datetime="${question.creationTime}"></time>
+                    <a class="material-icons text-danger" href="" role="button"
+                       th:onclick="'detachQuestionFromTest(' + ${question.id} + ',' + ${test.id} + ')'">delete</a>
+                </div>
+                <div th:if="${question instanceof T(com.masi.red.dto.SingleChoiceQuestionDTO)}">
+                    <th:block th:each="possibleAnswer : ${question.possibleAnswers}">
+                        <div class="row form-check">
+                            <input class="form-check-input" type="radio"
+                                   th:name="|question${question.id}possibleAnswer${possibleAnswerStat.index}|"
+                                   th:id="|question${question.id}possibleAnswer${possibleAnswerStat.index}|" disabled
+                                   th:checked="${question.suggestedAnswer == possibleAnswer}">
+                            <label th:text="${possibleAnswer}" class="form-check-label"
+                                   th:for="|question${question.id}possibleAnswer${possibleAnswerStat.index}|"></label>
+                        </div>
+                    </th:block>
+                </div>
+                <div th:if="${question instanceof T(com.masi.red.dto.ScaleQuestionDTO)}">
+                    <span class="row" th:if="${question.suggestedAnswer}"
+                          th:text="|Sugerowana odpowiedź: ${question.suggestedAnswer}|"></span>
+                    <div class="row align-items-end">
+                        <div class="col">
+                            <p class="row mb-0" th:text="|Minimalna wartość: ${question.minValue ?:0}|"></p>
+                            <p class="row mb-0" th:text="|Maksymalna wartość: ${question.maxValue ?: 10}|"></p>
+                            <p class="row mb-0" th:text="|Skok: ${question.interval ?:1}|"></p>
+                        </div>
+                        <div class="col">
+                            <label class="mr-2" th:for="|question${question.id}range|">Podgląd: </label>
+                            <input class="rangeInput" type="range" th:data-slider-min="${question.minValue}"
+                                   th:data-slider-max="${question.maxValue}"
+                                   th:data-slider-step="${question.interval}" th:id="|question${question.id}range|">
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${question instanceof T(com.masi.red.dto.OpenQuestionDTO)}">
+                    <div class="form-group">
+                        <label class="row mr-2" th:for="|question${question.id}textArea|">Sugerowana odpowiedź: </label>
+                        <textarea class="row form-control rounded-1 blue-input" th:id="|question${question.id}textArea|"
+                                  th:text="${question.suggestedAnswer}" rows="3" disabled></textarea>
+                    </div>
+                </div>
+                <div th:if="${question instanceof T(com.masi.red.dto.NumericQuestionDTO)}">
+                    <div class="form-group">
+                        <label class="row" th:for="|question${question.id}numericInput|">Sugerowana odpowiedź: </label>
+                        <input type="number" class="form-control rounded-1 blue-input row"
+                               th:id="|question${question.id}numericInput|" th:value="${question.suggestedAnswer}"
+                               disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </th:block>
+    <a onclick="redirectToTestsPage()" class="btn btn-outline-warning">Wróć</a>
+</div>
+</body>
+</html>

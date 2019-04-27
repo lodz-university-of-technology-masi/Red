@@ -1,8 +1,7 @@
 package com.masi.red;
 
-import com.masi.red.dto.EditedTestDTO;
-import com.masi.red.dto.NewTestDTO;
-import com.masi.red.dto.TestDTO;
+import com.masi.red.common.QuestionTypeMapper;
+import com.masi.red.dto.*;
 import com.masi.red.entity.JobTitle;
 import com.masi.red.entity.Question;
 import com.masi.red.entity.Test;
@@ -25,6 +24,7 @@ public class TestService implements ITestService {
     private final TestRepository testRepository;
     private final EntityFinder entityFinder;
     private final MapperFacade mapper;
+    private final QuestionRepository questionRepository;
 
     @Override
     public TestDTO addTest(NewTestDTO testDTO, User user) {
@@ -49,9 +49,9 @@ public class TestService implements ITestService {
     }
 
     @Override
-    public TestDTO getTestById(Integer id) {
+    public TestWithQuestionsDTO getTestById(Integer id) {
         Test test = entityFinder.findTestById(id);
-        return mapper.map(test, TestDTO.class);
+        return mapper.map(test, TestWithQuestionsDTO.class);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class TestService implements ITestService {
             testToEdit.getJobTitle().attachTest(testToEdit);
         }
 
-        //testToEdit.setQuestionsList(editedTest.getQuestionsList()); TODO implement
+        //testToEdit.setQuestions(editedTest.getQuestions()); TODO implement
         return mapper.map(testToEdit, TestDTO.class);
     }
 
@@ -76,5 +76,32 @@ public class TestService implements ITestService {
     @Override
     public void deleteTest(Integer id) {
         testRepository.deleteById(id);
+    }
+
+    @Override
+    public void detachQuestionFromTest(Integer testId, Integer questionId) {
+        Test test = entityFinder.findTestById(testId);
+        test.getQuestions().stream()
+                .filter(question -> question.getId() == questionId)
+                .findAny()
+                .get().detachTest(testId);
+        test.detachQuestion(questionId);
+    }
+
+    @Override
+    public void attachQuestionToTest(QuestionDTO questionDTO, Integer testId) {
+        Test test = entityFinder.findTestById(testId);
+        Question question;
+        if(questionDTO.getId() == null) {
+            question = mapper.map(questionDTO, QuestionTypeMapper.getEntityClass(questionDTO));
+            if(question.getOriginalQuestion() == null || question.getOriginalQuestion().getId() == questionDTO.getId().intValue()) {
+                question.setOriginalQuestion(question);
+            }
+            question = questionRepository.save(question);
+        } else {
+            question = entityFinder.findQuestionById(questionDTO.getId());
+        }
+        test.attachQuestion(question);
+        question.attachtoTest(test);
     }
 }

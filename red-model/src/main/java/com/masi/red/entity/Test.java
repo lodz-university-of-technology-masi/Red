@@ -27,7 +27,7 @@ public class Test {
     @JoinTable(name = "test_question",
             joinColumns = {@JoinColumn(name = "test_id")},
             inverseJoinColumns = {@JoinColumn(name = "question_id")})
-    private List<Question> questionsList = new ArrayList<>();
+    private List<Question> questions = new ArrayList<>();
 
     @JsonIgnore
     @ManyToOne
@@ -45,5 +45,15 @@ public class Test {
     @PrePersist
     private void initializeCreationTime() {
         creationTime = OffsetDateTime.now();
+    }
+
+    public void attachQuestion(Question question) {
+        if(!questions.contains(question)) {
+            questions.add(question);
+        }
+    }
+
+    public void detachQuestion(int questionId) {
+        questions.removeIf(question -> question.getId() == questionId);
     }
 }
