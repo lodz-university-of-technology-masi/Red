@@ -17,9 +17,19 @@
 </div>
 
 <div class="container text-center mt-2">
-    <h1><th:span th:text="${test?.jobTitleName}" /></h1>
-    <h4><th:span th:text="|TEST ${test?.id}|"/></h4>
+    <h1><th:span th:text="${jobTitle?.name}" /></h1>
     <hr/>
+</div>
+
+<div class="container text-center mt-lg-2">
+    <br/>
+    <h1>Zakończono rozwiązywanie testu.</h1>
+    <h2>Dziękujemy i prosimy czekać na kontakt.</h2>
+</div>
+
+<div class="container text-center mt-lg-2">
+    <br/>
+    <button class="btn btn-outline-success text-uppercase rounded-1" onclick="window.open('', '_self', ''); window.close();">zamknij stronę</button>
 </div>
 
 </body>

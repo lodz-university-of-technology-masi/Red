@@ -42,7 +42,7 @@ function sendTestForm() {
         success: function(data) {
 
             alert(data);
-            //window.location.replace("localhost:8080/kandydat/stanowisko/"+jobTitleId + "/wynik");
+            window.location.href = "/kandydat/stanowisko/"+jobTitleId + "/wynik";
         },
         error: function (e) {
             console.log("ERROR : ", e);
