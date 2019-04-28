@@ -5,15 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class CandidateAnswerDTO {
     private Integer id;
-    private Integer questionId;
     private Integer testId;
     private String username;
-    private String answer;
+    private List<CandidateAnswerObjectDTO> answers;
     private OffsetDateTime creationTime;
+
 }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="includes :: header" />
+
+    <script type="text/javascript" th:src="@{/js/test-page.js}" src="/resources/static/js/test-page.js"></script>
+    <link rel="stylesheet" th:href="@{/index.css}" href="/resources/static/index.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+<body>
+<th:block th:include="includes :: menu" />
+
+<div class="parallax-2">
+    <div class="text-center title-2" >MASI RED.2</div>
+</div>
+
+<div class="container text-center mt-2">
+    <h1><th:span th:text="${test?.jobTitleName}" /></h1>
+    <h4><th:span th:text="|TEST ${test?.id}|"/></h4>
+    <hr/>
+</div>
+
+</body>
+</html>
