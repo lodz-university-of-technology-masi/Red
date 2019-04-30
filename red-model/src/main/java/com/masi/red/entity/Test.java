@@ -1,6 +1,7 @@
 package com.masi.red.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.masi.red.common.Language;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,6 +42,11 @@ public class Test {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "language", nullable = false)
+    private Language language;
 
     @PrePersist
     private void initializeCreationTime() {

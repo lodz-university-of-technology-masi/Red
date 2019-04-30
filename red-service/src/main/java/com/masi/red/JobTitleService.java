@@ -1,5 +1,6 @@
 package com.masi.red;
 
+import com.masi.red.common.Language;
 import com.masi.red.entity.JobTitle;
 import com.masi.red.entity.Test;
 import lombok.RequiredArgsConstructor;
@@ -66,5 +67,10 @@ public class JobTitleService implements IJobTitleService {
         test.setJobTitle(null);
         jobTitle.detachTest(test);
         return jobTitle;
+    }
+
+    @Override
+    public List<JobTitle> findByTestLanguage(Language language) {
+        return jobTitleRepository.findByTestLanguage(language);
     }
 }
