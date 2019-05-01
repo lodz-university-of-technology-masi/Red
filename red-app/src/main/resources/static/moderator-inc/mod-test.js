@@ -13,7 +13,7 @@ $(document).ready(function() {
 
         var jsonObject = {};
         jsonObject["jobTitleId"] = dataForm[0].value;
-
+        jsonObject["editorId"] = dataForm[1].value;
 
         console.log(JSON.stringify(jsonObject));
 

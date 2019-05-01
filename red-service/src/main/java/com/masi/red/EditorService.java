@@ -43,18 +43,28 @@ public class EditorService implements IEditorService {
     }
 
     @Override
-    public User updateEditor(Integer id, String username, String email, String password, RoleName role, String firstName, String lastName) {
+    public User updateEditor(User oldEditor, Integer editorId) {
         Role rolee = new Role();
-        rolee.setName(RoleName.EDITOR);
+        //rolee.setName(RoleName.EDITOR);
+
+        if(oldEditor.getRoles().contains("MODERATOR")){
+            rolee.setName(RoleName.MODERATOR);
+        }
+        if(oldEditor.getRoles().contains("EDITOR")){
+            rolee.setName(RoleName.EDITOR);
+        }
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(11);
+        String tmp = encoder.encode(oldEditor.getPassword());
 
         User editor = User.builder()
-                .id(id)
-                .username(username)
-                .email(email)
-                .password(password)
+                .id(editorId)
+                .username(oldEditor.getUsername())
+                .email(oldEditor.getEmail())
+                .password(tmp)
                 .roles(Collections.singleton(rolee))
-                .firstName(firstName)
-                .lastName(lastName)
+                .firstName(oldEditor.getFirstName())
+                .lastName(oldEditor.getLastName())
                 .build();
 
         return editorRepository.save(editor);
