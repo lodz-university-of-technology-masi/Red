@@ -95,4 +95,5 @@ window.onload = function () {
 $(document).ready(function() {
     $('#EditorsTable').DataTable();
     $('#JobTitleTable').DataTable();
+    $('#TestTable').DataTable();
 } );
