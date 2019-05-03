@@ -1,7 +1,7 @@
 //***************************************************************
 //  A P I       R E G I S T E R
 //***************************************************************
-candidate_api = "/candidate";
+candidate_api = "/register";
 
 $(document).ready(function() {
 
@@ -23,7 +23,7 @@ $(document).ready(function() {
             contentType: "application/json",
             url: candidate_api,
             data: JSON.stringify(jsonObject),
-            dataType: 'json',
+            dataType: 'text',
             success: function (data) {
                 console.log("response: " + data);
 

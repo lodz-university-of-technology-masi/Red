@@ -40,11 +40,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**/js/**").permitAll()
                 .antMatchers("/**/images/**").permitAll()
                 .antMatchers("/**/webjars/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/register").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()
                 .loginPage("/login").permitAll()
                 .usernameParameter("username").passwordParameter("password")
-                .and().csrf().disable();
+                .and()
+                .logout()
+                .logoutUrl("/logout").logoutSuccessUrl("/login?logout").permitAll()
+                .and()
+                .csrf().disable();
     }
 
     @Bean
