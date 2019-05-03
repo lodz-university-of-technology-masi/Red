@@ -42,4 +42,7 @@ public class HomeController {
         return "candidate";
     }
 
+    @GetMapping(value = "/redaktor")
+    public String redactorHome(){ return "redactor"; }
+
 }

@@ -5,7 +5,7 @@
 
     <link rel="stylesheet" th:href="@{/css/index.css}" href="/resources/static/css/index.css" />
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
-
+    <script type="text/javascript" th:src="@{/js/candidate.js}" src="/resources/static/js/candidate.js"></script>
 </head>
 <body>
     <th:block th:include="includes :: menu" />
@@ -17,10 +17,10 @@
     <div class="container" >
         <div class="row justify-content-md-center mt-lg-5 mt-sm-3">
             <div class="col col-md-4 text-center mt-2">
-                <button type="button" class="btn btn-outline-primary btn-lg text-uppercase rounded-1 col-sm-12">Język Angielski&nbsp;<small style="letter-spacing: 2px;">[EN]</small></button>
+                <button id="LanguageButtonEN" type="button" data-arg="EN" class="btn btn-outline-primary btn-lg text-uppercase rounded-1 col-sm-12">Język Angielski&nbsp;<small style="letter-spacing: 2px;">[EN]</small></button>
             </div>
             <div class="col col-md-4 text-center mt-2">
-                <button type="button" class="btn btn-outline-danger btn-lg text-uppercase rounded-1 col-sm-12">Język Polski&nbsp;<small style="letter-spacing: 2px;">[PL]</small></button>
+                <button id="LanguageButtonPL" type="button" data-arg="PL" class="btn btn-outline-danger btn-lg text-uppercase rounded-1 col-sm-12">Język Polski&nbsp;<small style="letter-spacing: 2px;">[PL]</small></button>
             </div>
         </div>
 
@@ -30,7 +30,13 @@
                 <hr/>
                 <h3>Wybierz Stanowisko:</h3>
             </div>
+
         </div>
+        <div class='text-center'>
+        <input class="w-50 p-3 h6 border border-secondary" type="text" id="search" onkeyup="searchFunction()" placeholder="Wyszukaj stanowisko.." title="Wpisz nazwe stanowiska" disabled >
+        </div>
+        <ul id="resultJobTitle" class="w-50 p-3 mx-auto list-unstyled">
+        </ul>
 
     </div>
 

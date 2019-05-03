@@ -1,5 +1,6 @@
 package com.masi.red.dto;
 
+import com.masi.red.common.Language;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +19,5 @@ public class TestDTO {
     private String jobTitleName;
     private int questionsNumber;
     private OffsetDateTime creationTime;
+    private Language language;
 }
