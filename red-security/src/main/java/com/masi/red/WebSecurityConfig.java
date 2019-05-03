@@ -20,6 +20,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final String[] WHITE_LIST_RESOURCE_PATHS =
+            {"/**/css/**", "/**/js/**", "/**/images/**", "/**/webjars/**"};
+
     private final UserDetailsService userDetailsService;
 
     @Autowired
@@ -34,22 +37,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().disable()
+        http.csrf().disable().cors().disable()
                 .authorizeRequests()
-                .antMatchers("/**/css/**").permitAll()
-                .antMatchers("/**/js/**").permitAll()
-                .antMatchers("/**/images/**").permitAll()
-                .antMatchers("/**/webjars/**").permitAll()
+                .antMatchers(WHITE_LIST_RESOURCE_PATHS).permitAll()
                 .antMatchers(HttpMethod.POST, "/register").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()
                 .loginPage("/login").permitAll()
                 .usernameParameter("username").passwordParameter("password")
-                .and()
-                .logout()
-                .logoutUrl("/logout").logoutSuccessUrl("/login?logout").permitAll()
-                .and()
-                .csrf().disable();
+                .and().logout()
+                .logoutUrl("/logout").logoutSuccessUrl("/login?logout").permitAll();
     }
 
     @Bean
