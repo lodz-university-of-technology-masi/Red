@@ -3,6 +3,7 @@ package com.masi.red;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -33,11 +34,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .cors().disable()
+        http.cors().disable()
                 .authorizeRequests()
-                .antMatchers("/**").authenticated()
-                .and().httpBasic();
+                .antMatchers("/**/css/**").permitAll()
+                .antMatchers("/**/js/**").permitAll()
+                .antMatchers("/**/images/**").permitAll()
+                .antMatchers("/**/webjars/**").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin()
+                .loginPage("/login").permitAll()
+                .usernameParameter("username").passwordParameter("password")
+                .and().csrf().disable();
     }
 
     @Bean

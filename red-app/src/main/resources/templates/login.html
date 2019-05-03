@@ -1,19 +1,22 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <th:block th:include="includes :: header" />
+    <title>Login Page</title>
+    <th:block th:include="includes :: header"/>
 
-    <link rel="stylesheet" th:href="@{/css/index.css}" href="/resources/static/css/index.css" />
-    <link rel="stylesheet" th:href="@{/css/login.css}" href="/resources/static/css/login.css" />
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/index.css}"
+          href="/resources/static/css/index.css"/>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/login.css}"
+          href="/resources/static/css/login.css"/>
 
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
-    <script type="text/javascript" th:src="@{/js/register.js}" src="/resources/static/js/register.js" ></script>
+    <script type="text/javascript" th:src="@{/js/register.js}" src="/resources/static/js/register.js"></script>
 
 </head>
 <body>
 
 <div class="parallax">
-    <div class="text-center title" >MASI RED.2</div>
+    <div class="text-center title">MASI RED.2</div>
 </div>
 <div class="container login-container">
     <div class="row">
@@ -22,18 +25,21 @@
                 <h3>Logowanie</h3>
 
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Nazwa Użytkownika" value="" required />
+                    <input type="text" class="form-control" name="username" id="username"
+                           placeholder="Nazwa Użytkownika" value="" required/>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Hasło" value="" required />
+                    <input type="password" class="form-control" name="password" id="password"
+                           placeholder="Hasło" value="" required/>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btnSubmit">Zaloguj</button>
                 </div>
-                <div class="form-group">
-                    <div th:if="${param.error}" style="color: #d13c46">
-                        Invalid username and password.
-                    </div>
+                <div class="form-group" th:if="${param.error}" style="color: #d13c46">
+                    Invalid username and password.
+                </div>
+                <div class="form-group" th:if="${param.logout}" style="color: #ffffff">
+                    You have been logged out.
                 </div>
             </form>
         </div>
@@ -44,22 +50,25 @@
                 </div>
                 <h3>Rejestracja Kandydatów</h3>
                 <div class="form-group">
-                    <input id="cUsername" name="cUsername" type="text" class="form-control" placeholder="Nazwa Użytkownika" required />
+                    <input id="cUsername" name="cUsername" type="text" class="form-control"
+                           placeholder="Nazwa Użytkownika" required/>
                 </div>
                 <div class="form-group">
-                    <input id="cEmail" name="cEmail" type="text" class="form-control" placeholder="Email" required />
+                    <input id="cEmail" name="cEmail" type="text" class="form-control" placeholder="Email" required/>
                 </div>
                 <div class="form-group">
-                    <input id="cPassword" name="cPassword" type="password" class="form-control" placeholder="Hasło" required />
+                    <input id="cPassword" name="cPassword" type="password" class="form-control" placeholder="Hasło"
+                           required/>
                 </div>
                 <div class="form-group">
-                    <input id="cName" name="cName" type="text" class="form-control" placeholder="Imie"required />
+                    <input id="cName" name="cName" type="text" class="form-control" placeholder="Imie" required/>
                 </div>
                 <div class="form-group">
-                    <input id="cSurname" name="cSurname" type="text" class="form-control" placeholder="Nazwisko" required />
+                    <input id="cSurname" name="cSurname" type="text" class="form-control" placeholder="Nazwisko"
+                           required/>
                 </div>
                 <div class="form-group">
-                    <button id="FormCreateCandidateButton" type="button" class="btnSubmit" >Rejestruj</button>
+                    <button id="FormCreateCandidateButton" type="button" class="btnSubmit">Rejestruj</button>
                 </div>
             </form>
         </div>
