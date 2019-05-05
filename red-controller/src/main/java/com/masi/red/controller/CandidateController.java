@@ -1,20 +1,30 @@
 package com.masi.red.controller;
 
 
-import com.masi.red.entity.User;
-import org.springframework.http.HttpStatus;
+import com.masi.red.UserService;
+import com.masi.red.dto.UserDto;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
 @RestController
+@Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CandidateController {
 
-    @PostMapping(value="/candidate")
-    public ResponseEntity<String> addCandidate(@Valid @RequestBody User candidate){
+    private final UserService userService;
 
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+    @PostMapping(value = "/register")
+    public ResponseEntity<String> addCandidate(@Valid @RequestBody UserDto candidate) {
+        userService.createUser(candidate);
+        return ResponseEntity.ok("Successfully created account");
     }
 
 }

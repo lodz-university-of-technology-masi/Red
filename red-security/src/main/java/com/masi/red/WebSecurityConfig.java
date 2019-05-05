@@ -3,6 +3,7 @@ package com.masi.red;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,6 +20,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final String[] WHITE_LIST_RESOURCE_PATHS =
+            {"/**/css/**", "/**/js/**", "/**/images/**", "/**/webjars/**"};
+
     private final UserDetailsService userDetailsService;
 
     @Autowired
@@ -33,11 +37,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .cors().disable()
+        http.csrf().disable().cors().disable()
                 .authorizeRequests()
-                .antMatchers("/**").authenticated()
-                .and().httpBasic();
+                .antMatchers(WHITE_LIST_RESOURCE_PATHS).permitAll()
+                .antMatchers(HttpMethod.POST, "/register").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin()
+                .loginPage("/login").permitAll()
+                .usernameParameter("username").passwordParameter("password")
+                .and().logout()
+                .logoutUrl("/logout").logoutSuccessUrl("/login?logout").permitAll();
     }
 
     @Bean
