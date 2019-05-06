@@ -1,10 +1,7 @@
 package com.masi.red.controller;
 
 
-import com.masi.red.AnswerService;
-import com.masi.red.JobTitleService;
-import com.masi.red.QuestionService;
-import com.masi.red.TestService;
+import com.masi.red.*;
 import com.masi.red.dto.CandidateAnswerDTO;
 import com.masi.red.entity.JobTitle;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +23,9 @@ public class TestUIController {
     @Autowired
     JobTitleService jobService;
 
-    private final TestService testService;
-    private final QuestionService questionService;
-    private final AnswerService answerService;
+    private final ITestService testService;
+    private final IQuestionService questionService;
+    private final IAnswerService answerService;
 
 
     @GetMapping(value = "/kandydat/stanowisko/{jobId}")
@@ -47,12 +44,8 @@ public class TestUIController {
     @PostMapping(value = "/kandydat/stanowisko/{jobId}")
     @ResponseBody
     public ResponseEntity<Object> getPostJobTestPage(@PathVariable Integer jobId, @Valid @RequestBody CandidateAnswerDTO answerDto){
-        int answersNo = answerDto.getAnswers().size();
-        System.out.println(answerDto);
-        for (int counter = 0; counter <answersNo; counter++) {
-            answerService.addAnswers(answerDto, counter);
-        }
-        return new ResponseEntity<>(true, HttpStatus.CREATED);
+           boolean response = answerService.addAnswers(answerDto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping(value = "/kandydat/stanowisko/{jobId}/wynik")

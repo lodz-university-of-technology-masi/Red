@@ -1,6 +1,7 @@
 package com.masi.red;
 
 import com.masi.red.dto.CandidateAnswerDTO;
+import com.masi.red.dto.CandidateAnswerObjectDTO;
 import com.masi.red.entity.CandidateAnswer;
 import com.masi.red.entity.Question;
 import com.masi.red.entity.Test;
@@ -22,18 +23,20 @@ public class AnswerService implements IAnswerService {
     private final EntityFinder entityFinder;
 
     @Override
-    public CandidateAnswerDTO addAnswers(CandidateAnswerDTO answer, int testQuestionNo) {
+    public boolean addAnswers(CandidateAnswerDTO answer) {
             User user = entityFinder.findUserByUsername(answer.getUsername());
             Test test = entityFinder.findTestById(answer.getTestId());
-            Question question = entityFinder.findQuestionById(answer.getAnswers().get(testQuestionNo).getQuestionId());
-            String answerStr = answer.getAnswers().get(testQuestionNo).getAnswer();
-            CandidateAnswer candidateAnswer = CandidateAnswer.builder()
-                    .user(user)
-                    .test(test)
-                    .question(question)
-                    .answer(answerStr)
-            .build();
-
-        return mapper.map(candidateAnswerRepository.save(candidateAnswer),CandidateAnswerDTO.class);
+            for(CandidateAnswerObjectDTO tempAnswer : answer.getAnswers()) {
+                Question question = entityFinder.findQuestionById(tempAnswer.getQuestionId());
+                String answerStr = tempAnswer.getAnswer();
+                CandidateAnswer candidateAnswer = CandidateAnswer.builder()
+                        .user(user)
+                        .test(test)
+                        .question(question)
+                        .answer(answerStr)
+                        .build();
+                mapper.map(candidateAnswerRepository.save(candidateAnswer),CandidateAnswerDTO.class);
+            }
+            return true;
     }
 }
