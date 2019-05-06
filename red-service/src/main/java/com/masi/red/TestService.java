@@ -29,6 +29,12 @@ public class TestService implements ITestService {
     @Override
     public TestDTO addTest(NewTestDTO testDTO, User user) {
         JobTitle jobTitle = entityFinder.findJobTitleById(testDTO.getJobTitleId());
+
+        if(!testDTO.getEditorId().equals(user.getId()))
+        {
+            user.setId(testDTO.getEditorId());
+        }
+
         Test test = Test.builder()
                 .user(user)
                 .jobTitle(jobTitle)

@@ -47,11 +47,24 @@ $(document).ready(function() {
 
         var dataForm = $('#FormUpdateEditor').serializeArray();
 
-        console.log(dataForm);
+        var jsonObject = {};
+        jsonObject["id"] = parseInt(dataForm[0].value);
+        jsonObject["username"] = dataForm[1].value;
+        jsonObject["email"] = dataForm[2].value;
+        jsonObject["password"] = dataForm[3].value;
+        jsonObject["role"] = dataForm[4].value;
+        jsonObject["firstName"] = dataForm[5].value;
+        jsonObject["lastName"] = dataForm[6].value;
+
+        console.log(JSON.stringify(jsonObject));
+
 
         $.ajax({
             type: "PUT",
-            url: editor_api + "/" + dataForm[0].value + "/" + dataForm[1].value + "/" + dataForm[2].value + "/" + dataForm[3].value + "/" + dataForm[4].value + "/" + dataForm[5].value + "/" + dataForm[6].value,
+            contentType: "application/json",
+            url: editor_api + "/" + dataForm[0].value,
+            data: JSON.stringify(jsonObject),
+            dataType: 'json',
             success: function(data) {
                 console.log(data);
 
@@ -70,10 +83,12 @@ $(document).ready(function() {
         console.log(event.target.id);
 
         var editorId = event.target.id;
+        var res = editorId.split("-");
+
 
         $.ajax({
             type: "DELETE",
-            url: editor_api + "/" + editorId[1],
+            url: editor_api + "/" + res[1],
             success: function(data) {
                 console.log(data);
 
@@ -86,4 +101,51 @@ $(document).ready(function() {
             }
         });
     });
+
+
+
 });
+
+function editEditor(id){
+
+    console.log("Pobieranie editora o ID: " + id);
+
+    var editorId = id;
+    var res = editorId.split("-");
+
+    $.ajax({
+        type: "GET",
+        url: editor_api + "/" + res[1],
+        success: function(data) {
+            console.log(data);
+
+            insertIntoEditorEditModal(data);
+
+        },
+        error: function (e) {
+            console.log("ERROR : ", e);
+        }
+    });
+}
+
+function insertIntoEditorEditModal(data){
+
+    clearEditorEditModal();
+
+    $("#FUEId").val(data.id);
+    $("#FUEUsername").val(data.username);
+    $("#FUEMail").val(data.email);
+    $("#FUEName").val(data.firstName);
+    $("#FUESurname").val(data.lastName);
+
+}
+
+function clearEditorEditModal(){
+
+    $("#FUEId").val("");
+    $("#FUEUsername").val("");
+    $("#FUEMail").val("");
+    $("#FUEName").val("");
+    $("#FUESurname").val("");
+
+}

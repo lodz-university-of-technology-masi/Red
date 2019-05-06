@@ -10,7 +10,7 @@ public interface IEditorService {
 
     User createEditor(User editor);
     User readEditor(Integer id);
-    User updateEditor(Integer id, String username, String email, String password, RoleName role, String firstName, String lastName);
+    User updateEditor(User oldEditor, Integer editorId);
     void deleteEditor(Integer id);
     List<User> getAllEditors();
 

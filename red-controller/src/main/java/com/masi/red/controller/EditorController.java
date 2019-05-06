@@ -38,13 +38,13 @@ public class EditorController {
         return new ResponseEntity<>(editor, HttpStatus.OK);
     }
 
-    @PutMapping(value="/redaktor/{editorId}/{username}/{email}/{password}/{role}/{firstName}/{lastName}")
-    public ResponseEntity<String> updateEditor(@PathVariable Integer editorId, @PathVariable String username,@PathVariable String email,@PathVariable String password,
-                                               @PathVariable RoleName role,@PathVariable String firstName,@PathVariable String lastName){
+    @PutMapping(value="/redaktor/{editorId}")
+    public ResponseEntity<User> updateEditor(@PathVariable Integer editorId, @Valid @RequestBody User editor){
 
-        editorService.updateEditor(editorId, username, email, password, role, firstName, lastName);
 
-        return new ResponseEntity<>("Aktualizacja Redaktora o ID:" + editorId.toString() , HttpStatus.OK);
+        editorService.updateEditor(editor, editorId);
+
+        return new ResponseEntity<>(editor, HttpStatus.OK);
     }
 
     @DeleteMapping(value="/redaktor/{editorId}")

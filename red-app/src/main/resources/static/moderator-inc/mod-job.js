@@ -137,3 +137,45 @@ $(document).ready(function() {
         });
     });
 });
+
+function editJobTitle(id){
+
+    console.log("Pobieranie stanowiska o ID: " + id);
+
+    var editorId = id;
+    var res = editorId.split("-");
+
+    $.ajax({
+        type: "GET",
+        url: jobTitle_api + "/" + res[1],
+        success: function(data) {
+            console.log(data);
+
+            insertIntoJobTitleEditModal(data);
+
+        },
+        error: function (e) {
+            console.log("ERROR : ", e);
+        }
+    });
+}
+
+function insertIntoJobTitleEditModal(data){
+
+    clearJobTitleEditModal();
+
+    $("#FUJTID").val(data.id);
+    $("#FUJTName").val(data.name);
+    $("#FUJTActive").val(data.active);
+
+
+}
+
+function clearJobTitleEditModal(){
+
+    $("#FUJTID").val("");
+    $("#FUJTName").val("");
+    $("#FUJTActive").val("");
+
+
+}

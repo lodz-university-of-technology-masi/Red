@@ -12,6 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class NewTestDTO {
     private Integer jobTitleId;
+    private Integer editorId;
     private Language language;
     private Set<QuestionDTO> questions;
 }
