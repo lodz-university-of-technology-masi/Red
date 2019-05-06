@@ -1,12 +1,9 @@
 package com.masi.red.controller;
 
 
-import com.masi.red.JobTitleService;
-import com.masi.red.QuestionService;
-import com.masi.red.TestService;
+import com.masi.red.*;
 import com.masi.red.dto.CandidateAnswerDTO;
 import com.masi.red.entity.JobTitle;
-import com.masi.red.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,8 +23,9 @@ public class TestUIController {
     @Autowired
     JobTitleService jobService;
 
-    private final TestService testService;
-    private final QuestionService questionService;
+    private final ITestService testService;
+    private final IQuestionService questionService;
+    private final IAnswerService answerService;
 
 
     @GetMapping(value = "/kandydat/stanowisko/{jobId}")
@@ -46,11 +44,8 @@ public class TestUIController {
     @PostMapping(value = "/kandydat/stanowisko/{jobId}")
     @ResponseBody
     public ResponseEntity<Object> getPostJobTestPage(@PathVariable Integer jobId, @Valid @RequestBody CandidateAnswerDTO answerDto){
-
-
-        System.out.println(answerDto);
-
-        return new ResponseEntity<>(true, HttpStatus.OK);
+           boolean response = answerService.addAnswers(answerDto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping(value = "/kandydat/stanowisko/{jobId}/wynik")

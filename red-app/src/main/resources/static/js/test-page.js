@@ -40,8 +40,10 @@ function sendTestForm() {
         data: JSON.stringify(candidateTest),
         dataType: 'json',
         success: function(data) {
+            if(data == true){
+            alert("Gratulacje!!! Wypełniono test");
+            }
 
-            alert(data);
             window.location.href = "/kandydat/stanowisko/"+jobTitleId + "/wynik";
         },
         error: function (e) {
