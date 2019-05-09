@@ -1,4 +1,4 @@
-package com.masi.red.controller;
+package com.masi.red.controller.ui;
 
 
 import com.masi.red.*;

@@ -1,4 +1,4 @@
-package com.masi.red;
+package com.masi.red.controller.ui;
 
 import com.masi.red.common.RoleName;
 import com.masi.red.entity.Role;

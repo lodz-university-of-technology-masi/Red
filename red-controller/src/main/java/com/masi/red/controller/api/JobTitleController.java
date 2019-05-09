@@ -1,4 +1,4 @@
-package com.masi.red.controller;
+package com.masi.red.controller.api;
 
 import com.masi.red.IJobTitleService;
 import com.masi.red.common.Language;

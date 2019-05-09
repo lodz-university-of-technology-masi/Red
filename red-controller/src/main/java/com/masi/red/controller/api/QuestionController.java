@@ -1,4 +1,4 @@
-package com.masi.red.controller;
+package com.masi.red.controller.api;
 
 import com.masi.red.IQuestionService;
 import com.masi.red.dto.QuestionDTO;
