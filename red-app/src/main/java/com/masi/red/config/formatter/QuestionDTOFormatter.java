@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.masi.red.QuestionRepository;
 import com.masi.red.common.QuestionTypeMapper;
-import com.masi.red.dto.NumericQuestionDTO;
 import com.masi.red.dto.QuestionDTO;
 import com.masi.red.entity.Question;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.text.ParseException;
 import java.util.Locale;
 
@@ -27,7 +27,8 @@ public class QuestionDTOFormatter implements Formatter<QuestionDTO> {
     @Override
     public QuestionDTO parse(String text, Locale locale) throws ParseException {
         Integer id = Integer.valueOf(text);
-        Question question = questionRepository.findById(id).get();
+        Question question = questionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Question with id: " + id + " not found"));
         return mapper.map(question, QuestionTypeMapper.getDTOClass(question));
     }
 

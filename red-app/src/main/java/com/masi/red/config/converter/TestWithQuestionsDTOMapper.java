@@ -27,8 +27,9 @@ public class TestWithQuestionsDTOMapper extends BidirectionalConverter<Test, Tes
 
     @Override
     public TestWithQuestionsDTO convertTo(Test source, Type<TestWithQuestionsDTO> destinationType, MappingContext mappingContext) {
-        List<QuestionDTO> questions = source.getQuestions()
-                .stream().map(question -> mapper.map(question, QuestionTypeMapper.getDTOClass(question))).collect(Collectors.toList());
+        List<QuestionDTO> questions = source.getQuestions().stream()
+                .map(question -> mapper.map(question, QuestionTypeMapper.getDTOClass(question)))
+                .collect(Collectors.toList());
         User editor = source.getUser();
         return TestWithQuestionsDTO.builder()
                 .id(source.getId())
@@ -41,8 +42,9 @@ public class TestWithQuestionsDTOMapper extends BidirectionalConverter<Test, Tes
 
     @Override
     public Test convertFrom(TestWithQuestionsDTO source, Type<Test> destinationType, MappingContext mappingContext) {
-        List<Question> questions = source.getQuestions()
-                .stream().map(question -> mapper.map(question, QuestionTypeMapper.getEntityClass(question))).collect(Collectors.toList());
+        List<Question> questions = source.getQuestions().stream()
+                .map(question -> mapper.map(question, QuestionTypeMapper.getEntityClass(question)))
+                .collect(Collectors.toList());
         return Test.builder()
                 .id(source.getId())
                 .questions(questions)

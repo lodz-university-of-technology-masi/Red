@@ -6,10 +6,12 @@ import com.masi.red.entity.Test;
 import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.converter.BidirectionalConverter;
 import ma.glasnost.orika.metadata.Type;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class ScaleQuestionDTOMapper extends BidirectionalConverter<ScaleQuestion, ScaleQuestionDTO> {
 
     @Override

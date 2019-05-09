@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors().disable()
+        http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers(WHITE_LIST_RESOURCE_PATHS).permitAll()
                 .antMatchers(HttpMethod.POST, "/register").permitAll()
@@ -46,7 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login").permitAll()
                 .usernameParameter("username").passwordParameter("password")
                 .and().logout()
-                .logoutUrl("/logout").logoutSuccessUrl("/login?logout").permitAll();
+                .logoutUrl("/logout").logoutSuccessUrl("/login?logout").permitAll()
+                .and().exceptionHandling().accessDeniedPage("/access_denied");
     }
 
     @Bean

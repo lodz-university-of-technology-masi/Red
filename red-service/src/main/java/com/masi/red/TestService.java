@@ -1,5 +1,6 @@
 package com.masi.red;
 
+import com.masi.red.common.Language;
 import com.masi.red.common.QuestionTypeMapper;
 import com.masi.red.dto.*;
 import com.masi.red.entity.JobTitle;
@@ -37,6 +38,7 @@ public class TestService implements ITestService {
 
         Test test = Test.builder()
                 .user(user)
+                .language(Language.PL) //TODO
                 .jobTitle(jobTitle)
                 .build();
         //TODO: implement set questions
