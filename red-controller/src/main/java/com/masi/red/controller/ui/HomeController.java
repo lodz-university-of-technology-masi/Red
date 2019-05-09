@@ -30,7 +30,6 @@ public class HomeController {
         }
     }
 
-
     @GetMapping("/login")
     public ModelAndView login() {
         ModelAndView modelAndView = new ModelAndView();

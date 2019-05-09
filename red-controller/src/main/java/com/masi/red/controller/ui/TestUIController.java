@@ -1,60 +1,48 @@
 package com.masi.red.controller.ui;
 
 
-import com.masi.red.*;
-import com.masi.red.dto.CandidateAnswerDTO;
+import com.masi.red.IJobTitleService;
+import com.masi.red.IQuestionService;
+import com.masi.red.ITestService;
 import com.masi.red.entity.JobTitle;
+import com.masi.red.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TestUIController {
 
-
-    @Autowired
-    JobTitleService jobService;
-
+    private final IJobTitleService jobService;
     private final ITestService testService;
     private final IQuestionService questionService;
-    private final IAnswerService answerService;
 
 
     @GetMapping(value = "/kandydat/stanowisko/{jobId}")
-        public String getJobTestPage(@PathVariable Integer jobId, Model model){
+    public String getJobTestPage(@PathVariable Integer jobId, Model model, @AuthenticationPrincipal User user) {
         JobTitle jobTitle = jobService.getJobTitleById(jobId);
 
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String username = user.getUsername();
 
-        model.addAttribute("candidate",username);
+        model.addAttribute("candidate", username);
         model.addAttribute("jobTitle", jobTitle);
-        model.addAttribute("test", testService.getTestById(1));
+        model.addAttribute("test", testService.getTestById(1)); //TODO randomize test picker
 
         return "testpage";
     }
 
-    @PostMapping(value = "/kandydat/stanowisko/{jobId}")
-    @ResponseBody
-    public ResponseEntity<Object> getPostJobTestPage(@PathVariable Integer jobId, @Valid @RequestBody CandidateAnswerDTO answerDto){
-           boolean response = answerService.addAnswers(answerDto);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
     @GetMapping(value = "/kandydat/stanowisko/{jobId}/wynik")
-    public String getJobTestResultPage(@PathVariable Integer jobId, Model model){
+    public String getJobTestResultPage(@PathVariable Integer jobId, Model model, @AuthenticationPrincipal User user) {
         JobTitle jobTitle = jobService.getJobTitleById(jobId);
 
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String username = user.getUsername();
 
-        model.addAttribute("candidate",username);
+        model.addAttribute("candidate", username);
         model.addAttribute("jobTitle", jobTitle);
         //model.addAttribute("test", testService.getTestById(1));
 
