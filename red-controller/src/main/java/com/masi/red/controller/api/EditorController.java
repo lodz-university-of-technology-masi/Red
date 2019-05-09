@@ -14,12 +14,13 @@ import java.util.List;
 
 
 @RestController
+@RequestMapping("/redaktor")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EditorController {
 
     private final IEditorService editorService;
 
-    @PostMapping(value = "/redaktor")
+    @PostMapping
     public ResponseEntity<Object> createEditor(@Valid @RequestBody User editor) {
 
         editorService.createEditor(editor);
@@ -27,7 +28,7 @@ public class EditorController {
         return new ResponseEntity<>(editor, HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/redaktor/{editorId}")
+    @GetMapping(value = "/{editorId}")
     public ResponseEntity<User> readEditor(@PathVariable Integer editorId) {
 
         User editor = editorService.readEditor(editorId);
@@ -35,7 +36,7 @@ public class EditorController {
         return new ResponseEntity<>(editor, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/redaktor/{editorId}")
+    @PutMapping(value = "/{editorId}")
     public ResponseEntity<User> updateEditor(@PathVariable Integer editorId, @Valid @RequestBody User editor) {
 
         editorService.updateEditor(editor, editorId);
@@ -43,7 +44,7 @@ public class EditorController {
         return new ResponseEntity<>(editor, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/redaktor/{editorId}")
+    @DeleteMapping(value = "/{editorId}")
     public ResponseEntity<String> deleteEditor(@PathVariable Integer editorId) {
 
         editorService.deleteEditor(editorId);
@@ -51,7 +52,7 @@ public class EditorController {
         return new ResponseEntity<>("Usunięto Redaktora o ID : " + editorId.toString(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/redaktor/all")
+    @GetMapping(value = "/all")
     public ResponseEntity<List<User>> getAllEditors() {
 
         List<User> editors = editorService.getAllEditors();
