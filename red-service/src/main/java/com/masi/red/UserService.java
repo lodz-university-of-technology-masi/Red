@@ -6,6 +6,7 @@ import com.masi.red.entity.Role;
 import com.masi.red.entity.User;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class UserService implements IUserService {
         User savedUser = userRepository.save(user);
 
         UserDto response = mapper.map(savedUser, UserDto.class);
-        response.setPassword("");
+        response.setPassword(Strings.EMPTY);
         return response;
     }
 }
