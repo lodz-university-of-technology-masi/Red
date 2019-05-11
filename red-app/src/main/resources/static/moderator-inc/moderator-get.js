@@ -67,7 +67,7 @@ window.onload = function () {
         }
     });
 
-    $.get( "/tests", function( data ) {
+    $.get( "/api/tests", function( data ) {
 
         console.log(data);
 
