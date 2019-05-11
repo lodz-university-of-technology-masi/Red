@@ -4,9 +4,12 @@ package com.masi.red.controller.ui;
 import com.masi.red.IJobTitleService;
 import com.masi.red.IQuestionService;
 import com.masi.red.ITestService;
+import com.masi.red.dto.TestWithQuestionsDTO;
 import com.masi.red.entity.JobTitle;
 import com.masi.red.entity.User;
+import com.masi.red.exception.NoTestsAvailableException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
+@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TestUIController {
 
@@ -25,13 +29,19 @@ public class TestUIController {
 
     @GetMapping(value = "/kandydat/stanowisko/{jobId}")
     public String getJobTestPage(@PathVariable Integer jobId, Model model, @AuthenticationPrincipal User user) {
+        try {
+            TestWithQuestionsDTO randomTest = testService.getRandomTest(jobId, user.getId());
+            model.addAttribute("test", randomTest);
+        } catch (NoTestsAvailableException e) {
+            log.error(e.getMessage());
+            model.addAttribute("message", e.getMessage());
+            return "error";
+        }
+
         JobTitle jobTitle = jobService.getJobTitleById(jobId);
 
-        String username = user.getUsername();
-
-        model.addAttribute("candidate", username);
+        model.addAttribute("candidate", user.getUsername());
         model.addAttribute("jobTitle", jobTitle);
-        model.addAttribute("test", testService.getTestById(1)); //TODO randomize test picker
 
         return "testpage";
     }

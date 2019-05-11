@@ -17,16 +17,16 @@ function sendTestForm() {
     candidateTest.username = $("#candidate").val();
     candidateTest.answers = [];
 
-    $("form#testAnswerForm input[name^=Q]").each(function(index){
+    $("form#testAnswerForm input[name^=Q]").each(function (index) {
 
         var QID = $(this).val();
 
-        var ASTR = $("[name='A"+QID+"']").val();
+        var ASTR = $("[name='A" + QID + "']").val();
 
-         var answerObject = {};
-         answerObject.questionId = parseInt(QID);
-         answerObject.answer = ASTR;
-         candidateTest.answers[index] = answerObject;
+        var answerObject = {};
+        answerObject.questionId = parseInt(QID);
+        answerObject.answer = ASTR;
+        candidateTest.answers[index] = answerObject;
     });
 
     console.log(JSON.stringify(candidateTest));
@@ -39,12 +39,12 @@ function sendTestForm() {
         url: candidate_api + jobTitleId,
         data: JSON.stringify(candidateTest),
         dataType: 'json',
-        success: function(data) {
-            if(data == true){
-            alert("Gratulacje!!! Wypełniono test");
+        success: function (data) {
+            if (data) {
+                alert("Gratulacje!!! Wypełniono test");
             }
 
-            window.location.href = "/kandydat/stanowisko/"+jobTitleId + "/wynik";
+            window.location.href = "/kandydat/stanowisko/" + jobTitleId + "/wynik";
         },
         error: function (e) {
             console.log("ERROR : ", e);
@@ -55,6 +55,6 @@ function sendTestForm() {
 
 $(document).ready(function () {
     $('input:radio[name=A2]').change(function () {
-       alert($(this).val());
+        alert($(this).val());
     });
 });

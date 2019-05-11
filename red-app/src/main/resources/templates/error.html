@@ -14,7 +14,11 @@
 <div class="parallax">
     <div class="text-center title">MASI RED.2</div>
 </div>
-<h1>
+
+<h1 th:if="${message != 'No message available'}" style="justify-content: center; display: flex;">
+    <th:span th:text="${message}"/>
+</h1>
+<h1 th:if="${message == 'No message available'}" style="justify-content: center; display: flex;">
     Ups... Something went wrong...
 </h1>
 </body>
