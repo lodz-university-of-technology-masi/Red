@@ -28,7 +28,7 @@ public class QuestionDTOFormatter implements Formatter<QuestionDTO> {
     public QuestionDTO parse(String text, Locale locale) throws ParseException {
         Integer id = Integer.valueOf(text);
         Question question = questionRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Question with id: " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono pytania o id: " + id));
         return mapper.map(question, QuestionTypeMapper.getDTOClass(question));
     }
 
