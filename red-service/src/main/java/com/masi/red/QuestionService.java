@@ -1,5 +1,6 @@
 package com.masi.red;
 
+import com.masi.red.common.Language;
 import com.masi.red.common.QuestionTypeMapper;
 import com.masi.red.dto.QuestionDTO;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +27,8 @@ public class QuestionService implements IQuestionService {
     }
 
     @Override
-    public List<QuestionDTO> findNotAttachedQuestions(Integer testId) {
-        return questionRepository.findNotAttachedQuestions(testId).stream()
+    public List<QuestionDTO> findNotAttachedQuestionsWithLanguage(Integer testId, Language language) {
+        return questionRepository.findNotAttachedQuestionsWithLanguage(testId, language).stream()
                 .map(question -> mapper.map(question, QuestionTypeMapper.getDTOClass(question)))
                 .collect(Collectors.toList());
     }

@@ -20,10 +20,10 @@
 </div>
 
 <div class="container text-center mt-2">
-    <h1 th:text="${test.jobTitleName}"></h1>
+    <span class="h1" th:text="|${test.jobTitleName} [|"></span><span class="h1" id="testLanguage" onclick="findTextOnWikipedia()" th:text="${test.language}"></span><span class="h1">]</span>
     <h3>TEST <span th:text="${test.id}"/></h3>
     <h6 th:if="${test.editorName}">Redaktor: <span th:text="${test.editorName}"/></h6>
-    <h6>Czas utworzenia:
+    <h6 th:if="${test.creationTime}">Czas utworzenia:
         <time th:datetime="${test.creationTime}"/>
     </h6>
     <hr/>
@@ -152,7 +152,7 @@
             <div class="col-2"></div>
         </div>
     </th:block>
-    <a onclick="redirectToTestsPage()" class="btn btn-outline-warning">Wróć</a>
+    <a href="/" class="btn btn-outline-warning">Wróć</a>
 </div>
 </body>
 </html>
