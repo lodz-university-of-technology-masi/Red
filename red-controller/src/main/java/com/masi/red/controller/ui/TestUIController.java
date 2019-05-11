@@ -30,20 +30,19 @@ public class TestUIController {
     @GetMapping(value = "/kandydat/stanowisko/{jobId}")
     public String getJobTestPage(@PathVariable Integer jobId, Model model, @AuthenticationPrincipal User user) {
         try {
+            JobTitle jobTitle = jobService.getJobTitleById(jobId);
+
             TestWithQuestionsDTO randomTest = testService.getRandomTest(jobId, user.getId());
             model.addAttribute("test", randomTest);
+            model.addAttribute("candidate", user.getUsername());
+            model.addAttribute("jobTitle", jobTitle);
+
+            return "testpage";
         } catch (NoTestsAvailableException e) {
             log.error(e.getMessage());
             model.addAttribute("message", e.getMessage());
             return "error";
         }
-
-        JobTitle jobTitle = jobService.getJobTitleById(jobId);
-
-        model.addAttribute("candidate", user.getUsername());
-        model.addAttribute("jobTitle", jobTitle);
-
-        return "testpage";
     }
 
     @GetMapping(value = "/kandydat/stanowisko/{jobId}/wynik")
