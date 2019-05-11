@@ -30,10 +30,11 @@ public class TestUIController {
     @GetMapping(value = "/kandydat/stanowisko/{jobId}")
     public String getJobTestPage(@PathVariable Integer jobId, Model model, @AuthenticationPrincipal User user) {
         try {
-            JobTitle jobTitle = jobService.getJobTitleById(jobId);
-
             TestWithQuestionsDTO randomTest = testService.getRandomTest(jobId, user.getId());
             model.addAttribute("test", randomTest);
+
+            JobTitle jobTitle = jobService.getJobTitleById(jobId);
+
             model.addAttribute("candidate", user.getUsername());
             model.addAttribute("jobTitle", jobTitle);
 
