@@ -2,18 +2,25 @@
 <html  xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="includes :: header" />
-
+    <!-- moderator REST API MODALS includes -->
     <script type="text/javascript" th:src="@{/moderator-inc/mod-editor.js}" src="/resources/static/moderator-inc/mod-editor.js"></script>
     <script type="text/javascript" th:src="@{/moderator-inc/mod-test.js}" src="/resources/static/moderator-inc/mod-test.js"></script>
     <script type="text/javascript" th:src="@{/moderator-inc/mod-job.js}" src="/resources/static/moderator-inc/mod-job.js"></script>
 
-    <script type="text/javascript" src="/webjars/datatables/1.10.19/css/dataTables.bootstrap4.min.css"></script>
+    <link type="text/css" rel="stylesheeth" href="/webjars/datatables/1.10.19/css/dataTables.bootstrap4.min.css" />
 
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-
+    <!-- moderator GET API includes -->
     <script type="text/javascript" th:src="@{/moderator-inc/moderator-get.js}" src="/resources/static/moderator-inc/moderator-get.js" ></script>
+    <!-- moderator search box includes -->
+    <script type="text/javascript" th:src="@{/moderator-inc/moderator-search.js}" src="/resources/static/moderator-inc/moderator-search.js" ></script>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/search-box.css}"href="/resources/static/css/search-box.css"/>
+    <!-- animate css for bs-notify -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <!-- boostrap notify -->
+    <script type="text/javascript" src="/webjars/bootstrap-notify/3.1.3/bootstrap-notify.js"></script>
 
 </head>
 <body>
@@ -113,6 +120,8 @@
 
     </div>
 </div>
+
+    <th:block th:include="moderator-inc/moderator-search :: search" />
 
     <!-- MODAL PANELS --><!-- MODAL PANELS --><!-- MODAL PANELS --><!-- MODAL PANELS --><!-- MODAL PANELS -->
 
