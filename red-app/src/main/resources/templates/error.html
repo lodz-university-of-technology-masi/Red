@@ -15,10 +15,10 @@
     <div class="text-center title">MASI RED.2</div>
 </div>
 
-<h1 th:if="${message != 'No message available'}" style="justify-content: center; display: flex;">
+<h1 th:if="${message != 'No message available'}" class="d-flex justify-content-center">
     <th:span th:text="${message}"/>
 </h1>
-<h1 th:if="${message == 'No message available'}" style="justify-content: center; display: flex;">
+<h1 th:if="${message == 'No message available'}" class="d-flex justify-content-center">
     Ups... Coś poszło nie tak...
 </h1>
 </body>
