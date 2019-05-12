@@ -20,8 +20,13 @@ public class JobTitleController {
     private final IJobTitleService jobTitleService;
 
     @GetMapping
-    public ResponseEntity<Object> getAllJobTitles() {
-        List<JobTitle> jobTitles = jobTitleService.getAllJobTitles();
+    public ResponseEntity<Object> findJobTitles(@RequestParam(name = "language", required = false) Language languageName) {
+        List<JobTitle> jobTitles;
+        if (languageName != null) {
+            jobTitles = jobTitleService.findByTestLanguage(languageName);
+        } else {
+            jobTitles = jobTitleService.getAllJobTitles();
+        }
         return new ResponseEntity<>(jobTitles, HttpStatus.OK);
     }
 
@@ -56,11 +61,5 @@ public class JobTitleController {
         jobTitleService.detachTestFromJobTitle(testId, jobTitleId);
         return new ResponseEntity<>("Test " + testId
                 + " został odpięty od stanowiska " + jobTitleId, HttpStatus.OK);
-    }
-
-    @GetMapping("/jobTitles")
-    public ResponseEntity<Object> findByTestLanguage(@RequestParam(name = "language") Language languageName) {
-        List<JobTitle> jobTitles = jobTitleService.findByTestLanguage(languageName);
-        return new ResponseEntity<>(jobTitles, HttpStatus.OK);
     }
 }
