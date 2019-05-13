@@ -8,21 +8,19 @@ test_api = "/api/tests";
 $(document).ready(function() {
 
     $("#FormCreateTestButton").click(function () {
-
-        var dataForm = $('#FormCreateTest').serializeArray();
-
         var jsonObject = {};
-        jsonObject["jobTitleId"] = dataForm[0].value;
-        jsonObject["editorId"] = dataForm[1].value;
-
-        console.log(JSON.stringify(jsonObject));
+        var editor = JSON.parse($('#editorSelect').val());
+        if(editor) {
+            jsonObject["editorId"] = editor.id;
+        }
+        jsonObject["jobTitleId"] = JSON.parse($('#jobTitleSelect').val()).id;
+        jsonObject["language"] = $('#newTestLanguage').val();
 
         $.ajax({
             type: "POST",
             contentType: "application/json",
             url: test_api,
             data: JSON.stringify(jsonObject),
-            dataType: 'json',
             success: function (data) {
                 console.log("response: " + data);
 
@@ -88,12 +86,5 @@ $(document).ready(function() {
             }
         });
 
-    });
-
-    $(".addQuestionToTestCreateButton").click(function () {
-        $("#questionsToTestCreate")[0].innerHTML += $('#QuestionIdCreateInput')[0].value + ', ';
-    });
-    $(".addQuestionToTestUpdateButton").click(function () {
-        $("#questionsToTest")[0].innerHTML += $('#QuestionIdInput')[0].value + ', ';
     });
 });

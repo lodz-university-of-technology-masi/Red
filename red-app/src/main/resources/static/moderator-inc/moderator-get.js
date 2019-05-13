@@ -1,5 +1,17 @@
 window.onload = function () {
 
+    getEditors();
+    getJobTitles();
+    getTests();
+};
+
+$(document).ready(function() {
+    $('#EditorsTable').DataTable();
+    $('#JobTitleTable').DataTable();
+    $('#TestTable').DataTable();
+} );
+
+function getEditors() {
     $.get( "/redaktor/all", function( data ) {
 
         console.log(data);
@@ -7,7 +19,7 @@ window.onload = function () {
         $("#resultEditor").html("");
 
         if(data) {
-
+            fillEditorSelect(data);
             $.each(data, function (index, value) {
                 console.log(index + " : " + value.id + value.firstName + value.lastName);
 
@@ -25,16 +37,16 @@ window.onload = function () {
         }
 
     });
+}
 
-
+function getJobTitles() {
     $.get( "/jobTitles", function( data ) {
 
         console.log(data);
 
         $("#resultJobTitle").html("");
-
         if(data) {
-
+            fillJobTitleSelect(data);
             $.each(data, function (index, value) {
 
                 var testName = "";
@@ -66,19 +78,19 @@ window.onload = function () {
             });
         }
     });
+}
 
+function getTests() {
     $.get( "/api/tests", function( data ) {
-
-        console.log(data);
 
         $("#resultTest").html("");
 
         if(data) {
             var baseHref = location.href.replace(/\/+$/, "");
             $.each(data, function (index, value) {
-                console.log(value);
                 $("#resultTest").append("<tr><td>" + value.id + "</td>\n" +
                     "                <td>" + value.jobTitleName + "</td>\n" +
+                    "                <td>" + value.language + "</td>\n" +
                     "                <td>" + ((value.editorName) ? value.editorName : "brak") + "</td>\n" +
                     "                <td>" + value.questionsNumber + "</td>\n" +
                     "                <td>" + moment(value.creationTime).format('YYYY-MM-DD HH:mm:ss') + "</td>\n" +
@@ -90,10 +102,22 @@ window.onload = function () {
             });
         }
     });
-};
+}
 
-$(document).ready(function() {
-    $('#EditorsTable').DataTable();
-    $('#JobTitleTable').DataTable();
-    $('#TestTable').DataTable();
-} );
+function fillJobTitleSelect(jobTitles) {
+    $.each(jobTitles, function (i, item) {
+        $('#jobTitleSelect').append($('<option>', {
+            value: JSON.stringify(item),
+            text : item.name
+        }));
+    });
+}
+
+function fillEditorSelect(editors) {
+    $.each(editors, function (i, item) {
+        $('#editorSelect').append($('<option>', {
+            value: JSON.stringify(item),
+            text : item.fullName
+        }));
+    });
+}

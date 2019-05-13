@@ -3,7 +3,7 @@ package com.masi.red.controller;
 
 
 import com.masi.red.IEditorService;
-import com.masi.red.common.RoleName;
+import com.masi.red.dto.UserDTO;
 import com.masi.red.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -58,9 +57,9 @@ public class EditorController {
     // Metody dodatkowe
 
     @GetMapping( value="/redaktor/all")
-    public ResponseEntity<List<User>> getAllEditors(){
+    public ResponseEntity<List<UserDTO>> getAllEditors(){
 
-        List<User> editors = editorService.getAllEditors();
+        List<UserDTO> editors = editorService.getAllEditors();
 
         return new ResponseEntity<>(editors, HttpStatus.OK);
     }

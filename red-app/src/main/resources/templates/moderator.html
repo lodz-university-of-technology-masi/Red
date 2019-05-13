@@ -6,6 +6,7 @@
     <script type="text/javascript" th:src="@{/moderator-inc/mod-editor.js}" src="/resources/static/moderator-inc/mod-editor.js"></script>
     <script type="text/javascript" th:src="@{/moderator-inc/mod-test.js}" src="/resources/static/moderator-inc/mod-test.js"></script>
     <script type="text/javascript" th:src="@{/moderator-inc/mod-job.js}" src="/resources/static/moderator-inc/mod-job.js"></script>
+    <script type="text/javascript" th:src="@{/moderator-inc/modals-test.js}" src="/resources/static/moderator-inc/modals-test.js"></script>
 
     <script type="text/javascript" src="/webjars/datatables/1.10.19/css/dataTables.bootstrap4.min.css"></script>
 
@@ -93,15 +94,16 @@
         <!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL --><!-- TEST PANEL -->
 
         <div class="tab-pane fade" id="test" role="tabpanel" aria-labelledby="contact-tab">
-            <button class="btn btn-outline-success btn-block mt-5 mb-5" data-toggle="modal" data-target="#createTest"><i class="material-icons md-24">add_circle</i> Dodaj test</button>
+            <button class="btn btn-outline-success btn-block mt-5 mb-5" data-toggle="modal" data-target="#createTest"><i class="material-icons md-24">add_circle</i> Dodaj/importuj test</button>
 
             <table id="TestTable" class="table " style="width:100%">
                 <thead>
                 <tr>
                     <th style="width:5%">ID</th>
                     <th style="width:15%">Stanowisko</th>
+                    <th style="width: 5%">Język</th>
                     <th style="width:15%">Redaktor</th>
-                    <th style="width:10%">Liczba pytań</th>
+                    <th style="width:5%">Liczba pytań</th>
                     <th style="width:15%">Data utworzenia</th>
                     <th style="width:40%">Opcje</th>
                 </tr>

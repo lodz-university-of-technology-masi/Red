@@ -11,34 +11,52 @@
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Dodaj test</h4>
+                    <h4 class="modal-title">Dodaj/importuj test</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form id="FormCreateTest">
+                    <form id="FormCreateTest" class="container">
 
                         <div class="form-group row">
-                            <label for="jobTitleInput" class="col-sm-2 col-form-label">ID stanowiska</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="jobTitleCreateInput" name="jobTitleInput">
+                            <div class="col">
+                                <label for="jobTitleSelect">Stanowisko</label>
+                                <select id="jobTitleSelect" class="form-control rounded-1 blue-input">
+                                    <option value="" selected disabled>Wybierz stanowisko:</option>
+                                </select>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="jobTitleInput" class="col-sm-2 col-form-label">ID Redaktora</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="EditorCreateInput" name="EditorInput">
+                            <div class="col">
+                                <label for="editorSelect">Redaktor</label>
+                                <select id="editorSelect" class="form-control rounded-1 blue-input">
+                                    <option value="" selected disabled>Wybierz redaktora:</option>
+                                </select>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="QuestionIdInput" class="col-sm-2 col-form-label">ID pytań</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="QuestionIdCreateInput" name="QuestionIdInput"> <button class="btn btn-sm btn-outline-success addQuestionToTestCreateButton" type="button">Dodaj pytanie</button>
+                            <div class="col">
+                                <label for="newTestLanguage">Język testu: </label>
+                                <select id="newTestLanguage" class="form-control rounded-1 blue-input">
+                                    <option value="" selected disabled>Wybierz język testu:</option>
+                                    <option value="PL">polski</option>
+                                    <option value="EN">angielski</option>
+                                </select>
                             </div>
-                            <div id="questionsToTestCreate" class="col-sm-2 col-form-label">Id pytań: </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <button class="btn btn-outline-primary mr-3" type="button" onclick="importTestFromCSV()">Importuj z pliku CSV</button>
+                            </div>
+                            <div id="importSuccessfulMessage" class="col-7 d-none">
+                                <div class="col alert alert-success p-2 text-center">Pomyślnie wczytano test</div>
+                            </div>
+                            <div id="importFailedMessage" class="col-7 d-none">
+                                <div class="col alert alert-danger p-2 text-center">asd</div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -81,15 +99,6 @@
                                 <input type="text" class="form-control" id="jobTitleInput" name="jobTitleInput">
                             </div>
                         </div>
-
-                        <div class="form-group row">
-                            <label for="QuestionIdInput" class="col-sm-2 col-form-label">ID pytań</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="QuestionIdInput" name="QuestionIdInput"> <button class="btn btn-sm btn-outline-success addQuestionToTestUpdateButton" type="button">Dodaj pytanie</button>
-                            </div>
-                            <div id="questionsToTest" class="col-sm-2 col-form-label">Id pytań: </div>
-                        </div>
-
                     </form>
                 </div>
 

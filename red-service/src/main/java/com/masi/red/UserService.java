@@ -1,7 +1,7 @@
 package com.masi.red;
 
-import com.masi.red.dto.UserDto;
+import com.masi.red.dto.UserDTO;
 
 public interface UserService {
-    UserDto createUser(UserDto userDto);
+    UserDTO createUser(UserDTO userDto);
 }

@@ -1,7 +1,7 @@
 package com.masi.red;
 
 import com.masi.red.common.RoleName;
-import com.masi.red.dto.UserDto;
+import com.masi.red.dto.UserDTO;
 import com.masi.red.entity.Role;
 import com.masi.red.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder encoder;
 
     @Override
-    public UserDto createUser(UserDto userDto) {
+    public UserDTO createUser(UserDTO userDto) {
         User user = mapper.map(userDto, User.class);
         String encodedPassword = encoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
         User savedUser = userRepository.save(user);
 
-        UserDto response = mapper.map(savedUser, UserDto.class);
+        UserDTO response = mapper.map(savedUser, UserDTO.class);
         response.setPassword("");
         return response;
     }
