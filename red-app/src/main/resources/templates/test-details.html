@@ -3,12 +3,19 @@
 <head>
     <th:block th:include="includes :: header"/>
     <script type="text/javascript" th:src="@{/js/test-details.js}" src="/resources/static/js/test-details.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.css"
-          rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/index.css}" href="/resources/static/css/index.css"/>
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <!-- animate css for bs-notify -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <!-- boostrap notify -->
+    <script type="text/javascript" src="/webjars/bootstrap-notify/3.1.3/bootstrap-notify.js"></script>
+    <script type="text/javascript" th:src="@{/js/moderator-search.js}" src="/resources/static/js/moderator-search.js"></script>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/search-box.css}"href="/resources/static/css/search-box.css"/>
+
     <meta charset="UTF-8">
     <title>Szczegółowy widok testu</title>
 </head>
@@ -154,5 +161,8 @@
     </th:block>
     <a href="/" class="btn btn-outline-warning">Wróć</a>
 </div>
+
+<th:block th:include="moderator-inc/moderator-search :: search" />
+
 </body>
 </html>
