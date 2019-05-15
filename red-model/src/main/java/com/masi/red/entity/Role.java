@@ -1,6 +1,7 @@
 package com.masi.red.entity;
 
 import com.masi.red.common.RoleName;
+import com.masi.red.dto.RoleDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class Role {
     @Id
     @GeneratedValue(generator = "optimized-sequence")
     @Column(name = "id", nullable = false, unique = true)
-    private int id;
+    private Integer id;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -29,4 +30,10 @@ public class Role {
 
     @Column(name = "active")
     private boolean active;
+
+    public Role(RoleDto roleDto) {
+        this.id = roleDto.getId();
+        this.name = roleDto.getName();
+        this.active = roleDto.isActive();
+    }
 }

@@ -1,9 +1,9 @@
 //***************************************************************
 //  A P I       R E G I S T E R
 //***************************************************************
-candidate_api = "/register";
+register_api = "/register";
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     $("#FormCreateCandidateButton").click(function () {
 
@@ -15,29 +15,28 @@ $(document).ready(function() {
         jsonObject["password"] = dataForm[2].value;
         jsonObject["firstName"] = dataForm[3].value;
         jsonObject["lastName"] = dataForm[4].value;
+        jsonObject["roles"] = [{name: "CANDIDATE", active: true}];
 
         console.log(JSON.stringify(jsonObject));
 
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: candidate_api,
+            url: register_api,
             data: JSON.stringify(jsonObject),
             dataType: 'text',
-            success: function (data) {
-                console.log("response: " + data);
-
-                alert("Utworzono konto... Zaraz nastapi przekierowanie.")
+            success: function () {
+                alert("Utworzono konto... Zaraz nastapi przekierowanie.");
 
                 setTimeout(function () {
-                    window.location.reload(true);
-                }, 1000);
+                    window.location.reload();
+                }, 200);
             },
             error: function (e) {
 
                 alert("Cos poszło nie tak... Spróbuj ponownie");
 
-                console.log("ERROR : ", e);
+                console.error(e);
             }
         });
     });
