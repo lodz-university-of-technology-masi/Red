@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
-@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TestUIController {
 
@@ -40,7 +39,6 @@ public class TestUIController {
 
             return "testpage";
         } catch (NoTestsAvailableException e) {
-            log.error(e.getMessage());
             model.addAttribute("message", e.getMessage());
             return "error";
         }
