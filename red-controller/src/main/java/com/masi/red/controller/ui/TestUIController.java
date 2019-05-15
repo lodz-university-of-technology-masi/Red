@@ -59,10 +59,12 @@ public class TestUIController {
         return "test-page-result";
     }
 
-    @GetMapping(value = {"/moderator/tests/{testId}", "/redaktor/tests/{testId}"})
-    public String redirect(@PathVariable Integer testId, Model model) {
-        model.addAttribute("test", testService.getTestById(testId));
-        model.addAttribute("existingQuestions", questionService.findNotAttachedQuestions(testId));
+    @GetMapping(value = "/tests/{testId}")
+    public String getTestDetailsPage(@PathVariable Integer testId, Model model) {
+        TestWithQuestionsDTO test = testService.getTestById(testId);
+        model.addAttribute("test", test);
+        model.addAttribute("existingQuestions",
+                questionService.findNotAttachedQuestionsWithLanguage(testId, test.getLanguage()));
         return "test-details";
     }
 

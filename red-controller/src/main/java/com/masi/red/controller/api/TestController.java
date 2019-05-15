@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tests")
+@RequestMapping("/api/tests")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TestController {
 

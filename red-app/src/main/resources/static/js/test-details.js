@@ -11,8 +11,10 @@ $(document).ready(function () {
     });
 });
 
+testsApi = '/api/tests/';
+
 function detachQuestionFromTest(questionId, testId) {
-    var url = "/tests/" + testId + "/questions/" + questionId;
+    var url = testsApi + testId + "/questions/" + questionId;
     $.ajax({
         type: "DELETE",
         contentType: "application/json",
@@ -61,6 +63,8 @@ function deletePossibleAnswer(element) {
 function showAddNewQuestionForm() {
     $("#addNewQuestionForm").removeClass("d-none");
     $("#showAddNewQuestionFormButton").addClass("d-none");
+    $("#newQuestionLanguage").val($("#testLanguage").text());
+    $("#newQuestionLanguage").prop('disabled', true);
 }
 
 function hideAddNewQuestionForm() {
@@ -92,7 +96,7 @@ function addQuestionToTest(testId) {
         });
     }
 
-    var url = '/tests/' + testId + '/questions';
+    var url = testsApi + testId + '/questions';
 
     $.ajax({
         type: "POST",
@@ -130,10 +134,12 @@ function updateNewQuestionFields() {
     $("#newQuestionIntervalInput").val(question.interval);
     $("#newQuestionIntervalInput").prop('disabled', true);
     $("[id*=newQuestionPossibleAnswer]").remove();
-    for(var i = 0; i < question.possibleAnswers.length; i++) {
-        addPossibleAnswer();
-        $("#newQuestionPossibleAnswerInput" + possibleAnswerId).val(question.possibleAnswers[i]);
-        $("#newQuestionPossibleAnswerInput" + possibleAnswerId).prop('disabled', true);
+    if(question.possibleAnswers) {
+        for(var i = 0; i < question.possibleAnswers.length; i++) {
+            addPossibleAnswer();
+            $("#newQuestionPossibleAnswerInput" + possibleAnswerId).val(question.possibleAnswers[i]);
+            $("#newQuestionPossibleAnswerInput" + possibleAnswerId).prop('disabled', true);
+        }
     }
 }
 
@@ -143,8 +149,8 @@ function resetFields() {
     $("#newQuestionType").prop('disabled', false);
     $("#newQuestionContent").val("");
     $("#newQuestionContent").prop('disabled', false);
-    $("#newQuestionLanguage").val("");
-    $("#newQuestionLanguage").prop('disabled', false);
+    $("#newQuestionLanguage").val($("#testLanguage").text());
+    $("#newQuestionLanguage").prop('disabled', true);
     $("#newQuestionSuggestedAnswer").val("");
     $("#newQuestionSuggestedAnswer").prop('disabled', false);
     $("#newQuestionMinValueInput").val("");
@@ -159,8 +165,29 @@ function resetFields() {
     $("[id*=newQuestionPossibleAnswerInput]").prop('disabled', false);
 }
 
-function redirectToTestsPage() {
-    var href = $(location).attr('pathname').replace(/\/+$/, "");
-    var parts = href.split('/');
-    location.href = parts[0] + '/' + parts[1]
-}
+// function findTextOnWikipedia() {
+//     var query = '';
+//     if (window.getSelection) {
+//         query = window.getSelection().toString();
+//     } else if (document.selection && document.selection.type != "Control") {
+//         query = document.selection.createRange().text;
+//     }
+//     console.log(query);
+//     var language = $("#testLanguage").text().toLowerCase();
+//     var url = 'https://' + language + '.wikipedia.org/w/api.php?action=query&list=search&srsearch=' +
+//         query + '&format=json&origin=*';
+//     var wikipediaUrl = 'https://' + language + '.wikipedia.org/wiki/';
+//     $.ajax({
+//         type: "GET",
+//         contentType: "application/json",
+//         url: url,
+//         success: function (response) {
+//             console.log(response.query.search[0])
+//             var pageUrl = wikipediaUrl + response.query.search[0].title
+//             console.log(pageUrl)
+//         },
+//         error: function (e) {
+//             console.log(e);
+//         }
+//     });
+// }

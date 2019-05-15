@@ -3,7 +3,7 @@
 //  A P I       T E S T S
 //***************************************************************
 
-test_api = "/tests";
+test_api = "/api/tests";
 
 $(document).ready(function() {
 

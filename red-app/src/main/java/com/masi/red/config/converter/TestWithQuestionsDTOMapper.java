@@ -37,6 +37,7 @@ public class TestWithQuestionsDTOMapper extends BidirectionalConverter<Test, Tes
                 .editorName(editor != null ? editor.getFullName() : null)
                 .jobTitleName(source.getJobTitle().getName())
                 .questions(questions)
+                .language(source.getLanguage())
                 .build();
     }
 
@@ -48,6 +49,7 @@ public class TestWithQuestionsDTOMapper extends BidirectionalConverter<Test, Tes
         return Test.builder()
                 .id(source.getId())
                 .questions(questions)
+                .language(source.getLanguage())
                 .build();
     }
 }
