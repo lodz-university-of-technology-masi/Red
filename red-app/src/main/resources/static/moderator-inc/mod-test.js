@@ -22,8 +22,6 @@ $(document).ready(function() {
             url: test_api,
             data: JSON.stringify(jsonObject),
             success: function (data) {
-                console.log("response: " + data);
-
                 setTimeout(function () {
                     window.location.reload(true);
                 }, 2000);
@@ -91,6 +89,7 @@ $(document).ready(function() {
 });
 
 function editTest(id) {
+    resetMessages();
     var testId = id.split("-");
 
     $.ajax({
@@ -104,14 +103,13 @@ function editTest(id) {
             $('#updateTestLanguageSelect').val(data.language)
         },
         error: function (e) {
-            console.log("ERROR : ", e);
+            console.error(e);
         }
     });
 }
 
-function importTestFromCSV() {
-    console.log('import');
-
+function importTestFromCSV(form) {
+    console.log($('#'+ form.id).prop('files')[0])
     $('.importSuccessfulMessage').removeClass('d-none') //when success
     // when failed $('.importFailedMessage').removeClass('d-none')
 }

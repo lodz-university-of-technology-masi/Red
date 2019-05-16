@@ -14,15 +14,11 @@ $(document).ready(function() {
 function getEditors() {
     $.get( "/redaktor/all", function( data ) {
 
-        console.log(data);
-
         $("#resultEditor").html("");
 
         if(data) {
             fillEditorSelects(data);
             $.each(data, function (index, value) {
-                console.log(index + " : " + value.id + value.firstName + value.lastName);
-
                 $("#resultEditor").append("<tr><td>" + value.id + "</td>\n" +
                     "                <td>" + value.username + "</td>\n" +
                     "                <td>" + value.email + "</td>\n" +
@@ -41,8 +37,6 @@ function getEditors() {
 
 function getJobTitles() {
     $.get( "/jobTitles", function( data ) {
-
-        console.log(data);
 
         $("#resultJobTitle").html("");
         if(data) {
@@ -120,4 +114,9 @@ function fillEditorSelects(editors) {
             text : item.fullName
         }));
     });
+}
+
+function resetMessages() {
+    $('.importSuccessfulMessage').addClass('d-none');
+    $('.importFailedMessage').addClass('d-none');
 }

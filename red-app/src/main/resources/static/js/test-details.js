@@ -166,13 +166,6 @@ function resetFields() {
 }
 
 function findTextOnWikipedia() {
-    var query = '';
-    if (window.getSelection) {
-        query = window.getSelection().toString();
-    } else if (document.selection && document.selection.type != "Control") { //fixme do usuniecia (bylo tylko dla testow)
-        query = document.selection.createRange().text;
-    }
-    console.log(query);
     var language = $("#testLanguage").text().toLowerCase();
     var url = 'https://' + language + '.wikipedia.org/w/api.php?action=query&list=search&srsearch=' +
         query + '&format=json&origin=*';
@@ -182,9 +175,7 @@ function findTextOnWikipedia() {
         contentType: "application/json",
         url: url,
         success: function (response) {
-            console.log(response.query.search[0])
             var pageUrl = wikipediaUrl + response.query.search[0].title
-            console.log(pageUrl)
         },
         error: function (e) {
             console.log(e);
