@@ -15,7 +15,6 @@ $(document).ready(function () {
         jsonObject["password"] = dataForm[2].value;
         jsonObject["firstName"] = dataForm[3].value;
         jsonObject["lastName"] = dataForm[4].value;
-        jsonObject["roles"] = [{name: "CANDIDATE", active: true}];
 
         console.log(JSON.stringify(jsonObject));
 
