@@ -1,7 +1,7 @@
 package com.masi.red.entity;
 
 import com.masi.red.common.RoleName;
-import com.masi.red.dto.RoleDto;
+import com.masi.red.dto.RoleDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,7 +31,7 @@ public class Role {
     @Column(name = "active")
     private boolean active;
 
-    public Role(RoleDto roleDto) {
+    public Role(RoleDTO roleDto) {
         this.id = roleDto.getId();
         this.name = roleDto.getName();
         this.active = roleDto.isActive();
