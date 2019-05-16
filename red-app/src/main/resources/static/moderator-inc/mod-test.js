@@ -1,11 +1,10 @@
-
 //***************************************************************
 //  A P I       T E S T S
 //***************************************************************
 
 test_api = "/api/tests";
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     $("#FormCreateTestButton").click(function () {
 
@@ -15,23 +14,20 @@ $(document).ready(function() {
         jsonObject["jobTitleId"] = dataForm[0].value;
         jsonObject["editorId"] = dataForm[1].value;
 
-        console.log(JSON.stringify(jsonObject));
-
         $.ajax({
             type: "POST",
             contentType: "application/json",
             url: test_api,
             data: JSON.stringify(jsonObject),
             dataType: 'text',
-            success: function (data) {
-                console.log("response: " + data);
+            success: function () {
 
                 setTimeout(function () {
-                    window.location.reload(true);
-                }, 2000);
+                    window.location.reload();
+                }, 200);
             },
             error: function (e) {
-                console.log("ERROR : ", e);
+                console.error(e);
             }
         });
     });
@@ -44,23 +40,20 @@ $(document).ready(function() {
         jsonObject["id"] = dataForm[0].value;
         jsonObject["jobTitleId"] = dataForm[1].value;
 
-        console.log(JSON.stringify(jsonObject));
-
         $.ajax({
             type: "PUT",
             contentType: "application/json",
             url: test_api + "/" + dataForm[0].value,
             data: JSON.stringify(jsonObject),
             dataType: 'json',
-            success: function (data) {
-                console.log(data);
+            success: function () {
 
                 setTimeout(function () {
                     window.location.reload(true);
                 }, 2000);
             },
             error: function (e) {
-                console.log("ERROR : ", e);
+                console.error(e);
             }
         });
     });
@@ -70,21 +63,19 @@ $(document).ready(function() {
         console.log(event.target.id);
 
         var testID = event.target.id;
-        console.log("ID: " + testID[1]);
 
 
         $.ajax({
             type: "DELETE",
             url: test_api + "/" + testID[1],
-            success: function (data) {
-                console.log(data);
+            success: function () {
 
                 setTimeout(function () {
-                    window.location.reload(true);
-                }, 2000);
+                    window.location.reload();
+                }, 200);
             },
             error: function (e) {
-                console.log("ERROR : ", e);
+                console.error(e);
             }
         });
 
