@@ -164,21 +164,3 @@ function resetFields() {
     $("[id*=newQuestionPossibleAnswerInput]").val("");
     $("[id*=newQuestionPossibleAnswerInput]").prop('disabled', false);
 }
-
-function findTextOnWikipedia() {
-    var language = $("#testLanguage").text().toLowerCase();
-    var url = 'https://' + language + '.wikipedia.org/w/api.php?action=query&list=search&srsearch=' +
-        query + '&format=json&origin=*';
-    var wikipediaUrl = 'https://' + language + '.wikipedia.org/wiki/';
-    $.ajax({
-        type: "GET",
-        contentType: "application/json",
-        url: url,
-        success: function (response) {
-            var pageUrl = wikipediaUrl + response.query.search[0].title
-        },
-        error: function (e) {
-            console.log(e);
-        }
-    });
-}

@@ -20,7 +20,7 @@ public class Role {
     @Id
     @GeneratedValue(generator = "optimized-sequence")
     @Column(name = "id", nullable = false, unique = true)
-    private int id;
+    private Integer id;
 
     @NotNull
     @Enumerated(EnumType.STRING)

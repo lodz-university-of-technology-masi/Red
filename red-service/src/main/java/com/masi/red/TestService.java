@@ -1,19 +1,20 @@
 package com.masi.red;
 
+import com.masi.red.common.Language;
 import com.masi.red.common.QuestionTypeMapper;
 import com.masi.red.dto.*;
-import com.masi.red.entity.JobTitle;
-import com.masi.red.entity.Question;
-import com.masi.red.entity.Test;
-import com.masi.red.entity.User;
+import com.masi.red.entity.*;
+import com.masi.red.exception.NoTestsAvailableException;
 import com.masi.red.helper.EntityFinder;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +26,9 @@ public class TestService implements ITestService {
     private final EntityFinder entityFinder;
     private final MapperFacade mapper;
     private final QuestionRepository questionRepository;
+    private final CandidateAnswerRepository answerRepository;
+
+    private Random rand = new Random();
 
     @Override
     public TestDTO addTest(NewTestDTO testDTO) {
@@ -58,10 +62,28 @@ public class TestService implements ITestService {
     }
 
     @Override
+    public TestWithQuestionsDTO getRandomTest(Integer jobTitleId, Integer userId) throws NoTestsAvailableException {
+        List<Test> allTests = testRepository.findAllByJobTitle_Id(jobTitleId);
+        List<Integer> userTestIds = answerRepository
+                .findAllByUser_Id(userId).stream()
+                .map(CandidateAnswer::getTest)
+                .map(Test::getId).collect(Collectors.toList());
+
+        allTests.removeIf(test -> userTestIds.contains(test.getId()));
+
+        if (allTests.isEmpty()) {
+            throw new NoTestsAvailableException("All tests were completed!");
+        }
+
+        Test test = allTests.get(rand.nextInt(allTests.size()));
+        return mapper.map(test, TestWithQuestionsDTO.class);
+    }
+
+    @Override
     public TestDTO updateTest(Integer id, EditedTestDTO editedTest) {
         Test testToEdit = entityFinder.findTestById(id);
         mapper.map(editedTest, testToEdit);
-        if(jobTitleChanged(editedTest, testToEdit)) {
+        if (jobTitleChanged(editedTest, testToEdit)) {
             JobTitle jobTitle = entityFinder.findJobTitleById(editedTest.getJobTitleId());
             testToEdit.getJobTitle().detachTest(testToEdit);
             testToEdit.setJobTitle(jobTitle);
@@ -95,9 +117,9 @@ public class TestService implements ITestService {
     public void attachQuestionToTest(QuestionDTO questionDTO, Integer testId) {
         Test test = entityFinder.findTestById(testId);
         Question question;
-        if(questionDTO.getId() == null) {
+        if (questionDTO.getId() == null) {
             question = mapper.map(questionDTO, QuestionTypeMapper.getEntityClass(questionDTO));
-            if(question.getOriginalQuestion() == null || question.getOriginalQuestion().getId() == questionDTO.getId().intValue()) {
+            if (question.getOriginalQuestion() == null || question.getOriginalQuestion().getId() == questionDTO.getId().intValue()) {
                 question.setOriginalQuestion(question);
             }
             question = questionRepository.save(question);

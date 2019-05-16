@@ -22,7 +22,7 @@ public class CandidateController {
 
     @PostMapping(value = "/register")
     public ResponseEntity<String> addCandidate(@Valid @RequestBody UserDTO candidate) {
-        userService.createUser(candidate);
+        userService.createCandidate(candidate);
         return ResponseEntity.ok("Successfully created account");
     }
 
