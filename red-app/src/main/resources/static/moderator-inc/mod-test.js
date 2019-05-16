@@ -64,11 +64,7 @@ $(document).ready(function() {
 
     $("#resultTest").on("click", ".deleteTestButton", function (event) {
 
-        console.log(event.target.id);
-
-        var testID = event.target.id;
-        console.log("ID: " + testID[1]);
-
+        var testID = event.target.id.split('-');
 
         $.ajax({
             type: "DELETE",
