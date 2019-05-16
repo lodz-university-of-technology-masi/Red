@@ -29,10 +29,12 @@ public class TestService implements ITestService {
     @Override
     public TestDTO addTest(NewTestDTO testDTO) {
         JobTitle jobTitle = entityFinder.findJobTitleById(testDTO.getJobTitleId());
-        User editor = entityFinder.findUserById(testDTO.getEditorId());
-
         Test test = mapper.map(testDTO, Test.class);
-        test.setUser(editor);
+        if(testDTO.getEditorId() != null) {
+            User editor = entityFinder.findUserById(testDTO.getEditorId());
+            test.setUser(editor);
+        }
+
         test.setJobTitle(jobTitle);
         //TODO: implement set questions
         jobTitle.attachTest(test);

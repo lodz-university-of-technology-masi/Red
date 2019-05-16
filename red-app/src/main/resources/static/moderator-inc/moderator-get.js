@@ -19,7 +19,7 @@ function getEditors() {
         $("#resultEditor").html("");
 
         if(data) {
-            fillEditorSelect(data);
+            fillEditorSelects(data);
             $.each(data, function (index, value) {
                 console.log(index + " : " + value.id + value.firstName + value.lastName);
 
@@ -46,7 +46,7 @@ function getJobTitles() {
 
         $("#resultJobTitle").html("");
         if(data) {
-            fillJobTitleSelect(data);
+            fillJobTitleSelects(data);
             $.each(data, function (index, value) {
 
                 var testName = "";
@@ -95,7 +95,7 @@ function getTests() {
                     "                <td>" + value.questionsNumber + "</td>\n" +
                     "                <td>" + moment(value.creationTime).format('YYYY-MM-DD HH:mm:ss') + "</td>\n" +
                     "                <td>\n" +
-                    "                    <button class=\"btn btn-sm btn-outline-info \" data-toggle=\"modal\" data-target=\"#updateTest\"><i class=\"material-icons md-24\">add_circle_outline</i> Edytuj test</button>\n" +
+                    "                    <button id=\'T-" + value.id + "\' class=\"btn btn-sm btn-outline-info \" onClick=\"editTest(this.id) \" data-toggle=\"modal\" data-target=\"#updateTest\"><i class=\"material-icons md-24\">add_circle_outline</i> Edytuj test</button>\n" +
                     "                    <button id=\'T" + value.id + "\' class=\"btn btn-sm btn-outline-danger deleteTestButton\" type=\"button\"><i class=\"material-icons md-24\">remove_circle_outline</i> Usuń test</button>\n" +
                     "                    <a href=\'" + baseHref + "/tests/" + value.id + "\' class=\"btn btn-sm btn-outline-success\"><i class=\"material-icons md-24\">add_circle_outline</i> Zarządzaj pytaniami</a>\n" +
                     "                </td></tr>");
@@ -104,18 +104,18 @@ function getTests() {
     });
 }
 
-function fillJobTitleSelect(jobTitles) {
+function fillJobTitleSelects(jobTitles) {
     $.each(jobTitles, function (i, item) {
-        $('#jobTitleSelect').append($('<option>', {
+        $('[id*=JobTitleSelect]').append($('<option>', {
             value: JSON.stringify(item),
             text : item.name
         }));
     });
 }
 
-function fillEditorSelect(editors) {
+function fillEditorSelects(editors) {
     $.each(editors, function (i, item) {
-        $('#editorSelect').append($('<option>', {
+        $('[id*=EditorSelect]').append($('<option>', {
             value: JSON.stringify(item),
             text : item.fullName
         }));

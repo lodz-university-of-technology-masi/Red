@@ -21,8 +21,8 @@
 
                         <div class="form-group row">
                             <div class="col">
-                                <label for="jobTitleSelect">Stanowisko</label>
-                                <select id="jobTitleSelect" class="form-control rounded-1 blue-input">
+                                <label for="createTestJobTitleSelect">Stanowisko</label>
+                                <select id="createTestJobTitleSelect" class="form-control rounded-1 blue-input">
                                     <option value="" selected disabled>Wybierz stanowisko:</option>
                                 </select>
                             </div>
@@ -30,8 +30,8 @@
 
                         <div class="form-group row">
                             <div class="col">
-                                <label for="editorSelect">Redaktor</label>
-                                <select id="editorSelect" class="form-control rounded-1 blue-input">
+                                <label for="createTestEditorSelect">Redaktor</label>
+                                <select id="createTestEditorSelect" class="form-control rounded-1 blue-input">
                                     <option value="" selected disabled>Wybierz redaktora:</option>
                                 </select>
                             </div>
@@ -39,8 +39,8 @@
 
                         <div class="form-group row">
                             <div class="col">
-                                <label for="newTestLanguage">Język testu: </label>
-                                <select id="newTestLanguage" class="form-control rounded-1 blue-input">
+                                <label for="createTestLanguageSelect">Język testu: </label>
+                                <select id="createTestLanguageSelect" class="form-control rounded-1 blue-input">
                                     <option value="" selected disabled>Wybierz język testu:</option>
                                     <option value="PL">polski</option>
                                     <option value="EN">angielski</option>
@@ -51,10 +51,10 @@
                             <div class="col-5">
                                 <button class="btn btn-outline-primary mr-3" type="button" onclick="importTestFromCSV()">Importuj z pliku CSV</button>
                             </div>
-                            <div id="importSuccessfulMessage" class="col-7 d-none">
+                            <div class="col-7 d-none importSuccessfulMessage">
                                 <div class="col alert alert-success p-2 text-center">Pomyślnie wczytano test</div>
                             </div>
-                            <div id="importFailedMessage" class="col-7 d-none">
+                            <div class="col-7 d-none importFailedMessage">
                                 <div class="col alert alert-danger p-2 text-center">asd</div>
                             </div>
                         </div>
@@ -87,18 +87,52 @@
                     <form id="FormUpdateTest">
 
                         <div class="form-group row">
-                            <label for="testId" class="col-sm-2 col-form-label">ID</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="testId" name="testId">
+                            <div class="col">
+                                <label for="updatedTestId">ID testu</label>
+                                <input type="text" class="form-control" id="updatedTestId" name="updatedTestId" disabled>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="jobTitleInput" class="col-sm-2 col-form-label">ID stanowiska</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="jobTitleInput" name="jobTitleInput">
+                            <div class="col">
+                                <label for="updateTestJobTitleSelect">Stanowisko</label>
+                                <select id="updateTestJobTitleSelect" class="form-control rounded-1 blue-input">
+                                    <option value="" selected disabled>Wybierz stanowisko:</option>
+                                </select>
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <div class="col">
+                                <label for="updateTestEditorSelect">Redaktor</label>
+                                <select id="updateTestEditorSelect" class="form-control rounded-1 blue-input">
+                                    <option value="" selected disabled>Wybierz redaktora:</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col">
+                                <label for="updateTestLanguageSelect">Język testu: </label>
+                                <select id="updateTestLanguageSelect" class="form-control rounded-1 blue-input">
+                                    <option value="" selected disabled>Wybierz język testu:</option>
+                                    <option value="PL">polski</option>
+                                    <option value="EN">angielski</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <button class="btn btn-outline-primary mr-3" type="button" onclick="importTestFromCSV()">Importuj z pliku CSV</button>
+                            </div>
+                            <div class="col-7 d-none importSuccessfulMessage">
+                                <div class="col alert alert-success p-2 text-center">Pomyślnie wczytano test</div>
+                            </div>
+                            <div class="col-7 d-none importFailedMessage">
+                                <div class="col alert alert-danger p-2 text-center">asd</div>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
 

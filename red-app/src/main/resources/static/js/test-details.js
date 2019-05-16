@@ -169,7 +169,7 @@ function findTextOnWikipedia() {
     var query = '';
     if (window.getSelection) {
         query = window.getSelection().toString();
-    } else if (document.selection && document.selection.type != "Control") {
+    } else if (document.selection && document.selection.type != "Control") { //fixme do usuniecia (bylo tylko dla testow)
         query = document.selection.createRange().text;
     }
     console.log(query);
