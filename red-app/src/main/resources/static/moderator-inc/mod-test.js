@@ -22,7 +22,7 @@ $(document).ready(function() {
             contentType: "application/json",
             url: test_api,
             data: JSON.stringify(jsonObject),
-            dataType: 'json',
+            dataType: 'text',
             success: function (data) {
                 console.log("response: " + data);
 
