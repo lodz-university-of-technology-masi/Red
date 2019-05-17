@@ -2,6 +2,7 @@ package com.masi.red.controller.api;
 
 import com.masi.red.IUserService;
 import com.masi.red.dto.UserDTO;
+import com.masi.red.exception.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +22,23 @@ public class RegisterController {
     private final IUserService userService;
 
     @PostMapping
-    public ResponseEntity<UserDTO> addCandidate(@Valid @RequestBody UserDTO candidate) {
-        UserDTO savedUser = userService.createCandidate(candidate);
-        return ResponseEntity.ok(savedUser);
+    public ResponseEntity addCandidate(@Valid @RequestBody UserDTO candidate) {
+        try {
+            UserDTO savedUser = userService.createCandidate(candidate);
+            return ResponseEntity.ok(savedUser);
+        } catch (DuplicateKeyException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PreAuthorize("hasAnyRole('MODERATOR')")
     @PostMapping(value = "/administrative")
-    public ResponseEntity<UserDTO> addAdministrativeUser(@Valid @RequestBody UserDTO userDTO) {
-        UserDTO savedUser = userService.createAdministrativeUser(userDTO);
-        return ResponseEntity.ok(savedUser);
+    public ResponseEntity addAdministrativeUser(@Valid @RequestBody UserDTO userDTO) {
+        try {
+            UserDTO savedUser = userService.createAdministrativeUser(userDTO);
+            return ResponseEntity.ok(savedUser);
+        } catch (DuplicateKeyException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

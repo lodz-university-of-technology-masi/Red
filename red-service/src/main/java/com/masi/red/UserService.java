@@ -4,6 +4,7 @@ import com.masi.red.common.RoleName;
 import com.masi.red.dto.UserDTO;
 import com.masi.red.entity.Role;
 import com.masi.red.entity.User;
+import com.masi.red.exception.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,10 @@ public class UserService implements IUserService {
     private final PasswordEncoder encoder;
 
     @Override
-    public UserDTO createCandidate(UserDTO userDto) {
+    public UserDTO createCandidate(UserDTO userDto) throws DuplicateKeyException {
+        if (userRepository.existsByUsernameOrEmail(userDto.getUsername(), userDto.getEmail())) {
+            throw new DuplicateKeyException("Użytkownik z podaną nazwą lub emailem juz istnieje!");
+        }
         User user = mapper.map(userDto, User.class);
         user.setPassword(encoder.encode(user.getPassword()));
 
@@ -33,10 +37,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDTO createAdministrativeUser(UserDTO userDTO) {
+    public UserDTO createAdministrativeUser(UserDTO userDTO) throws DuplicateKeyException {
+        if (userRepository.existsByUsernameOrEmail(userDTO.getUsername(), userDTO.getEmail())) {
+            throw new DuplicateKeyException("Użytkownik z podaną nazwą lub emailem juz istnieje!");
+        }
         User user = mapper.map(userDTO, User.class);
         user.setPassword(encoder.encode(userDTO.getPassword()));
-
         User savedUser = userRepository.save(user);
         return mapper.map(savedUser, UserDTO.class);
     }

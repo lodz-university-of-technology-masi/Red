@@ -1,43 +1,41 @@
-
 //***************************************************************
 //  A P I       E D I T O R
 //***************************************************************
 
 editor_api = "/redaktor";
+register_admin_api = "/register/administrative";
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     $("#FormCreateEditorButton").click(function () {
 
         var dataForm = $('#FormCreateEditor').serializeArray();
 
-        var jsonObject = {};
-        jsonObject["username"] = dataForm[0].value;
-        jsonObject["email"] = dataForm[1].value;
-        jsonObject["password"] = dataForm[2].value;
-        jsonObject["role"] = dataForm[3].value;
-        jsonObject["firstName"] = dataForm[4].value;
-        jsonObject["lastName"] = dataForm[5].value;
+        var roleName = dataForm[3].value;
 
-
-        console.log(JSON.stringify(jsonObject));
-        //console.log(dataForm);
+        var jsonObject = {
+            username: dataForm[0].value,
+            email: dataForm[1].value,
+            password: dataForm[2].value,
+            roles: [{name: roleName, active: true}],
+            firstName: dataForm[4].value,
+            lastName: dataForm[5].value
+        };
 
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: editor_api,
+            url: register_admin_api,
             data: JSON.stringify(jsonObject),
-            dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 console.log("Created: " + data.firstName);
 
-                setTimeout(function(){
-                    window.location.reload(true);
-                }, 2000);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 200);
             },
             error: function (e) {
-                console.log("ERROR : ", e);
+                console.error(e.responseText);
             }
         });
 
@@ -65,10 +63,10 @@ $(document).ready(function() {
             url: editor_api + "/" + dataForm[0].value,
             data: JSON.stringify(jsonObject),
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 console.log(data);
 
-                setTimeout(function(){
+                setTimeout(function () {
                     window.location.reload(true);
                 }, 2000);
             },
@@ -78,7 +76,7 @@ $(document).ready(function() {
         });
     });
 
-    $(".deleteEditorButton").click(function(event){
+    $(".deleteEditorButton").click(function (event) {
 
         console.log(event.target.id);
 
@@ -89,10 +87,10 @@ $(document).ready(function() {
         $.ajax({
             type: "DELETE",
             url: editor_api + "/" + res[1],
-            success: function(data) {
+            success: function (data) {
                 console.log(data);
 
-                setTimeout(function(){
+                setTimeout(function () {
                     window.location.reload(true);
                 }, 2000);
             },
@@ -103,10 +101,9 @@ $(document).ready(function() {
     });
 
 
-
 });
 
-function editEditor(id){
+function editEditor(id) {
 
     console.log("Pobieranie editora o ID: " + id);
 
@@ -116,7 +113,7 @@ function editEditor(id){
     $.ajax({
         type: "GET",
         url: editor_api + "/" + res[1],
-        success: function(data) {
+        success: function (data) {
             console.log(data);
 
             insertIntoEditorEditModal(data);
@@ -128,7 +125,7 @@ function editEditor(id){
     });
 }
 
-function insertIntoEditorEditModal(data){
+function insertIntoEditorEditModal(data) {
 
     clearEditorEditModal();
 
@@ -140,7 +137,7 @@ function insertIntoEditorEditModal(data){
 
 }
 
-function clearEditorEditModal(){
+function clearEditorEditModal() {
 
     $("#FUEId").val("");
     $("#FUEUsername").val("");
