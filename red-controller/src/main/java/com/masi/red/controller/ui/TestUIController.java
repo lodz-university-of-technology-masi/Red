@@ -9,7 +9,6 @@ import com.masi.red.entity.JobTitle;
 import com.masi.red.entity.User;
 import com.masi.red.exception.NoTestsAvailableException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;

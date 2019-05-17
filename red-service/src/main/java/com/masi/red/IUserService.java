@@ -1,7 +1,8 @@
 package com.masi.red;
 
-import com.masi.red.dto.UserDto;
+import com.masi.red.dto.UserDTO;
 
 public interface IUserService {
-    UserDto createUser(UserDto userDto);
+    UserDTO createCandidate(UserDTO userDto);
+    UserDTO createAdministrativeUser(UserDTO userDTO);
 }

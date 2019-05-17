@@ -11,11 +11,11 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class UserDTO {
     private String username;
     private String email;
     private String password;
     private String firstName;
     private String lastName;
-    private Set<RoleDto> roles;
+    private Set<RoleDTO> roles;
 }

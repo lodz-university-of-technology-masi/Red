@@ -31,7 +31,7 @@ function sendTestForm() {
 
     console.log(JSON.stringify(candidateTest));
 
-    var candidate_api = "/kandydat/stanowisko/";
+    var candidate_api = "/api/kandydat/stanowisko/";
 
     $.ajax({
         type: "POST",
