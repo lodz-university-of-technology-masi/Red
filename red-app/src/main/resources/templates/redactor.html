@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="includes :: header" />
-    <link type="text/css" rel="stylesheet" href="/webjars/datatables/1.10.19/css/dataTables.bootstrap4.min.css" />
+    <th:block th:include="includes :: header"/>
+    <link type="text/css" rel="stylesheet" href="/webjars/datatables/1.10.19/css/dataTables.bootstrap4.min.css"/>
 
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 
     <script type="text/javascript" th:src="@{/js/redactor.js}" src="/resources/static/js/redactor.js"></script>
-
+    <script type="text/javascript" th:src="@{/moderator-inc/mod-test.js}"
+            src="/resources/static/moderator-inc/mod-test.js"></script>
 </head>
 <body>
 
-<th:block th:include="includes :: menu" />
+<th:block th:include="includes :: menu"/>
 
 <div class="container mt-lg-5">
     <div class="tab-content" id="myTabContent">
 
         <div class="tab-pane fade show active" id="test" role="tabpanel" aria-labelledby="contact-tab">
-            <button class="btn btn-outline-success btn-block mt-5 mb-5" data-toggle="modal" data-target="#createTest"><i class="material-icons md-24">add_circle</i> Dodaj test</button>
+            <button class="btn btn-outline-success btn-block mt-5 mb-5" data-toggle="modal" data-target="#createTest"><i
+                    class="material-icons md-24">add_circle</i> Dodaj test
+            </button>
 
             <table id="TestTable" class="table " style="width:100%">
                 <thead>
@@ -39,7 +42,7 @@
     </div>
 </div>
 
-<th:block th:include="moderator-inc/modals-test :: modals" />
+<th:block th:include="moderator-inc/modals-test :: modals"/>
 
 </body>
 </html>
