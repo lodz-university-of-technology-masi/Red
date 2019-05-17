@@ -2,6 +2,7 @@ package com.masi.red.controller.api;
 
 
 import com.masi.red.IEditorService;
+import com.masi.red.dto.UserDTO;
 import com.masi.red.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,11 +53,11 @@ public class EditorController {
         return new ResponseEntity<>("Usunięto Redaktora o ID : " + editorId.toString(), HttpStatus.OK);
     }
 
+
+    // Metody dodatkowe
     @GetMapping(value = "/all")
-    public ResponseEntity<List<User>> getAllEditors() {
-
-        List<User> editors = editorService.getAllEditors();
-
+    public ResponseEntity<List<UserDTO>> getAllEditors(){
+        List<UserDTO> editors = editorService.getAllEditors();
         return new ResponseEntity<>(editors, HttpStatus.OK);
     }
 

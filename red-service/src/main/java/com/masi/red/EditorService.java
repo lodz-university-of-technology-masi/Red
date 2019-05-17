@@ -1,21 +1,26 @@
 package com.masi.red;
 
 import com.masi.red.common.RoleName;
+import com.masi.red.dto.UserDTO;
 import com.masi.red.entity.Role;
 import com.masi.red.entity.User;
+import lombok.RequiredArgsConstructor;
+import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EditorService implements IEditorService {
 
-    @Autowired
-    EditorRepository editorRepository;
+    private final UserRepository userRepository;
+    private final MapperFacade mapper;
 
     @Override
     public User createEditor(User editor) {
@@ -30,15 +35,13 @@ public class EditorService implements IEditorService {
 
         editor.setPassword(tmp);
 
-        System.out.println(editor.toString());
-
-        return editorRepository.save(editor);
+        return userRepository.save(editor);
     }
 
     @Override
     public User readEditor(Integer id) {
 
-        return editorRepository.findById(id)
+        return userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono redaktora o id " + id));
     }
 
@@ -67,18 +70,19 @@ public class EditorService implements IEditorService {
                 .lastName(oldEditor.getLastName())
                 .build();
 
-        return editorRepository.save(editor);
+        return userRepository.save(editor);
     }
 
     @Override
     public void deleteEditor(Integer id) {
 
-        editorRepository.deleteById(id);
+        userRepository.deleteById(id);
     }
 
     @Override
-    public List<User> getAllEditors() {
-
-        return editorRepository.findAll();
+    public List<UserDTO> getAllEditors() {
+        return userRepository.findAllByRolesNameIn(RoleName.EDITOR).stream()
+                .map(user -> mapper.map(user, UserDTO.class))
+                .collect(Collectors.toList());
     }
 }

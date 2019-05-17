@@ -42,4 +42,9 @@ public class EntityFinder {
         return questionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Nie ma pytania o id " + id));
     }
+
+    public User findUserById(Integer id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono użytkownika o id " + id));
+    }
 }

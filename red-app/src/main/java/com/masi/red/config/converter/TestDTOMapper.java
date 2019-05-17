@@ -19,6 +19,7 @@ public class TestDTOMapper extends BidirectionalConverter<Test, TestDTO> {
                 .creationTime(source.getCreationTime())
                 .editorName(editor != null ? editor.getFullName() : null)
                 .jobTitleName(source.getJobTitle().getName())
+                .language(source.getLanguage())
                 .questionsNumber(source.getQuestions() == null ? 0 : source.getQuestions().size())
                 .build();
     }
@@ -28,6 +29,7 @@ public class TestDTOMapper extends BidirectionalConverter<Test, TestDTO> {
         return Test.builder()
                 .id(source.getId())
                 .creationTime(source.getCreationTime())
+                .language(source.getLanguage())
                 .build();
     }
 }
