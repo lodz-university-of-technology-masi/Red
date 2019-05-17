@@ -1,4 +1,4 @@
-package com.masi.red.controller;
+package com.masi.red.controller.api;
 
 import com.masi.red.TestService;
 import com.masi.red.dto.*;
@@ -21,28 +21,28 @@ public class TestController {
     private final TestService testService;
 
     @GetMapping
-    public ResponseEntity<List<TestDTO>> getAllTests(){
+    public ResponseEntity<List<TestDTO>> getAllTests() {
         List<TestDTO> tests = testService.getAllTests();
         return ResponseEntity.ok(tests);
     }
 
     @GetMapping("/{testId}")
-    public ResponseEntity<TestWithQuestionsDTO> getTestById(@PathVariable Integer testId){
+    public ResponseEntity<TestWithQuestionsDTO> getTestById(@PathVariable Integer testId) {
         TestWithQuestionsDTO test = testService.getTestById(testId);
         return ResponseEntity.ok(test);
     }
 
     @PutMapping("/{testId}")
     public ResponseEntity<TestDTO> updateTest(@PathVariable Integer testId,
-                                             @RequestBody EditedTestDTO test){
+                                              @RequestBody EditedTestDTO test) {
         TestDTO testObject = testService.updateTest(testId, test);
         return ResponseEntity.ok(testObject);
     }
 
     @PostMapping
-    public ResponseEntity<String> addTest(@Valid @RequestBody NewTestDTO testDTO, @AuthenticationPrincipal User editor){
+    public ResponseEntity<String> addTest(@Valid @RequestBody NewTestDTO testDTO, @AuthenticationPrincipal User editor) {
         TestDTO test = testService.addTest(testDTO, editor);
-        return new ResponseEntity<>("Test "+test.getId()+" został dodany",HttpStatus.CREATED);
+        return new ResponseEntity<>("Test " + test.getId() + " został dodany", HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{testId}")

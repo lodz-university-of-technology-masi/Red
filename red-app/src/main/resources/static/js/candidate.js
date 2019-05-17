@@ -6,7 +6,7 @@
  $(document).ready(function() {
  $("#LanguageButtonPL").click(function (){
  candidateLanguage = $("#LanguageButtonPL").attr("data-arg");
-   $.get( "/jobTitles/language=" + candidateLanguage, function( data ) {
+   $.get( "/jobTitles?language=" + candidateLanguage, function( data ) {
 
    $("#resultJobTitle").empty();
 
@@ -25,7 +25,7 @@
 
     $("#LanguageButtonEN").click(function (){
      candidateLanguage = $("#LanguageButtonEN").attr("data-arg");
-       $.get( "/jobTitles/language=" + candidateLanguage, function( data ) {
+       $.get( "/jobTitles?language=" + candidateLanguage, function( data ) {
        $("#resultJobTitle").empty();
 
             $("#resultJobTitle").html("");
