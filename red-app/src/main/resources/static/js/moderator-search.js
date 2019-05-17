@@ -18,7 +18,6 @@ $(document).bind("contextmenu",function(e){
     if(cntrlIsPressed){
         e.preventDefault();
         selectedText = getSelection().toString().toLowerCase();
-        //console.log(e.pageX + "," + e.pageY + selectedText);
         $("#searchBox").css("left",e.pageX);
         $("#searchBox").css("top",e.pageY);
         $("#searchBox").fadeIn(200,startFocusOut());
@@ -28,7 +27,7 @@ $(document).bind("contextmenu",function(e){
 });
 
 function startFocusOut(){
-    $(document).on("click",function(){
+    $(document).click(function(){
         $("#searchBox").hide();
         $(document).off("click");
     });
@@ -64,7 +63,7 @@ $(function() {
 
             },
             error: function (e) {
-                console.log(e);
+                console.error(e);
             }
         });
 
@@ -120,7 +119,7 @@ $(function() {
 
             },
             error: function (e) {
-                console.log(e);
+                console.error(e);
             }
         });
 

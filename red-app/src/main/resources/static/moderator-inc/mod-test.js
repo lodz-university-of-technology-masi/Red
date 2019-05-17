@@ -21,7 +21,7 @@ $(document).ready(function() {
             contentType: "application/json",
             url: test_api,
             data: JSON.stringify(jsonObject),
-            success: function (data) {
+            success: function () {
                 setTimeout(function () {
                     window.location.reload(true);
                 }, 2000);
@@ -105,7 +105,7 @@ function editTest(id) {
 }
 
 function importTestFromCSV(form) {
-    console.log($('#'+ form.id).prop('files')[0])
+    console.log($('#'+ form.id).prop('files')[0]) //todo logika
     $('.importSuccessfulMessage').removeClass('d-none') //when success
     // when failed $('.importFailedMessage').removeClass('d-none')
 }
