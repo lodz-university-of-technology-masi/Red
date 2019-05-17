@@ -18,7 +18,7 @@ public class CandidateAnswer {
     private int id;
 
     @NotNull
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

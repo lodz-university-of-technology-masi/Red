@@ -5,10 +5,12 @@ import com.masi.red.*;
 import com.masi.red.dto.CandidateAnswerDTO;
 import com.masi.red.dto.TestWithQuestionsDTO;
 import com.masi.red.entity.JobTitle;
+import com.masi.red.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,8 +46,8 @@ public class TestUIController {
 
     @PostMapping(value = "/kandydat/stanowisko/{jobId}")
     @ResponseBody
-    public ResponseEntity<Object> getPostJobTestPage(@PathVariable Integer jobId, @Valid @RequestBody CandidateAnswerDTO answerDto){
-           boolean response = answerService.addAnswers(answerDto);
+    public ResponseEntity<Object> getPostJobTestPage(@PathVariable Integer jobId, @Valid @RequestBody CandidateAnswerDTO answerDto, @AuthenticationPrincipal User candidate){
+           boolean response = answerService.addAnswers(answerDto, candidate);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
