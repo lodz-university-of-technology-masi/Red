@@ -31,18 +31,15 @@ public class TestService implements ITestService {
     private Random rand = new Random();
 
     @Override
-    public TestDTO addTest(NewTestDTO testDTO, User user) {
+    public TestDTO addTest(NewTestDTO testDTO) {
         JobTitle jobTitle = entityFinder.findJobTitleById(testDTO.getJobTitleId());
-
-        if (!testDTO.getEditorId().equals(user.getId())) {
-            user.setId(testDTO.getEditorId());
+        Test test = mapper.map(testDTO, Test.class);
+        if(testDTO.getEditorId() != null) {
+            User editor = entityFinder.findUserById(testDTO.getEditorId());
+            test.setUser(editor);
         }
 
-        Test test = Test.builder()
-                .user(user)
-                .language(Language.PL) //TODO
-                .jobTitle(jobTitle)
-                .build();
+        test.setJobTitle(jobTitle);
         //TODO: implement set questions
         jobTitle.attachTest(test);
 

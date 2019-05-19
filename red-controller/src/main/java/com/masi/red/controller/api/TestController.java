@@ -40,8 +40,8 @@ public class TestController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addTest(@Valid @RequestBody NewTestDTO testDTO, @AuthenticationPrincipal User editor) {
-        TestDTO test = testService.addTest(testDTO, editor);
+    public ResponseEntity<String> addTest(@Valid @RequestBody NewTestDTO testDTO) {
+        TestDTO test = testService.addTest(testDTO);
         return new ResponseEntity<>("Test " + test.getId() + " został dodany", HttpStatus.CREATED);
     }
 

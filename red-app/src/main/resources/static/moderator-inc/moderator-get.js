@@ -1,15 +1,23 @@
 window.onload = function () {
-    $.get("/redaktor/all", function (data) {
+    getEditors();
+    getJobTitles();
+    getTests();
+};
 
-        console.log(data);
+$(document).ready(function() {
+    $('#EditorsTable').DataTable();
+    $('#JobTitleTable').DataTable();
+    $('#TestTable').DataTable();
+} );
+
+function getEditors() {
+    $.get( "/redaktor/all", function( data ) {
 
         $("#resultEditor").html("");
 
-        if (data) {
-
+        if(data) {
+            fillEditorSelects(data);
             $.each(data, function (index, value) {
-                console.log(index + " : " + value.id + value.firstName + value.lastName);
-
                 $("#resultEditor").append("<tr><td>" + value.id + "</td>\n" +
                     "                <td>" + value.username + "</td>\n" +
                     "                <td>" + value.email + "</td>\n" +
@@ -24,16 +32,16 @@ window.onload = function () {
         }
 
     });
+}
 
 
-    $.get("/jobTitles", function (data) {
-
-        console.log(data);
+function getJobTitles() {
+    $.get( "/jobTitles", function( data ) {
 
         $("#resultJobTitle").html("");
 
-        if (data) {
-
+        if(data) {
+            fillJobTitleSelects(data);
             $.each(data, function (index, value) {
 
                 var testName = "";
@@ -65,10 +73,11 @@ window.onload = function () {
             });
         }
     });
+}
 
-    $.get("/api/tests", function (data) {
 
-        console.log(data);
+function getTests() {
+    $.get( "/api/tests", function( data ) {
 
         $("#resultTest").html("");
 
@@ -76,16 +85,17 @@ window.onload = function () {
             var baseHref = location.href.replace(/\/+$/, "");
             $.each(data, function (index, value) {
                 var language = null;
-                if(value.language == 'EN') {
+                if(value.language === 'EN') {
                     language = 'polski';
                 }
-                else if(value.language == 'PL')
+                else if(value.language === 'PL')
                 {
                     language = 'angielski';
                 }
-                console.log(value);
+                else{}
                 $("#resultTest").append("<tr><td>" + value.id + "</td>\n" +
                     "                <td>" + value.jobTitleName + "</td>\n" +
+                    "                <td>" + value.language + "</td>\n" +
                     "                <td>" + ((value.editorName) ? value.editorName : "brak") + "</td>\n" +
                     "                <td>" + value.questionsNumber + "</td>\n" +
                     "                <td>" + moment(value.creationTime).format('YYYY-MM-DD HH:mm:ss') + "</td>\n" +
@@ -93,8 +103,8 @@ window.onload = function () {
                     " <div className=\"btn-group\">"+
                     "<button type=\"button\" class=\"btn btn-success dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">Zarządzaj testem </button>"+
                     "    <div class=\"dropdown-menu\">"+
-                    "                    <a class=\"dropdown-item \"  data-toggle=\"modal\" data-target=\"#updateTest\"><i class=\"material-icons md-24\">add_circle_outline</i> Edytuj test</a>\n" +
-                    "                    <a id=\'T" + value.id + "\' class=\"dropdown-item\"  ><i class=\"material-icons md-24\">remove_circle_outline</i> Usuń test</a>\n" +
+                    "                    <a id=\'T-" + value.id + "\' class=\"dropdown-item \" onClick=\"editTest(this.id) \" data-toggle=\"modal\" data-target=\"#updateTest\"><i class=\"material-icons md-24\">add_circle_outline</i> Edytuj test</a>\n" +
+                    "                    <a id=\'T-" + value.id + "\' class=\"dropdown-item deleteTestButton\" ><i class=\"material-icons md-24\">remove_circle_outline</i> Usuń test</a>\n" +
                     "                    <a href=\'" + baseHref + "/tests/" + value.id + "\' class=\"dropdown-item\"><i class=\"material-icons md-24\">add_circle_outline</i> Zarządzaj pytaniami</a>\n" +
                     "                    <a class=\"dropdown-item \" ><i class=\"material-icons md-24\">import_export</i> Eksport do csv</a>\n" +
                     "                    <a id =\'translate" + value.id + "\' class=\"dropdown-item \" ><i class=\"material-icons md-24\">translate</i> Tłumaczenie testu na </a>\n" +
@@ -115,10 +125,27 @@ window.onload = function () {
             }
         );
     });
-};
+}
 
-$(document).ready(function () {
-    $('#EditorsTable').DataTable();
-    $('#JobTitleTable').DataTable();
-    $('#TestTable').DataTable();
-});
+function fillJobTitleSelects(jobTitles) {
+    $.each(jobTitles, function (i, item) {
+        $('[id*=JobTitleSelect]').append($('<option>', {
+            value: JSON.stringify(item),
+            text : item.name
+        }));
+    });
+}
+
+function fillEditorSelects(editors) {
+    $.each(editors, function (i, item) {
+        $('[id*=EditorSelect]').append($('<option>', {
+            value: JSON.stringify(item),
+            text : item.fullName
+        }));
+    });
+}
+
+function resetMessages() {
+    $('.importSuccessfulMessage').addClass('d-none');
+    $('.importFailedMessage').addClass('d-none');
+}

@@ -27,7 +27,7 @@
 </div>
 
 <div class="container text-center mt-2">
-    <span class="h1" th:text="|${test.jobTitleName} [|"></span><span class="h1" id="testLanguage" onclick="findTextOnWikipedia()" th:text="${test.language}"></span><span class="h1">]</span>
+    <span class="h1" th:text="|${test.jobTitleName} [|"></span><span class="h1" id="testLanguage" th:text="${test.language}"></span><span class="h1">]</span>
     <h3>TEST <span th:text="${test.id}"/></h3>
     <h6 th:if="${test.editorName}">Redaktor: <span th:text="${test.editorName}"/></h6>
     <h6 th:if="${test.creationTime}">Czas utworzenia:
