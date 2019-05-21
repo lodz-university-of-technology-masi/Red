@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ITestService {
 
-    TestDTO addTest(NewTestDTO test, User user);
+    TestDTO addTest(NewTestDTO test);
 
     List<TestDTO> getAllTests();
 

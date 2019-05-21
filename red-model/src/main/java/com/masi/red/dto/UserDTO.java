@@ -18,5 +18,6 @@ public class UserDTO {
     private String password;
     private String firstName;
     private String lastName;
+    private String fullName;
     private Set<RoleDTO> roles;
 }

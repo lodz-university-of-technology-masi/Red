@@ -7,21 +7,20 @@ test_api = "/api/tests";
 $(document).ready(function () {
 
     $("#FormCreateTestButton").click(function () {
-
-        var dataForm = $('#FormCreateTest').serializeArray();
-
         var jsonObject = {};
-        jsonObject["jobTitleId"] = dataForm[0].value;
-        jsonObject["editorId"] = dataForm[1].value;
+        var editor = JSON.parse($('#createTestEditorSelect').val());
+        if(editor) {
+            jsonObject["editorId"] = editor.id;
+        }
+        jsonObject["jobTitleId"] = JSON.parse($('#createTestJobTitleSelect').val()).id;
+        jsonObject["language"] = $('#createTestLanguageSelect').val();
 
         $.ajax({
             type: "POST",
             contentType: "application/json",
             url: test_api,
             data: JSON.stringify(jsonObject),
-            dataType: 'text',
             success: function () {
-
                 setTimeout(function () {
                     window.location.reload();
                 }, 200);
@@ -33,17 +32,20 @@ $(document).ready(function () {
     });
 
     $("#FormUpdateTestButton").click(function () {
-
-        var dataForm = $('#FormUpdateTest').serializeArray();
-
         var jsonObject = {};
-        jsonObject["id"] = dataForm[0].value;
-        jsonObject["jobTitleId"] = dataForm[1].value;
+        var editor = JSON.parse($('#createTestEditorSelect').val());
+        if(editor) {
+            jsonObject["editorId"] = editor.id;
+        }
+        jsonObject["jobTitleId"] = JSON.parse($('#updateTestJobTitleSelect').val()).id;
+        jsonObject["language"] = $('#updateTestLanguageSelect').val();
+        var testId = $('#updatedTestId').val();
+        jsonObject["id"] = testId
 
         $.ajax({
             type: "PUT",
             contentType: "application/json",
-            url: test_api + "/" + dataForm[0].value,
+            url: test_api + "/" + testId,
             data: JSON.stringify(jsonObject),
             dataType: 'json',
             success: function () {
@@ -60,10 +62,7 @@ $(document).ready(function () {
 
     $("#resultTest").on("click", ".deleteTestButton", function (event) {
 
-        console.log(event.target.id);
-
-        var testID = event.target.id;
-
+        var testID = event.target.id.split('-');
 
         $.ajax({
             type: "DELETE",
@@ -80,11 +79,47 @@ $(document).ready(function () {
         });
 
     });
-
-    $(".addQuestionToTestCreateButton").click(function () {
-        $("#questionsToTestCreate")[0].innerHTML += $('#QuestionIdCreateInput')[0].value + ', ';
-    });
-    $(".addQuestionToTestUpdateButton").click(function () {
-        $("#questionsToTest")[0].innerHTML += $('#QuestionIdInput')[0].value + ', ';
-    });
 });
+
+function editTest(id) {
+    resetMessages();
+    var testId = id.split("-");
+
+    $.ajax({
+        type: "GET",
+        url: test_api + "/" + testId[1],
+        success: function(data) {
+            $('#updatedTestId').val(data.id);
+
+            selectAppropriateJobTitle(data.jobTitleName);
+            selectAppropriateEditor(data.editorName);
+            $('#updateTestLanguageSelect').val(data.language)
+        },
+        error: function (e) {
+            console.error(e);
+        }
+    });
+}
+
+function importTestFromCSV(form) {
+    console.log($('#'+ form.id).prop('files')[0]) //todo logika
+    $('.importSuccessfulMessage').removeClass('d-none') //when success
+    // when failed $('.importFailedMessage').removeClass('d-none')
+}
+
+function selectAppropriateJobTitle(jobTitleName) {
+    $('[id=updateTestJobTitleSelect] option').filter(function() {
+        return ($(this).text() === jobTitleName);
+    }).prop('selected', true);
+}
+
+function selectAppropriateEditor(editorName) {
+    if(editorName) {
+        $('[id=updateTestEditorSelect] option').filter(function() {
+            return ($(this).text() === editorName);
+        }).prop('selected', true);
+    } else {
+        $('#updateTestEditorSelect').val("")
+    }
+
+}

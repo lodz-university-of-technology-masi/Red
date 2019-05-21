@@ -42,3 +42,4 @@ INSERT INTO masi.users(id, email, first_name, last_name, password, username) VAL
 ALTER SEQUENCE masi.user_seq RESTART WITH 2;
 
 INSERT INTO masi.user_role(user_id, role_id) VALUES (1, 1);
+INSERT INTO masi.user_role(user_id, role_id) VALUES (1, 2);

@@ -26,3 +26,7 @@ nav .active{
 .tooltip-main {
     opacity: 1;
 }
+
+.custom-file-input ~ .custom-file-label::after {
+    content: "Szukaj";
+}
