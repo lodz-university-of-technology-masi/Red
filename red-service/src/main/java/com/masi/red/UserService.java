@@ -5,6 +5,7 @@ import com.masi.red.dto.UserDTO;
 import com.masi.red.entity.Role;
 import com.masi.red.entity.User;
 import com.masi.red.exception.DuplicateKeyException;
+import com.masi.red.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -45,5 +48,32 @@ public class UserService implements IUserService {
         user.setPassword(encoder.encode(userDTO.getPassword()));
         User savedUser = userRepository.save(user);
         return mapper.map(savedUser, UserDTO.class);
+    }
+
+    @Override
+    public void deleteUserById(Integer id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public List<UserDTO> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(user -> mapper.map(user, UserDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDTO updateUser(UserDTO userDTO, Integer userId) {
+        userDTO.setId(userId);
+        User user = mapper.map(userDTO, User.class);
+        User updatedUser = userRepository.save(user);
+        return mapper.map(updatedUser, UserDTO.class);
+    }
+
+    @Override
+    public UserDTO getUserById(Integer userId) throws EntityNotFoundException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono użytkownika o id: " + userId));
+        return mapper.map(user, UserDTO.class);
     }
 }

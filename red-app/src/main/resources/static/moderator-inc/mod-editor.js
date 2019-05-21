@@ -2,7 +2,7 @@
 //  A P I       E D I T O R
 //***************************************************************
 
-editor_api = "/redaktor";
+editor_api = "/api/users";
 register_admin_api = "/register/administrative";
 
 $(document).ready(function () {
@@ -27,8 +27,7 @@ $(document).ready(function () {
             contentType: "application/json",
             url: register_admin_api,
             data: JSON.stringify(jsonObject),
-            success: function (data) {
-                console.log("Created: " + data.firstName);
+            success: function () {
 
                 setTimeout(function () {
                     window.location.reload();
@@ -45,14 +44,15 @@ $(document).ready(function () {
 
         var dataForm = $('#FormUpdateEditor').serializeArray();
 
-        var jsonObject = {};
-        jsonObject["id"] = parseInt(dataForm[0].value);
-        jsonObject["username"] = dataForm[1].value;
-        jsonObject["email"] = dataForm[2].value;
-        jsonObject["password"] = dataForm[3].value;
-        jsonObject["role"] = dataForm[4].value;
-        jsonObject["firstName"] = dataForm[5].value;
-        jsonObject["lastName"] = dataForm[6].value;
+        var jsonObject = {
+            id: parseInt(dataForm[0].value),
+            username: dataForm[1].value,
+            email: dataForm[2].value,
+            password: dataForm[3].value,
+            roles: [{name: dataForm[4].value, active: true}],
+            firstName: dataForm[5].value,
+            lastName: dataForm[6].value
+        };
 
         console.log(JSON.stringify(jsonObject));
 
@@ -63,26 +63,21 @@ $(document).ready(function () {
             url: editor_api + "/" + dataForm[0].value,
             data: JSON.stringify(jsonObject),
             dataType: 'json',
-            success: function (data) {
-                console.log(data);
-
+            success: function () {
                 setTimeout(function () {
-                    window.location.reload(true);
-                }, 2000);
+                    window.location.reload();
+                }, 200);
             },
             error: function (e) {
-                console.log("ERROR : ", e);
+                console.error(e.responseText);
             }
         });
     });
 
     $(".deleteEditorButton").click(function (event) {
 
-        console.log(event.target.id);
-
         var editorId = event.target.id;
         var res = editorId.split("-");
-
 
         $.ajax({
             type: "DELETE",
@@ -91,11 +86,11 @@ $(document).ready(function () {
                 console.log(data);
 
                 setTimeout(function () {
-                    window.location.reload(true);
-                }, 2000);
+                    window.location.reload();
+                }, 200);
             },
             error: function (e) {
-                console.log("ERROR : ", e);
+                console.error(e.responseText);
             }
         });
     });
