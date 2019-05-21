@@ -66,6 +66,7 @@ public class UserService implements IUserService {
     public UserDTO updateUser(UserDTO userDTO, Integer userId) {
         userDTO.setId(userId);
         User user = mapper.map(userDTO, User.class);
+        user.setPassword(encoder.encode(userDTO.getPassword()));
         User updatedUser = userRepository.save(user);
         return mapper.map(updatedUser, UserDTO.class);
     }
