@@ -111,7 +111,7 @@ public class TestService implements ITestService {
         test.getQuestions().stream()
                 .filter(question -> question.getId() == questionId)
                 .findAny()
-                .get().detachTest(testId);
+                .ifPresent(question -> question.detachTest(testId));
         test.detachQuestion(questionId);
     }
 
@@ -130,5 +130,13 @@ public class TestService implements ITestService {
         }
         test.attachQuestion(question);
         question.attachtoTest(test);
+    }
+
+    @Override
+    public List<TestDTO> getTestsByUserId(Integer userId) {
+        List<Test> tests = testRepository.findAllByUser_Id(userId);
+        return tests.stream()
+                .map(test -> mapper.map(test, TestDTO.class))
+                .collect(Collectors.toList());
     }
 }

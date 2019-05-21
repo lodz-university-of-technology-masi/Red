@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface TestRepository extends JpaRepository<Test, Integer> {
     List<Test> findAllByJobTitle_Id(Integer jobTitleId);
+
+    List<Test> findAllByUser_Id(Integer userId);
 }
 
