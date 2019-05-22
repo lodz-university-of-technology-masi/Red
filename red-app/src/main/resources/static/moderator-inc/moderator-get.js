@@ -87,9 +87,8 @@ function getTests() {
                 var language = null;
                 if (value.language === 'EN') {
                     language = 'polski';
-                } else if (value.language === 'PL') {
-                    language = 'angielski';
                 } else {
+                    language = 'angielski';
                 }
                 $("#resultTest").append("<tr><td>" + value.id + "</td>\n" +
                     "                <td>" + value.jobTitleName + "</td>\n" +
