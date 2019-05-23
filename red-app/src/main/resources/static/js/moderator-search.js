@@ -35,7 +35,6 @@ function startFocusOut() {
 $(function () {
     $('#Wiki').click(function () {
         var mytext = selectedText;
-        console.log("Wiki search : " + mytext);
 
         var language = $("#testLanguage").text().toLowerCase();
         var url = 'https://' + language + '.wikipedia.org/w/api.php?action=query&list=search&srsearch=' +
@@ -47,9 +46,7 @@ $(function () {
             contentType: "application/json",
             url: url,
             success: function (response) {
-                console.log(response.query.search[0].snippet);
                 var pageUrl = wikipediaUrl + response.query.search[0].title;
-                console.log(pageUrl);
 
                 $.notify({
                     title: "<b>" + response.query.search[0].title + " : " + response.query.search[0].snippet + "</b>",
@@ -71,13 +68,12 @@ $(function () {
 
     $('#Thes').click(function () {
         var mytext = selectedText;
-        console.log("Thes search : " + mytext);
 
         var key = "G71vOpIjAgJllnPPFq3P";
 
         var language = $("#testLanguage").text().toLowerCase();
         var lang_upper = language.toUpperCase();
-        if (lang_upper == "EN") {
+        if (lang_upper === "EN") {
             lang_upper = "US";
         }
 
@@ -86,7 +82,7 @@ $(function () {
 
         var postUrl = "";
 
-        if (language == "en") {
+        if (language === "en") {
             postUrl = "<br/><br/><a target='_blank' href='" + ThesaourusUrl + "'>" + ThesaourusUrl + "</a>";
         }
 
@@ -102,7 +98,6 @@ $(function () {
                     if (partsOfStr[1]) {
                         synonyms.push(partsOfStr[1])
                     }
-                    ;
                 }
 
                 var synonymString = '';

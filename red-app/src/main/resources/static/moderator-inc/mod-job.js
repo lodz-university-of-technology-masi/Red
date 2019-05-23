@@ -13,20 +13,17 @@ $(document).ready(function () {
         jsonObject["name"] = dataForm[0].value;
         jsonObject["active"] = dataForm[1].value;
 
-        console.log(JSON.stringify(jsonObject));
-
         $.ajax({
             type: "POST",
             contentType: "application/json",
             url: jobTitle_api,
             data: JSON.stringify(jsonObject),
             dataType: 'json',
-            success: function (data) {
-                console.log("response: " + data);
+            success: function () {
 
                 setTimeout(function () {
-                    window.location.reload(true);
-                }, 2000);
+                    window.location.reload();
+                }, 200);
             },
             error: function (e) {
                 console.error(e.responseText);
@@ -39,11 +36,9 @@ $(document).ready(function () {
         var dataForm = $('#FormUpdateJobTitle').serializeArray();
 
         var jsonObject = {};
-        jsonObject["id"] = dataForm[0].value
+        jsonObject["id"] = dataForm[0].value;
         jsonObject["name"] = dataForm[1].value;
         jsonObject["active"] = dataForm[2].value;
-
-        console.log(JSON.stringify(jsonObject));
 
         $.ajax({
             type: "PUT",
@@ -51,12 +46,11 @@ $(document).ready(function () {
             url: jobTitle_api + "/" + dataForm[0].value,
             data: JSON.stringify(jsonObject),
             dataType: 'json',
-            success: function (data) {
-                console.log(data);
+            success: function () {
 
                 setTimeout(function () {
-                    window.location.reload(true);
-                }, 2000);
+                    window.location.reload();
+                }, 200);
             },
             error: function (e) {
                 console.error(e.responseText);
@@ -66,21 +60,16 @@ $(document).ready(function () {
 
     $(".deleteJobTitleButton").click(function (event) {
 
-        console.log(event.target.id);
-
         var jobTitleID = event.target.id;
-        console.log("ID: " + jobTitleID[1]);
-
 
         $.ajax({
             type: "DELETE",
             url: jobTitle_api + "/" + jobTitleID[1],
-            success: function (data) {
-                console.log(data);
+            success: function () {
 
                 setTimeout(function () {
-                    window.location.reload(true);
-                }, 2000);
+                    window.location.reload();
+                }, 200);
             },
             error: function (e) {
                 console.error(e.responseText);
@@ -93,17 +82,14 @@ $(document).ready(function () {
 
         var dataForm = $('#FormAttachJobTest').serializeArray();
 
-        console.log(dataForm);
-
         $.ajax({
             type: "PUT",
             url: jobTitle_api + "/" + dataForm[0].value + "/tests/" + dataForm[1].value,
-            success: function (data) {
-                console.log("response: " + data);
+            success: function () {
 
                 setTimeout(function () {
-                    window.location.reload(true);
-                }, 2000);
+                    window.location.reload();
+                }, 200);
             },
             error: function (e) {
                 console.error(e.responseText);
@@ -114,7 +100,6 @@ $(document).ready(function () {
 
 
     $(".detachJobTestButton").click(function (event) {
-        console.log(event.target.id);
 
         var jobID = event.target.id;
         //{jobTitleId}/tests/{testId}
@@ -123,12 +108,10 @@ $(document).ready(function () {
         $.ajax({
             type: "DELETE",
             url: jobTitle_api + "/" + jobID[3] + "/tests" + testID[5],
-            success: function (data) {
-                console.log(data);
-
+            success: function () {
                 setTimeout(function () {
-                    window.location.reload(true);
-                }, 2000);
+                    window.location.reload();
+                }, 200);
             },
             error: function (e) {
                 console.error(e.responseText);
@@ -137,18 +120,14 @@ $(document).ready(function () {
     });
 });
 
-function editJobTitle(id) {
+function editJobTitle(editorId) {
 
-    console.log("Pobieranie stanowiska o ID: " + id);
-
-    var editorId = id;
     var res = editorId.split("-");
 
     $.ajax({
         type: "GET",
         url: jobTitle_api + "/" + res[1],
         success: function (data) {
-            console.log(data);
 
             insertIntoJobTitleEditModal(data);
 

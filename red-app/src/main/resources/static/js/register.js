@@ -16,8 +16,6 @@ $(document).ready(function () {
         jsonObject["firstName"] = dataForm[3].value;
         jsonObject["lastName"] = dataForm[4].value;
 
-        console.log(JSON.stringify(jsonObject));
-
         $.ajax({
             type: "POST",
             contentType: "application/json",

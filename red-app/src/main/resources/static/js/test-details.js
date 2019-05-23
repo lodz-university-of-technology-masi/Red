@@ -34,12 +34,12 @@ function toggleNewQuestionFieldsVisibility(element) {
     $("#possibleAnswersFields").addClass("d-none");
     $("#newQuestionScaleProperties").addClass("d-none");
     $("#newQuestionSuggestedAnswer").attr("type", "text");
-    if(element.value === 'SingleChoice') {
+    if (element.value === 'SingleChoice') {
         $("#possibleAnswersFields").removeClass("d-none")
-    } else if(element.value === 'Open') {
-    } else if(element.value === 'Numeric') {
+    } else if (element.value === 'Open') {
+    } else if (element.value === 'Numeric') {
         $("#newQuestionSuggestedAnswer").attr("type", "number");
-    } else if(element.value === 'Scale') {
+    } else if (element.value === 'Scale') {
         $("#newQuestionScaleProperties").removeClass("d-none");
         $("#newQuestionSuggestedAnswer").attr("type", "number");
     } else {
@@ -48,6 +48,7 @@ function toggleNewQuestionFieldsVisibility(element) {
 }
 
 var possibleAnswerId = 1;
+
 function addPossibleAnswer() {
     possibleAnswerId++;
     $("#possibleAnswers").append("<div id=\'newQuestionPossibleAnswer" + possibleAnswerId + "\'><label class=\"row\" for=\'newQuestionPossibleAnswerInput" + possibleAnswerId + "\'>Możliwa odpowiedź: \n" +
@@ -75,7 +76,7 @@ function hideAddNewQuestionForm() {
 function addQuestionToTest(testId) {
     var existingQuestion = $("#existingQuestionSelect").val();
     var jsonObject = {};
-    if(existingQuestion) {
+    if (existingQuestion) {
         existingQuestion = $.parseJSON(existingQuestion);
         jsonObject["id"] = existingQuestion.id;
         jsonObject["creationTime"] = existingQuestion.creationTime;
@@ -86,13 +87,13 @@ function addQuestionToTest(testId) {
     jsonObject["content"] = $("#newQuestionContent").val();
     jsonObject["language"] = $("#newQuestionLanguage").val();
     jsonObject["suggestedAnswer"] = $("#newQuestionSuggestedAnswer").val();
-    if(type === "Scale") {
+    if (type === "Scale") {
         jsonObject["minValue"] = $("#newQuestionMinValueInput").val();
         jsonObject["maxValue"] = $("#newQuestionMaxValueInput").val();
         jsonObject["interval"] = $("#newQuestionIntervalInput").val();
-    } else if(type === "SingleChoice") {
-        jsonObject["possibleAnswers"] = jQuery.map( $("[id*=newQuestionPossibleAnswerInput]"), function( item ) {
-            return ( item.value );
+    } else if (type === "SingleChoice") {
+        jsonObject["possibleAnswers"] = jQuery.map($("[id*=newQuestionPossibleAnswerInput]"), function (item) {
+            return (item.value);
         });
     }
 
@@ -106,11 +107,11 @@ function addQuestionToTest(testId) {
         success: function (response) {
             alert(response);
             setTimeout(function () {
-                window.location.reload(true);
-            }, 1000);
+                window.location.reload();
+            }, 200);
         },
         error: function (e) {
-            console.log(e);
+            console.error(e.responseText);
             alert('Nie udało się dodać pytania.')
         }
     });
@@ -134,8 +135,8 @@ function updateNewQuestionFields() {
     $("#newQuestionIntervalInput").val(question.interval);
     $("#newQuestionIntervalInput").prop('disabled', true);
     $("[id*=newQuestionPossibleAnswer]").remove();
-    if(question.possibleAnswers) {
-        for(var i = 0; i < question.possibleAnswers.length; i++) {
+    if (question.possibleAnswers) {
+        for (var i = 0; i < question.possibleAnswers.length; i++) {
             addPossibleAnswer();
             $("#newQuestionPossibleAnswerInput" + possibleAnswerId).val(question.possibleAnswers[i]);
             $("#newQuestionPossibleAnswerInput" + possibleAnswerId).prop('disabled', true);

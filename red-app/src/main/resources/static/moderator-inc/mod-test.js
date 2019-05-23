@@ -51,8 +51,8 @@ $(document).ready(function () {
             success: function () {
 
                 setTimeout(function () {
-                    window.location.reload(true);
-                }, 2000);
+                    window.location.reload();
+                }, 200);
             },
             error: function (e) {
                 console.error(e.responseText);

@@ -29,8 +29,6 @@ function sendTestForm() {
         candidateTest.answers[index] = answerObject;
     });
 
-    console.log(JSON.stringify(candidateTest));
-
     var candidate_api = "/api/kandydat/stanowisko/";
 
     $.ajax({

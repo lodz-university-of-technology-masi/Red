@@ -50,8 +50,6 @@ function getJobTitles() {
 
                 if (value.testList) {
 
-                    console.log(value.testList);
-
                     $.each(value.testList, function (index, test) {
 
                         testName = test.name;

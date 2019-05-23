@@ -54,9 +54,6 @@ $(document).ready(function () {
             lastName: dataForm[6].value
         };
 
-        console.log(JSON.stringify(jsonObject));
-
-
         $.ajax({
             type: "PUT",
             contentType: "application/json",
@@ -82,8 +79,7 @@ $(document).ready(function () {
         $.ajax({
             type: "DELETE",
             url: editor_api + "/" + res[1],
-            success: function (data) {
-                console.log(data);
+            success: function () {
 
                 setTimeout(function () {
                     window.location.reload();
@@ -98,21 +94,16 @@ $(document).ready(function () {
 
 });
 
-function editEditor(id) {
+function editEditor(editorId) {
 
-    console.log("Pobieranie editora o ID: " + id);
-
-    var editorId = id;
     var res = editorId.split("-");
 
     $.ajax({
         type: "GET",
         url: editor_api + "/" + res[1],
         success: function (data) {
-            console.log(data);
 
             insertIntoEditorEditModal(data);
-
         },
         error: function (e) {
             console.error(e.responseText);
