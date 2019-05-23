@@ -24,8 +24,8 @@ function detachQuestionFromTest(questionId, testId) {
             alert(response)
         },
         error: function (e) {
-            alert('Wystąpił błąd podczas odpinania pytania od testu')
-            console.log("ERROR : ", e);
+            alert('Wystąpił błąd podczas odpinania pytania od testu');
+            console.error(e.responseText);
         }
     });
 }

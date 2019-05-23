@@ -115,7 +115,7 @@ function editEditor(id) {
 
         },
         error: function (e) {
-            console.log("ERROR : ", e);
+            console.error(e.responseText);
         }
     });
 }

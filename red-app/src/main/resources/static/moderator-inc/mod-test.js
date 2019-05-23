@@ -9,7 +9,7 @@ $(document).ready(function () {
     $("#FormCreateTestButton").click(function () {
         var jsonObject = {};
         var editor = JSON.parse($('#createTestEditorSelect').val());
-        if(editor) {
+        if (editor) {
             jsonObject["editorId"] = editor.id;
         }
         jsonObject["jobTitleId"] = JSON.parse($('#createTestJobTitleSelect').val()).id;
@@ -26,7 +26,7 @@ $(document).ready(function () {
                 }, 200);
             },
             error: function (e) {
-                console.error(e);
+                console.error(e.responseText);
             }
         });
     });
@@ -34,7 +34,7 @@ $(document).ready(function () {
     $("#FormUpdateTestButton").click(function () {
         var jsonObject = {};
         var editor = JSON.parse($('#createTestEditorSelect').val());
-        if(editor) {
+        if (editor) {
             jsonObject["editorId"] = editor.id;
         }
         jsonObject["jobTitleId"] = JSON.parse($('#updateTestJobTitleSelect').val()).id;
@@ -55,7 +55,7 @@ $(document).ready(function () {
                 }, 2000);
             },
             error: function (e) {
-                console.error(e);
+                console.error(e.responseText);
             }
         });
     });
@@ -74,7 +74,7 @@ $(document).ready(function () {
                 }, 200);
             },
             error: function (e) {
-                console.error(e);
+                console.error(e.responseText);
             }
         });
 
@@ -88,7 +88,7 @@ function editTest(id) {
     $.ajax({
         type: "GET",
         url: test_api + "/" + testId[1],
-        success: function(data) {
+        success: function (data) {
             $('#updatedTestId').val(data.id);
 
             selectAppropriateJobTitle(data.jobTitleName);
@@ -96,26 +96,26 @@ function editTest(id) {
             $('#updateTestLanguageSelect').val(data.language)
         },
         error: function (e) {
-            console.error(e);
+            console.error(e.responseText);
         }
     });
 }
 
 function importTestFromCSV(form) {
-    console.log($('#'+ form.id).prop('files')[0]) //todo logika
+    console.log($('#' + form.id).prop('files')[0]) //todo logika
     $('.importSuccessfulMessage').removeClass('d-none') //when success
     // when failed $('.importFailedMessage').removeClass('d-none')
 }
 
 function selectAppropriateJobTitle(jobTitleName) {
-    $('[id=updateTestJobTitleSelect] option').filter(function() {
+    $('[id=updateTestJobTitleSelect] option').filter(function () {
         return ($(this).text() === jobTitleName);
     }).prop('selected', true);
 }
 
 function selectAppropriateEditor(editorName) {
-    if(editorName) {
-        $('[id=updateTestEditorSelect] option').filter(function() {
+    if (editorName) {
+        $('[id=updateTestEditorSelect] option').filter(function () {
             return ($(this).text() === editorName);
         }).prop('selected', true);
     } else {

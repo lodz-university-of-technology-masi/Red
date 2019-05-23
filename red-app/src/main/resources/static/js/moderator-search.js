@@ -2,39 +2,38 @@ var selectedText = "";
 
 var cntrlIsPressed = false;
 
-$(document).keydown(function(event){
-    if(event.which=="17")
+$(document).keydown(function (event) {
+    if (event.which == "17")
         cntrlIsPressed = true;
 });
 
-$(document).keyup(function(){
+$(document).keyup(function () {
     cntrlIsPressed = false;
 });
 
 
+$(document).bind("contextmenu", function (e) {
 
-$(document).bind("contextmenu",function(e){
-
-    if(cntrlIsPressed){
+    if (cntrlIsPressed) {
         e.preventDefault();
         selectedText = getSelection().toString().toLowerCase();
-        $("#searchBox").css("left",e.pageX);
-        $("#searchBox").css("top",e.pageY);
-        $("#searchBox").fadeIn(200,startFocusOut());
+        $("#searchBox").css("left", e.pageX);
+        $("#searchBox").css("top", e.pageY);
+        $("#searchBox").fadeIn(200, startFocusOut());
     }
 
 
 });
 
-function startFocusOut(){
-    $(document).click(function(){
+function startFocusOut() {
+    $(document).click(function () {
         $("#searchBox").hide();
         $(document).off("click");
     });
 }
 
-$(function() {
-    $('#Wiki').click( function() {
+$(function () {
+    $('#Wiki').click(function () {
         var mytext = selectedText;
         console.log("Wiki search : " + mytext);
 
@@ -54,8 +53,8 @@ $(function() {
 
                 $.notify({
                     title: "<b>" + response.query.search[0].title + " : " + response.query.search[0].snippet + "</b>",
-                    message: "<br/><br/><a target='_blank' href='" + pageUrl + "'>"+ pageUrl+"</a>"
-                },{
+                    message: "<br/><br/><a target='_blank' href='" + pageUrl + "'>" + pageUrl + "</a>"
+                }, {
                     type: "info",
                     allow_dismiss: true,
                     delay: 0
@@ -63,14 +62,14 @@ $(function() {
 
             },
             error: function (e) {
-                console.error(e);
+                console.error(e.responseText);
             }
         });
 
 
     });
 
-    $('#Thes').click( function() {
+    $('#Thes').click(function () {
         var mytext = selectedText;
         console.log("Thes search : " + mytext);
 
@@ -78,7 +77,7 @@ $(function() {
 
         var language = $("#testLanguage").text().toLowerCase();
         var lang_upper = language.toUpperCase();
-        if(lang_upper == "EN"){
+        if (lang_upper == "EN") {
             lang_upper = "US";
         }
 
@@ -87,8 +86,8 @@ $(function() {
 
         var postUrl = "";
 
-        if(language == "en"){
-            postUrl = "<br/><br/><a target='_blank' href='" + ThesaourusUrl + "'>"+ ThesaourusUrl+"</a>";
+        if (language == "en") {
+            postUrl = "<br/><br/><a target='_blank' href='" + ThesaourusUrl + "'>" + ThesaourusUrl + "</a>";
         }
 
         $.ajax({
@@ -97,10 +96,13 @@ $(function() {
 
                 var synonyms = [];
                 for (key in data.response) {
-                    var output = data.response[key].list.synonyms+"<br>";
+                    var output = data.response[key].list.synonyms + "<br>";
                     var partsOfStr = output.split('|');
                     synonyms.push(partsOfStr[0]);
-                    if(partsOfStr[1]){synonyms.push(partsOfStr[1])};
+                    if (partsOfStr[1]) {
+                        synonyms.push(partsOfStr[1])
+                    }
+                    ;
                 }
 
                 var synonymString = '';
@@ -111,7 +113,7 @@ $(function() {
                 $.notify({
                     title: "<b>" + synonymString + "</b>",
                     message: postUrl
-                },{
+                }, {
                     type: "info",
                     allow_dismiss: true,
                     delay: 0
@@ -119,7 +121,7 @@ $(function() {
 
             },
             error: function (e) {
-                console.error(e);
+                console.error(e.responseText);
             }
         });
 

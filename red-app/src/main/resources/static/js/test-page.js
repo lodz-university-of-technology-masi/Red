@@ -47,7 +47,7 @@ function sendTestForm() {
             window.location.href = "/kandydat/stanowisko/" + jobTitleId + "/wynik";
         },
         error: function (e) {
-            console.log("ERROR : ", e);
+            console.error(e.responseText);
         }
     });
 

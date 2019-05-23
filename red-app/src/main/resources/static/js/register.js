@@ -35,7 +35,7 @@ $(document).ready(function () {
 
                 alert("Cos poszło nie tak... Spróbuj ponownie");
 
-                console.error(e);
+                console.error(e.responseText);
             }
         });
     });
