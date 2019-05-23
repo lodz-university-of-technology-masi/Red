@@ -5,18 +5,18 @@ window.onload = function () {
     getTests();
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
     $('#EditorsTable').DataTable();
     $('#JobTitleTable').DataTable();
     $('#TestTable').DataTable();
-} );
+});
 
 function getEditors() {
-    $.get( "/api/users/all?role=EDITOR", function( data ) {
+    $.get("/api/users/all?role=EDITOR", function (data) {
 
         $("#resultEditor").html("");
 
-        if(data) {
+        if (data) {
             fillEditorSelects(data);
             $.each(data, function (index, value) {
                 $("#resultEditor").append("<tr><td>" + value.id + "</td>\n" +
@@ -37,11 +37,11 @@ function getEditors() {
 
 
 function getJobTitles() {
-    $.get( "/jobTitles", function( data ) {
+    $.get("/jobTitles", function (data) {
 
         $("#resultJobTitle").html("");
 
-        if(data) {
+        if (data) {
             fillJobTitleSelects(data);
             $.each(data, function (index, value) {
 
@@ -76,7 +76,7 @@ function getJobTitles() {
 
 
 function getTests() {
-    $.get( "/api/tests", function( data ) {
+    $.get("/api/tests", function (data) {
 
         $("#resultTest").html("");
 
@@ -103,7 +103,7 @@ function fillJobTitleSelects(jobTitles) {
     $.each(jobTitles, function (i, item) {
         $('[id*=JobTitleSelect]').append($('<option>', {
             value: JSON.stringify(item),
-            text : item.name
+            text: item.name
         }));
     });
 }
@@ -112,7 +112,7 @@ function fillEditorSelects(editors) {
     $.each(editors, function (i, item) {
         $('[id*=EditorSelect]').append($('<option>', {
             value: JSON.stringify(item),
-            text : item.fullName
+            text: item.fullName
         }));
     });
 }
