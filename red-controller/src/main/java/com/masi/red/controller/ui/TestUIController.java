@@ -56,7 +56,7 @@ public class TestUIController {
         return "test-page-result";
     }
 
-    @GetMapping(value = "/tests/{testId}")
+    @GetMapping(value = "/moderator/tests/{testId}")
     public String getTestDetailsPage(@PathVariable Integer testId, Model model) {
         TestWithQuestionsDTO test = testService.getTestById(testId);
         model.addAttribute("test", test);

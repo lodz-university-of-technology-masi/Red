@@ -28,6 +28,7 @@ public class UserToUserDTOMapper extends BidirectionalConverter<User, UserDTO> {
                 .map(role -> mapper.map(role, RoleDTO.class))
                 .collect(Collectors.toSet());
         return UserDTO.builder()
+                .id(source.getId())
                 .username(source.getUsername())
                 .password(Strings.EMPTY)
                 .email(source.getEmail())
@@ -43,6 +44,7 @@ public class UserToUserDTOMapper extends BidirectionalConverter<User, UserDTO> {
                 .map(roleDto -> mapper.map(roleDto, Role.class))
                 .collect(Collectors.toSet());
         return User.builder()
+                .id(source.getId())
                 .username(source.getUsername())
                 .password(source.getPassword())
                 .email(source.getEmail())

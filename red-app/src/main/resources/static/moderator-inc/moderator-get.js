@@ -1,5 +1,4 @@
 window.onload = function () {
-
     getEditors();
     getJobTitles();
     getTests();
@@ -85,6 +84,12 @@ function getTests() {
         if (data) {
             var baseHref = location.href.replace(/\/+$/, "");
             $.each(data, function (index, value) {
+                var language = null;
+                if (value.language === 'EN') {
+                    language = 'polski';
+                } else {
+                    language = 'angielski';
+                }
                 $("#resultTest").append("<tr><td>" + value.id + "</td>\n" +
                     "                <td>" + value.jobTitleName + "</td>\n" +
                     "                <td>" + value.language + "</td>\n" +
@@ -92,12 +97,30 @@ function getTests() {
                     "                <td>" + value.questionsNumber + "</td>\n" +
                     "                <td>" + moment(value.creationTime).format('YYYY-MM-DD HH:mm:ss') + "</td>\n" +
                     "                <td>\n" +
-                    "                    <button id=\'T-" + value.id + "\' class=\"btn btn-sm btn-outline-info \" onClick=\"editTest(this.id) \" data-toggle=\"modal\" data-target=\"#updateTest\"><i class=\"material-icons md-24\">add_circle_outline</i> Edytuj test</button>\n" +
-                    "                    <button id=\'T-" + value.id + "\' class=\"btn btn-sm btn-outline-danger deleteTestButton\" type=\"button\"><i class=\"material-icons md-24\">remove_circle_outline</i> Usuń test</button>\n" +
-                    "                    <a href=\'" + baseHref + "/tests/" + value.id + "\' class=\"btn btn-sm btn-outline-success\"><i class=\"material-icons md-24\">add_circle_outline</i> Zarządzaj pytaniami</a>\n" +
+                    " <div className=\"btn-group\">" +
+                    "<button type=\"button\" class=\"btn btn-success dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">Zarządzaj testem </button>" +
+                    "    <div class=\"dropdown-menu\">" +
+                    "                    <a id=\'T-" + value.id + "\' class=\"dropdown-item \" onClick=\"editTest(this.id) \" data-toggle=\"modal\" data-target=\"#updateTest\"><i class=\"material-icons md-24\">add_circle_outline</i> Edytuj test</a>\n" +
+                    "                    <a id=\'T-" + value.id + "\' class=\"dropdown-item deleteTestButton\" ><i class=\"material-icons md-24\">remove_circle_outline</i> Usuń test</a>\n" +
+                    "                    <a href=\'" + baseHref + "/tests/" + value.id + "\' class=\"dropdown-item\"><i class=\"material-icons md-24\">add_circle_outline</i> Zarządzaj pytaniami</a>\n" +
+                    "                    <a class=\"dropdown-item \" ><i class=\"material-icons md-24\">import_export</i> Eksport do csv</a>\n" +
+                    "                    <a id =\'translate" + value.id + "\' class=\"dropdown-item \" ><i class=\"material-icons md-24\">translate</i> Tłumaczenie testu na </a>\n" +
+                    "</div>" +
+                    "</div>" +
                     "                </td></tr>");
+                var translateButton = document.getElementById("translate" + value.id);
+                var text = document.createTextNode(language);
+                translateButton.appendChild(text);
             });
         }
+        $("div.dropdown-menu > a").hover(
+            function () {
+                $(this).css('background-color', '#2da447')
+                $(this).css('cursor', 'pointer');
+            }, function () {
+                $(this).css('background-color', '')
+            }
+        );
     });
 }
 
@@ -105,7 +128,7 @@ function fillJobTitleSelects(jobTitles) {
     $.each(jobTitles, function (i, item) {
         $('[id*=JobTitleSelect]').append($('<option>', {
             value: JSON.stringify(item),
-            text : item.name
+            text: item.name
         }));
     });
 }
@@ -114,7 +137,7 @@ function fillEditorSelects(editors) {
     $.each(editors, function (i, item) {
         $('[id*=EditorSelect]').append($('<option>', {
             value: JSON.stringify(item),
-            text : item.fullName
+            text: item.fullName
         }));
     });
 }
