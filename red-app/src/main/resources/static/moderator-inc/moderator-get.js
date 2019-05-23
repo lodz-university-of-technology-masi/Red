@@ -12,7 +12,7 @@ $(document).ready(function() {
 } );
 
 function getEditors() {
-    $.get( "/redaktor/all", function( data ) {
+    $.get( "/api/users/all?role=EDITOR", function( data ) {
 
         $("#resultEditor").html("");
 

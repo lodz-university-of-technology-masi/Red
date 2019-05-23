@@ -1,25 +1,16 @@
 package com.masi.red.controller.api;
 
-import com.masi.red.ITestService;
 import com.masi.red.IUserService;
 import com.masi.red.common.RoleName;
 import com.masi.red.dto.UserDTO;
-import com.masi.red.entity.Role;
-import com.masi.red.entity.User;
 import com.masi.red.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
@@ -27,7 +18,6 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final IUserService userService;
-    private final ITestService testService;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity getUserById(@PathVariable Integer id) {
@@ -52,8 +42,13 @@ public class UserController {
     }
 
     @GetMapping(value = "/all")
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<UserDTO> editors = userService.getAllUsers();
-        return ResponseEntity.ok(editors);
+    public ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam(required = false) RoleName role) {
+        List<UserDTO> users;
+        if (role != null) {
+            users = userService.getAllUsersByRole(role);
+        } else {
+            users = userService.getAllUsers();
+        }
+        return ResponseEntity.ok(users);
     }
 }

@@ -63,6 +63,13 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public List<UserDTO> getAllUsersByRole(RoleName roleName) {
+        return userRepository.findAllByRolesNameIn(roleName).stream()
+                .map(user -> mapper.map(user, UserDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public UserDTO updateUser(UserDTO userDTO, Integer userId) {
         userDTO.setId(userId);
         User user = mapper.map(userDTO, User.class);
