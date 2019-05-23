@@ -1,10 +1,12 @@
 package com.masi.red;
 
-import com.masi.red.common.Language;
 import com.masi.red.common.QuestionTypeMapper;
+import com.masi.red.common.RoleName;
 import com.masi.red.dto.*;
 import com.masi.red.entity.*;
+import com.masi.red.exception.EntityNotFoundException;
 import com.masi.red.exception.NoTestsAvailableException;
+import com.masi.red.exception.ResourceAccessForbiddenException;
 import com.masi.red.helper.EntityFinder;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
@@ -12,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,14 +34,11 @@ public class TestService implements ITestService {
     private Random rand = new Random();
 
     @Override
-    public TestDTO addTest(NewTestDTO testDTO) {
+    public TestDTO addTest(NewTestDTO testDTO, User user) {
         JobTitle jobTitle = entityFinder.findJobTitleById(testDTO.getJobTitleId());
         Test test = mapper.map(testDTO, Test.class);
-        if(testDTO.getEditorId() != null) {
-            User editor = entityFinder.findUserById(testDTO.getEditorId());
-            test.setUser(editor);
-        }
 
+        test.setUser(user);
         test.setJobTitle(jobTitle);
         //TODO: implement set questions
         jobTitle.attachTest(test);
@@ -79,8 +80,11 @@ public class TestService implements ITestService {
     }
 
     @Override
-    public TestDTO updateTest(Integer id, EditedTestDTO editedTest) {
+    public TestDTO updateTest(Integer id, EditedTestDTO editedTest, User user) throws ResourceAccessForbiddenException {
         Test testToEdit = entityFinder.findTestById(id);
+        if (!isTestAccessAuthorized(user, testToEdit)) {
+            throw new ResourceAccessForbiddenException("Edycja testu dozwolona dla moderatorów i właścicieli testu");
+        }
         mapper.map(editedTest, testToEdit);
         if (jobTitleChanged(editedTest, testToEdit)) {
             JobTitle jobTitle = entityFinder.findJobTitleById(editedTest.getJobTitleId());
@@ -98,13 +102,21 @@ public class TestService implements ITestService {
     }
 
     @Override
-    public void deleteTest(Integer id) {
-        testRepository.deleteById(id);
+    public void deleteTest(Integer testId, User user) throws EntityNotFoundException, ResourceAccessForbiddenException {
+        Test test = testRepository.findById(testId)
+                .orElseThrow(() -> new EntityNotFoundException("Test o id: " + testId + " nie istnieje"));
+        if (!isTestAccessAuthorized(user, test)) {
+            throw new ResourceAccessForbiddenException("Usunięcie testu dozwolone dla moderatorów i właścicieli testu");
+        }
+        testRepository.deleteById(testId);
     }
 
     @Override
-    public void detachQuestionFromTest(Integer testId, Integer questionId) {
+    public void detachQuestionFromTest(Integer testId, Integer questionId, User user) throws ResourceAccessForbiddenException {
         Test test = entityFinder.findTestById(testId);
+        if (!isTestAccessAuthorized(user, test)) {
+            throw new ResourceAccessForbiddenException("Odpięcie pytania od testu dozwolone dla moderatorów i właścicieli testu");
+        }
         test.getQuestions().stream()
                 .filter(question -> question.getId() == questionId)
                 .findAny()
@@ -113,12 +125,15 @@ public class TestService implements ITestService {
     }
 
     @Override
-    public void attachQuestionToTest(QuestionDTO questionDTO, Integer testId) {
+    public void attachQuestionToTest(QuestionDTO questionDTO, Integer testId, User user) throws ResourceAccessForbiddenException {
         Test test = entityFinder.findTestById(testId);
+        if(!isTestAccessAuthorized(user, test)){
+            throw new ResourceAccessForbiddenException("Przypięcie pytania do testu dozwolone dla moderatorów i właścicieli testu");
+        }
         Question question;
         if (questionDTO.getId() == null) {
             question = mapper.map(questionDTO, QuestionTypeMapper.getEntityClass(questionDTO));
-            if (question.getOriginalQuestion() == null || question.getOriginalQuestion().getId() == questionDTO.getId().intValue()) {
+            if (question.getOriginalQuestion() == null || question.getOriginalQuestion().getId() == questionDTO.getId()) {
                 question.setOriginalQuestion(question);
             }
             question = questionRepository.save(question);
@@ -130,10 +145,20 @@ public class TestService implements ITestService {
     }
 
     @Override
-    public List<TestDTO> getTestsByUserId(Integer userId) {
-        List<Test> tests = testRepository.findAllByUser_Id(userId);
+    public List<TestDTO> getTestsByUserId(User user) {
+        List<Test> tests = testRepository.findAllByUser_Id(user.getId());
         return tests.stream()
                 .map(test -> mapper.map(test, TestDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    private boolean isTestAccessAuthorized(User user, Test test) {
+        Set<@NotNull RoleName> roles = user.getRoles().stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet());
+        boolean isModerator = roles.contains(RoleName.MODERATOR);
+        boolean isEditorOwner = roles.contains(RoleName.EDITOR)
+                && test.getUser().getId().equals(user.getId());
+        return isModerator || isEditorOwner;
     }
 }

@@ -56,15 +56,4 @@ public class UserController {
         List<UserDTO> editors = userService.getAllUsers();
         return ResponseEntity.ok(editors);
     }
-
-    @PreAuthorize("hasAnyRole('MODERATOR', 'EDITOR')")
-    @GetMapping(value = "/{userId}/tests")
-    public ResponseEntity getUserTests(@PathVariable Integer userId, @AuthenticationPrincipal User user) {
-        Set<@NotNull RoleName> roles = user.getRoles().stream().map(Role::getName).collect(Collectors.toSet());
-        if (roles.contains(RoleName.MODERATOR) || user.getId().equals(userId)) {
-            return ResponseEntity.ok(testService.getTestsByUserId(userId));
-        } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-    }
 }

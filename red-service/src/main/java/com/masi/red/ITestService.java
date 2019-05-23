@@ -2,13 +2,15 @@ package com.masi.red;
 
 import com.masi.red.dto.*;
 import com.masi.red.entity.User;
+import com.masi.red.exception.EntityNotFoundException;
 import com.masi.red.exception.NoTestsAvailableException;
+import com.masi.red.exception.ResourceAccessForbiddenException;
 
 import java.util.List;
 
 public interface ITestService {
 
-    TestDTO addTest(NewTestDTO test);
+    TestDTO addTest(NewTestDTO testDTO, User user);
 
     List<TestDTO> getAllTests();
 
@@ -16,13 +18,13 @@ public interface ITestService {
 
     TestWithQuestionsDTO getRandomTest(Integer jobTitleId, Integer userId) throws NoTestsAvailableException;
 
-    TestDTO updateTest(Integer id, EditedTestDTO test);
+    TestDTO updateTest(Integer id, EditedTestDTO test, User user) throws ResourceAccessForbiddenException;
 
-    void deleteTest(Integer id);
+    void deleteTest(Integer testId, User user) throws EntityNotFoundException, ResourceAccessForbiddenException;
 
-    void detachQuestionFromTest(Integer testId, Integer questionId);
+    void detachQuestionFromTest(Integer testId, Integer questionId, User user) throws ResourceAccessForbiddenException;
 
-    void attachQuestionToTest(QuestionDTO question, Integer testId);
+    void attachQuestionToTest(QuestionDTO question, Integer testId, User user) throws ResourceAccessForbiddenException;
 
-    List<TestDTO> getTestsByUserId(Integer userId);
+    List<TestDTO> getTestsByUserId(User user);
 }
