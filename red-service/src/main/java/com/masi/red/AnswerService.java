@@ -23,14 +23,13 @@ public class AnswerService implements IAnswerService {
     private final EntityFinder entityFinder;
 
     @Override
-    public boolean addAnswers(CandidateAnswerDTO answer) {
-            User user = entityFinder.findUserByUsername(answer.getUsername());
+    public boolean addAnswers(CandidateAnswerDTO answer,User candidate) {
             Test test = entityFinder.findTestById(answer.getTestId());
             for(CandidateAnswerObjectDTO tempAnswer : answer.getAnswers()) {
                 Question question = entityFinder.findQuestionById(tempAnswer.getQuestionId());
                 String answerStr = tempAnswer.getAnswer();
                 CandidateAnswer candidateAnswer = CandidateAnswer.builder()
-                        .user(user)
+                        .user(candidate)
                         .test(test)
                         .question(question)
                         .answer(answerStr)
