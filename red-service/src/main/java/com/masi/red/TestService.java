@@ -26,8 +26,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TestService implements ITestService {
 
-    private static final String[] TEST_HEADER = {"numer", "typ", "jezyk", "tresc", "liczba_mozliwych_odpowiedzi", "[tresc_kazdej_odpowiedzi]"};
-
     private final TestRepository testRepository;
     private final EntityFinder entityFinder;
     private final MapperFacade mapper;
