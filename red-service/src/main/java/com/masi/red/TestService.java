@@ -36,9 +36,15 @@ public class TestService implements ITestService {
     @Override
     public TestDTO addTest(NewTestDTO testDTO, User user) {
         JobTitle jobTitle = entityFinder.findJobTitleById(testDTO.getJobTitleId());
+        Set<@NotNull RoleName> roles = mapRoleSetToRoleNameSet(user);
+        User testOwner;
+        if (roles.contains(RoleName.MODERATOR) && testDTO.getEditorId() != null) {
+            testOwner = entityFinder.findUserById(testDTO.getEditorId());
+        } else {
+            testOwner = user;
+        }
         Test test = mapper.map(testDTO, Test.class);
-
-        test.setUser(user);
+        test.setUser(testOwner);
         test.setJobTitle(jobTitle);
         //TODO: implement set questions
         jobTitle.attachTest(test);
@@ -85,6 +91,14 @@ public class TestService implements ITestService {
         if (!isTestAccessAuthorized(user, testToEdit)) {
             throw new ResourceAccessForbiddenException("Edycja testu dozwolona dla moderatorów i właścicieli testu");
         }
+        Set<@NotNull RoleName> roles = mapRoleSetToRoleNameSet(user);
+        User testOwner;
+        if (roles.contains(RoleName.MODERATOR) && editedTest.getEditorId() != null) {
+            testOwner = entityFinder.findUserById(editedTest.getEditorId());
+        } else {
+            testOwner = user;
+        }
+
         mapper.map(editedTest, testToEdit);
         if (jobTitleChanged(editedTest, testToEdit)) {
             JobTitle jobTitle = entityFinder.findJobTitleById(editedTest.getJobTitleId());
@@ -92,7 +106,7 @@ public class TestService implements ITestService {
             testToEdit.setJobTitle(jobTitle);
             testToEdit.getJobTitle().attachTest(testToEdit);
         }
-
+        testToEdit.setUser(testOwner);
         //testToEdit.setQuestions(editedTest.getQuestions()); TODO implement
         return mapper.map(testToEdit, TestDTO.class);
     }
@@ -127,7 +141,7 @@ public class TestService implements ITestService {
     @Override
     public void attachQuestionToTest(QuestionDTO questionDTO, Integer testId, User user) throws ResourceAccessForbiddenException {
         Test test = entityFinder.findTestById(testId);
-        if(!isTestAccessAuthorized(user, test)){
+        if (!isTestAccessAuthorized(user, test)) {
             throw new ResourceAccessForbiddenException("Przypięcie pytania do testu dozwolone dla moderatorów i właścicieli testu");
         }
         Question question;
@@ -153,12 +167,14 @@ public class TestService implements ITestService {
     }
 
     private boolean isTestAccessAuthorized(User user, Test test) {
-        Set<@NotNull RoleName> roles = user.getRoles().stream()
-                .map(Role::getName)
-                .collect(Collectors.toSet());
+        Set<@NotNull RoleName> roles = mapRoleSetToRoleNameSet(user);
         boolean isModerator = roles.contains(RoleName.MODERATOR);
         boolean isEditorOwner = roles.contains(RoleName.EDITOR)
                 && test.getUser().getId().equals(user.getId());
         return isModerator || isEditorOwner;
+    }
+
+    private Set<@NotNull RoleName> mapRoleSetToRoleNameSet(User user) {
+        return user.getRoles().stream().map(Role::getName).collect(Collectors.toSet());
     }
 }

@@ -76,7 +76,7 @@ function getJobTitles() {
 
 
 function getTests() {
-    $.get("/api/tests", function (data) {
+    $.get("/api/tests/all", function (data) {
 
         $("#resultTest").html("");
 

@@ -27,8 +27,15 @@ INSERT INTO masi.single_choice_question_possible_answers(single_choice_question_
 
 ALTER SEQUENCE masi.question_seq RESTART WITH 5;
 
-INSERT INTO masi.test(id, creation_time, job_title_id, language) VALUES (1, NOW(), 1, 'EN');
-INSERT INTO masi.test(id, creation_time, job_title_id, language) VALUES (2, NOW(), 2, 'EN');
+INSERT INTO masi.users(id, email, first_name, last_name, password, username) VALUES (1, 'test@test.com', 'test', 'test', '$2a$11$koESAmGxKKtlIk4dT8z6peg17Fw3A/WThS.bYLBBuekreP4j/mo9m', 'test');
+
+ALTER SEQUENCE masi.user_seq RESTART WITH 2;
+
+INSERT INTO masi.user_role(user_id, role_id) VALUES (1, 1);
+INSERT INTO masi.user_role(user_id, role_id) VALUES (1, 2);
+
+INSERT INTO masi.test(id, creation_time, job_title_id, language, user_id) VALUES (1, NOW(), 1, 'EN', 1);
+INSERT INTO masi.test(id, creation_time, job_title_id, language, user_id) VALUES (2, NOW(), 2, 'EN', 1);
 
 ALTER SEQUENCE masi.test_seq RESTART WITH 3;
 
@@ -37,9 +44,3 @@ INSERT INTO masi.test_question(test_id, question_id) VALUES (1, 2);
 INSERT INTO masi.test_question(test_id, question_id) VALUES (2, 3);
 INSERT INTO masi.test_question(test_id, question_id) VALUES (2, 4);
 
-INSERT INTO masi.users(id, email, first_name, last_name, password, username) VALUES (1, 'test@test.com', 'test', 'test', '$2a$11$koESAmGxKKtlIk4dT8z6peg17Fw3A/WThS.bYLBBuekreP4j/mo9m', 'test');
-
-ALTER SEQUENCE masi.user_seq RESTART WITH 2;
-
-INSERT INTO masi.user_role(user_id, role_id) VALUES (1, 1);
-INSERT INTO masi.user_role(user_id, role_id) VALUES (1, 2);
