@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -116,7 +117,7 @@ public class TestController {
     }
 
     @PreAuthorize("hasAnyRole('MODERATOR', 'EDITOR')")
-    @GetMapping(value = "/{testId}/export")
+    @GetMapping("/{testId}/export")
     public void exportTest(@PathVariable Integer testId, HttpServletResponse response) throws IOException {
         testService.exportTest(testId, response);
     }
