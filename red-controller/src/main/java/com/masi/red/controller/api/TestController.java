@@ -116,7 +116,7 @@ public class TestController {
     }
 
     @PreAuthorize("hasAnyRole('MODERATOR', 'EDITOR')")
-    @GetMapping(value = "/{testId}/export")
+    @GetMapping("/{testId}/export")
     public void exportTest(@PathVariable Integer testId, HttpServletResponse response) throws IOException {
         csvService.exportTestCsv(testId, response);
     }
