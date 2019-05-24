@@ -12,8 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -93,8 +96,8 @@ public class TestController {
     @PreAuthorize("hasAnyRole('MODERATOR', 'EDITOR')")
     @PostMapping("/{testId}/questions")
     public ResponseEntity attachQuestionToTest(@PathVariable Integer testId,
-                                                       @Valid @RequestBody QuestionDTO question,
-                                                       @AuthenticationPrincipal User user) {
+                                               @Valid @RequestBody QuestionDTO question,
+                                               @AuthenticationPrincipal User user) {
         try {
             testService.attachQuestionToTest(question, testId, user);
             return ResponseEntity.noContent().build();
@@ -102,4 +105,19 @@ public class TestController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
     }
+
+    @PreAuthorize("hasAnyRole('MODERATOR', 'EDITOR')")
+    @PostMapping("/import")
+    public ResponseEntity importTest(@RequestParam("file") MultipartFile file) {
+        TestDTO testDTO = testService.importTest(file);
+        return ResponseEntity.status(HttpStatus.CREATED).body(testDTO);
+    }
+
+    @PreAuthorize("hasAnyRole('MODERATOR', 'EDITOR')")
+    @GetMapping("/{testId}/export")
+    public void exportTest(@PathVariable Integer testId, HttpServletResponse response) throws IOException {
+        testService.exportTest(testId, response);
+    }
+
+
 }

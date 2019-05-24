@@ -5,7 +5,10 @@ import com.masi.red.entity.User;
 import com.masi.red.exception.EntityNotFoundException;
 import com.masi.red.exception.NoTestsAvailableException;
 import com.masi.red.exception.ResourceAccessForbiddenException;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 public interface ITestService {
@@ -27,4 +30,8 @@ public interface ITestService {
     void attachQuestionToTest(QuestionDTO question, Integer testId, User user) throws ResourceAccessForbiddenException;
 
     List<TestDTO> getTestsByUserId(User user);
+
+    TestDTO importTest(MultipartFile file);
+
+    void exportTest(Integer testId, HttpServletResponse response) throws IOException;
 }

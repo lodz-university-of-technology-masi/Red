@@ -8,6 +8,7 @@ import com.masi.red.entity.*;
 public final class QuestionTypeMapper {
 
     private static BiMap<Class<? extends Question>, Class<? extends QuestionDTO>> questionTypeMap;
+    private static BiMap<Class<? extends Question>, QuestionType> questionSymbolMap;
 
     static {
         questionTypeMap = new ImmutableBiMap.Builder<Class<? extends Question>, Class<? extends QuestionDTO>>()
@@ -15,6 +16,13 @@ public final class QuestionTypeMapper {
                 .put(SingleChoiceQuestion.class, SingleChoiceQuestionDTO.class)
                 .put(OpenQuestion.class, OpenQuestionDTO.class)
                 .put(NumericQuestion.class, NumericQuestionDTO.class)
+                .build();
+
+        questionSymbolMap = new ImmutableBiMap.Builder<Class<? extends Question>, QuestionType>()
+                .put(ScaleQuestion.class, QuestionType.SCALE)
+                .put(SingleChoiceQuestion.class, QuestionType.SINGLE_CHOICE)
+                .put(OpenQuestion.class, QuestionType.OPEN)
+                .put(NumericQuestion.class, QuestionType.NUMERIC)
                 .build();
     }
 
@@ -27,6 +35,10 @@ public final class QuestionTypeMapper {
 
     public static Class<? extends Question> getEntityClass(QuestionDTO dto) {
         return questionTypeMap.inverse().get(dto.getClass());
+    }
+
+    public static String getQuestionSymbol(Question entity) {
+        return questionSymbolMap.get(entity.getClass()).getSymbol();
     }
 
 }
