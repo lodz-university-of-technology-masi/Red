@@ -1,8 +1,13 @@
-import {reloadWindow} from "../js/commons/common-functions";
 //***************************************************************
 //  A P I       J O B T I T L E S
 //***************************************************************
 const jobTitle_api = "/jobTitles";
+
+const reloadWindow = () => {
+    setTimeout(() => {
+        window.location.reload();
+    }, 200);
+};
 
 $(document).ready(function () {
 

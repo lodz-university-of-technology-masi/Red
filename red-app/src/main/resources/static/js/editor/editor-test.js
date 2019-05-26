@@ -1,9 +1,14 @@
-import {reloadWindow} from "../commons/common-functions";
 //***************************************************************
 //  A P I       T E S T S
 //***************************************************************
 
 const test_api = "/api/tests";
+
+const reloadWindow = () => {
+    setTimeout(() => {
+        window.location.reload();
+    }, 200);
+};
 
 $(document).ready(() => {
 
