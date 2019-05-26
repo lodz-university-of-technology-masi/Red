@@ -1,7 +1,5 @@
 package com.masi.red;
 
-import com.masi.red.common.CsvConstants;
-import com.masi.red.common.QuestionType;
 import com.masi.red.common.QuestionTypeMapper;
 import com.masi.red.common.RoleName;
 import com.masi.red.dto.*;
@@ -9,21 +7,18 @@ import com.masi.red.entity.*;
 import com.masi.red.exception.NoTestsAvailableException;
 import com.masi.red.exception.ResourceAccessForbiddenException;
 import com.masi.red.helper.EntityFinder;
-import com.opencsv.CSVWriter;
-import com.opencsv.ICSVWriter;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.persistence.EntityNotFoundException;
-import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -177,73 +172,6 @@ public class TestService implements ITestService {
     @Override
     public TestDTO importTest(MultipartFile file) {
         return null;
-    }
-
-    @Override
-    public void exportTest(Integer testId, HttpServletResponse response) throws IOException {
-        Test test = entityFinder.findTestById(testId);
-
-        response.setContentType(CsvConstants.MEDIA_TYPE);
-        response.setHeader(CsvConstants.HEADER_KEY, CsvConstants.HEADER_TEST_VALUE);
-
-        try (final CSVWriter writer =
-                     new CSVWriter(response.getWriter(),
-                             CsvConstants.CSV_SEPARATOR,
-                             ICSVWriter.NO_QUOTE_CHARACTER,
-                             ICSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                             ICSVWriter.DEFAULT_LINE_END)) {
-
-            writer.writeNext(TEST_HEADER);
-
-            for (Question question : test.getQuestions()) {
-                String[] csvRow = getCsvQuestionRow(question);
-                writer.writeNext(csvRow);
-            }
-        }
-    }
-
-    private String[] getCsvQuestionRow(Question question) {
-        String number = String.valueOf(question.getId());
-        String type = QuestionTypeMapper.getQuestionSymbol(question);
-        String language = question.getLanguage().toString();
-        String content = question.getContent();
-        String possibleAnswersNumber = getNumberOfPossibleAnswers(question, type);
-        String answerContent = getCsvPossibleAnswers(question, type);
-        return new String[]{number, type, language, content, possibleAnswersNumber, answerContent};
-    }
-
-    private String getCsvPossibleAnswers(Question question, String type) {
-        if (type.equals(QuestionType.SINGLE_CHOICE.getSymbol())) {
-            return getSingleChoiceQuestionCsvAnswers(question);
-        }
-        String suggestedAnswer = question.getSuggestedAnswer() == null ? "" : question.getSuggestedAnswer();
-        return CsvConstants.DEFAULT_ARRAY_OPEN
-                + suggestedAnswer
-                + CsvConstants.DEFAULT_SUGGESTED_ANSWER_MARKER
-                + CsvConstants.DEFAULT_ARRAY_CLOSE;
-    }
-
-    private String getSingleChoiceQuestionCsvAnswers(Question question) {
-        StringBuilder answerContent = new StringBuilder(CsvConstants.DEFAULT_ARRAY_OPEN);
-        for (Iterator<String> iterator = ((SingleChoiceQuestion) question).getPossibleAnswers().iterator(); iterator.hasNext(); ) {
-            String possibleAnswer = iterator.next();
-            answerContent.append(possibleAnswer);
-            if (possibleAnswer.equals(question.getSuggestedAnswer())) {
-                answerContent.append(CsvConstants.DEFAULT_SUGGESTED_ANSWER_MARKER);
-            }
-            if (iterator.hasNext()) {
-                answerContent.append(ICSVWriter.DEFAULT_SEPARATOR);
-            }
-        }
-        answerContent.append(CsvConstants.DEFAULT_ARRAY_CLOSE);
-        return answerContent.toString();
-    }
-
-    private String getNumberOfPossibleAnswers(Question question, String type) {
-        if (Objects.equals(type, QuestionType.SINGLE_CHOICE.getSymbol())) {
-            return String.valueOf(((SingleChoiceQuestion) question).getPossibleAnswers().size());
-        }
-        return "1";
     }
 
     private boolean isTestAccessForbidden(User user, Test test) {

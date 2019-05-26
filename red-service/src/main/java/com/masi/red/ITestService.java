@@ -31,6 +31,4 @@ public interface ITestService {
     List<TestDTO> getTestsByUserId(User user);
 
     TestDTO importTest(MultipartFile file);
-
-    void exportTest(Integer testId, HttpServletResponse response) throws IOException;
 }
