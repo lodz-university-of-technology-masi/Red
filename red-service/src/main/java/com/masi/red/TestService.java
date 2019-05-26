@@ -4,7 +4,6 @@ import com.masi.red.common.QuestionTypeMapper;
 import com.masi.red.common.RoleName;
 import com.masi.red.dto.*;
 import com.masi.red.entity.*;
-import com.masi.red.exception.EntityNotFoundException;
 import com.masi.red.exception.NoTestsAvailableException;
 import com.masi.red.exception.ResourceAccessForbiddenException;
 import com.masi.red.helper.EntityFinder;
@@ -13,6 +12,7 @@ import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -116,7 +116,7 @@ public class TestService implements ITestService {
     }
 
     @Override
-    public void deleteTest(Integer testId, User user) throws EntityNotFoundException, ResourceAccessForbiddenException {
+    public void deleteTest(Integer testId, User user) throws ResourceAccessForbiddenException {
         Test test = testRepository.findById(testId)
                 .orElseThrow(() -> new EntityNotFoundException("Test o id: " + testId + " nie istnieje"));
         if (!isTestAccessAuthorized(user, test)) {

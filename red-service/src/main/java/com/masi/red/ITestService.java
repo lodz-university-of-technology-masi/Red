@@ -2,7 +2,6 @@ package com.masi.red;
 
 import com.masi.red.dto.*;
 import com.masi.red.entity.User;
-import com.masi.red.exception.EntityNotFoundException;
 import com.masi.red.exception.NoTestsAvailableException;
 import com.masi.red.exception.ResourceAccessForbiddenException;
 
@@ -20,7 +19,7 @@ public interface ITestService {
 
     TestDTO updateTest(Integer id, EditedTestDTO test, User user) throws ResourceAccessForbiddenException;
 
-    void deleteTest(Integer testId, User user) throws EntityNotFoundException, ResourceAccessForbiddenException;
+    void deleteTest(Integer testId, User user) throws ResourceAccessForbiddenException;
 
     void detachQuestionFromTest(Integer testId, Integer questionId, User user) throws ResourceAccessForbiddenException;
 

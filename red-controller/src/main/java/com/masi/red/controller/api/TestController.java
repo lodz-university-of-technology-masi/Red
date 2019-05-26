@@ -3,7 +3,6 @@ package com.masi.red.controller.api;
 import com.masi.red.ITestService;
 import com.masi.red.dto.*;
 import com.masi.red.entity.User;
-import com.masi.red.exception.EntityNotFoundException;
 import com.masi.red.exception.ResourceAccessForbiddenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 
