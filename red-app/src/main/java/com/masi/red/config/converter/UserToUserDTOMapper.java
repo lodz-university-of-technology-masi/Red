@@ -34,23 +34,28 @@ public class UserToUserDTOMapper extends BidirectionalConverter<User, UserDTO> {
                 .email(source.getEmail())
                 .firstName(source.getFirstName())
                 .lastName(source.getLastName())
+                .fullName(source.getFullName())
                 .roles(roles)
                 .build();
     }
 
     @Override
     public User convertFrom(UserDTO source, Type<User> destinationType, MappingContext mappingContext) {
-        Set<Role> roles = source.getRoles().stream()
-                .map(roleDto -> mapper.map(roleDto, Role.class))
-                .collect(Collectors.toSet());
-        return User.builder()
+        User.UserBuilder userBuilder = User.builder()
                 .id(source.getId())
                 .username(source.getUsername())
                 .password(source.getPassword())
                 .email(source.getEmail())
                 .firstName(source.getFirstName())
-                .lastName(source.getLastName())
-                .roles(roles)
+                .lastName(source.getLastName());
+        Set<RoleDTO> userDtoRoles = source.getRoles();
+        if (userDtoRoles != null) {
+            Set<Role> roles = userDtoRoles.stream()
+                    .map(roleDto -> mapper.map(roleDto, Role.class))
+                    .collect(Collectors.toSet());
+            userBuilder.roles(roles);
+        }
+        return userBuilder
                 .build();
     }
 }

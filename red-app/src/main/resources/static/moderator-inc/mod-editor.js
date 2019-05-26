@@ -1,63 +1,57 @@
-
 //***************************************************************
 //  A P I       E D I T O R
 //***************************************************************
 
-editor_api = "/redaktor";
+const editor_api = "/api/users";
+const register_admin_api = "/register/administrative";
 
-$(document).ready(function() {
+const reloadWindow = () => {
+    setTimeout(() => {
+        window.location.reload();
+    }, 200);
+};
 
-    $("#FormCreateEditorButton").click(function () {
+$(document).ready(() => {
 
-        var dataForm = $('#FormCreateEditor').serializeArray();
+    $("#FormCreateEditorButton").click(() => {
 
-        var jsonObject = {};
-        jsonObject["username"] = dataForm[0].value;
-        jsonObject["email"] = dataForm[1].value;
-        jsonObject["password"] = dataForm[2].value;
-        jsonObject["role"] = dataForm[3].value;
-        jsonObject["firstName"] = dataForm[4].value;
-        jsonObject["lastName"] = dataForm[5].value;
+        const dataForm = $('#FormCreateEditor').serializeArray();
 
+        const roleName = dataForm[3].value;
 
-        console.log(JSON.stringify(jsonObject));
-        //console.log(dataForm);
+        const jsonObject = {
+            username: dataForm[0].value,
+            email: dataForm[1].value,
+            password: dataForm[2].value,
+            roles: [{name: roleName, active: true}],
+            firstName: dataForm[4].value,
+            lastName: dataForm[5].value
+        };
 
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: editor_api,
+            url: register_admin_api,
             data: JSON.stringify(jsonObject),
-            dataType: 'json',
-            success: function(data) {
-                console.log("Created: " + data.firstName);
-
-                setTimeout(function(){
-                    window.location.reload(true);
-                }, 2000);
-            },
-            error: function (e) {
-                console.log("ERROR : ", e);
-            }
+            success: () => reloadWindow(),
+            error: (e) => console.error(e.responseText)
         });
 
     });
 
-    $("#FormUpdateEditorButton").click(function () {
+    $("#FormUpdateEditorButton").click(() => {
 
-        var dataForm = $('#FormUpdateEditor').serializeArray();
+        const dataForm = $('#FormUpdateEditor').serializeArray();
 
-        var jsonObject = {};
-        jsonObject["id"] = parseInt(dataForm[0].value);
-        jsonObject["username"] = dataForm[1].value;
-        jsonObject["email"] = dataForm[2].value;
-        jsonObject["password"] = dataForm[3].value;
-        jsonObject["role"] = dataForm[4].value;
-        jsonObject["firstName"] = dataForm[5].value;
-        jsonObject["lastName"] = dataForm[6].value;
-
-        console.log(JSON.stringify(jsonObject));
-
+        const jsonObject = {
+            id: parseInt(dataForm[0].value),
+            username: dataForm[1].value,
+            email: dataForm[2].value,
+            password: dataForm[3].value,
+            roles: [{name: dataForm[4].value, active: true}],
+            firstName: dataForm[5].value,
+            lastName: dataForm[6].value
+        };
 
         $.ajax({
             type: "PUT",
@@ -65,70 +59,40 @@ $(document).ready(function() {
             url: editor_api + "/" + dataForm[0].value,
             data: JSON.stringify(jsonObject),
             dataType: 'json',
-            success: function(data) {
-                console.log(data);
-
-                setTimeout(function(){
-                    window.location.reload(true);
-                }, 2000);
-            },
-            error: function (e) {
-                console.log("ERROR : ", e);
-            }
+            success: () => reloadWindow(),
+            error: (e) => console.error(e.responseText)
         });
     });
 
-    $(".deleteEditorButton").click(function(event){
+    $(".deleteEditorButton").click((event) => {
 
-        console.log(event.target.id);
-
-        var editorId = event.target.id;
-        var res = editorId.split("-");
-
+        const editorId = event.target.id;
+        const res = editorId.split("-");
 
         $.ajax({
             type: "DELETE",
             url: editor_api + "/" + res[1],
-            success: function(data) {
-                console.log(data);
-
-                setTimeout(function(){
-                    window.location.reload(true);
-                }, 2000);
-            },
-            error: function (e) {
-                console.log("ERROR : ", e);
-            }
+            success: () => reloadWindow(),
+            error: (e) => console.error(e.responseText)
         });
     });
 
 
-
 });
 
-function editEditor(id){
+function editEditor(editorId) {
 
-    console.log("Pobieranie editora o ID: " + id);
-
-    var editorId = id;
-    var res = editorId.split("-");
+    const res = editorId.split("-");
 
     $.ajax({
         type: "GET",
         url: editor_api + "/" + res[1],
-        success: function(data) {
-            console.log(data);
-
-            insertIntoEditorEditModal(data);
-
-        },
-        error: function (e) {
-            console.log("ERROR : ", e);
-        }
+        success: (data) => insertIntoEditorEditModal(data),
+        error: (e) => console.error(e.responseText)
     });
 }
 
-function insertIntoEditorEditModal(data){
+function insertIntoEditorEditModal(data) {
 
     clearEditorEditModal();
 
@@ -140,7 +104,7 @@ function insertIntoEditorEditModal(data){
 
 }
 
-function clearEditorEditModal(){
+function clearEditorEditModal() {
 
     $("#FUEId").val("");
     $("#FUEUsername").val("");

@@ -1,23 +1,21 @@
-window.onload = function () {
+window.onload = () => {
     getEditors();
     getJobTitles();
     getTests();
 };
 
-$(document).ready(function() {
+$(document).ready(() => {
     $('#EditorsTable').DataTable();
     $('#JobTitleTable').DataTable();
     $('#TestTable').DataTable();
-} );
+});
 
 function getEditors() {
-    $.get( "/redaktor/all", function( data ) {
-
+    $.get("/api/users/all?role=EDITOR", (data) => {
         $("#resultEditor").html("");
-
-        if(data) {
+        if (data) {
             fillEditorSelects(data);
-            $.each(data, function (index, value) {
+            $.each(data, (index, value) => {
                 $("#resultEditor").append("<tr><td>" + value.id + "</td>\n" +
                     "                <td>" + value.username + "</td>\n" +
                     "                <td>" + value.email + "</td>\n" +
@@ -27,32 +25,24 @@ function getEditors() {
                     "                    <button id=\'EE-" + value.id + "\' class=\"btn btn-sm btn-outline-info editEditorButton\" onClick=\" editEditor(this.id); \" data-toggle=\"modal\" data-target=\"#updateEditor\"><i class=\"material-icons md-24\">add_circle_outline</i> Edytuj Redaktora</button>\n" +
                     "                    <button id=\'DE-" + value.id + "\' class=\"btn btn-sm btn-outline-danger deleteEditorButton\" type=\"button\"><i class=\"material-icons md-24\">remove_circle_outline</i> Usuń Redaktora</button>\n" +
                     "                </td></tr>");
-
             });
         }
-
     });
 }
 
 
 function getJobTitles() {
-    $.get( "/jobTitles", function( data ) {
-
+    $.get("/jobTitles", (data) => {
         $("#resultJobTitle").html("");
 
-        if(data) {
+        if (data) {
             fillJobTitleSelects(data);
-            $.each(data, function (index, value) {
-
-                var testName = "";
-                var testID = 0;
+            $.each(data, (index, value) => {
+                let testName = "";
+                let testID = 0;
 
                 if (value.testList) {
-
-                    console.log(value.testList);
-
-                    $.each(value.testList, function (index, test) {
-
+                    $.each(value.testList, (index, test) => {
                         testName = test.name;
                         testID = test.id;
 
@@ -75,16 +65,15 @@ function getJobTitles() {
     });
 }
 
-
 function getTests() {
-    $.get( "/api/tests", function( data ) {
+    $.get("/api/tests/all", (data) => {
 
         $("#resultTest").html("");
 
         if (data) {
-            var baseHref = location.href.replace(/\/+$/, "");
-            $.each(data, function (index, value) {
-                var language = null;
+            const baseHref = location.href.replace(/\/+$/, "");
+            $.each(data, (index, value) => {
+                let language = null;
                 if (value.language === 'EN') {
                     language = 'polski';
                 } else {
@@ -108,16 +97,16 @@ function getTests() {
                     "</div>" +
                     "</div>" +
                     "                </td></tr>");
-                var translateButton = document.getElementById("translate" + value.id);
-                var text = document.createTextNode(language);
+                const translateButton = document.getElementById("translate" + value.id);
+                const text = document.createTextNode(language);
                 translateButton.appendChild(text);
             });
         }
         $("div.dropdown-menu > a").hover(
-            function () {
-                $(this).css('background-color', '#2da447')
+            () => {
+                $(this).css('background-color', '#2da447');
                 $(this).css('cursor', 'pointer');
-            }, function () {
+            }, () => {
                 $(this).css('background-color', '')
             }
         );
@@ -125,7 +114,7 @@ function getTests() {
 }
 
 function fillJobTitleSelects(jobTitles) {
-    $.each(jobTitles, function (i, item) {
+    $.each(jobTitles, (i, item) => {
         $('[id*=JobTitleSelect]').append($('<option>', {
             value: JSON.stringify(item),
             text: item.name
@@ -134,7 +123,7 @@ function fillJobTitleSelects(jobTitles) {
 }
 
 function fillEditorSelects(editors) {
-    $.each(editors, function (i, item) {
+    $.each(editors, (i, item) => {
         $('[id*=EditorSelect]').append($('<option>', {
             value: JSON.stringify(item),
             text: item.fullName

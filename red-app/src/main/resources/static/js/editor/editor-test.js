@@ -4,16 +4,19 @@
 
 const test_api = "/api/tests";
 
+const reloadWindow = () => {
+    setTimeout(() => {
+        window.location.reload();
+    }, 200);
+};
+
 $(document).ready(() => {
 
     $("#FormCreateTestButton").click(() => {
-        const jsonObject = {};
-        const editor = JSON.parse($('#createTestEditorSelect').val());
-        if (editor) {
-            jsonObject["editorId"] = editor.id;
-        }
-        jsonObject["jobTitleId"] = JSON.parse($('#createTestJobTitleSelect').val()).id;
-        jsonObject["language"] = $('#createTestLanguageSelect').val();
+        const jsonObject = {
+            jobTitleId: JSON.parse($('#createTestJobTitleSelect').val()).id,
+            language: $('#createTestLanguageSelect').val()
+        };
 
         $.ajax({
             type: "POST",
@@ -26,15 +29,13 @@ $(document).ready(() => {
     });
 
     $("#FormUpdateTestButton").click(() => {
-        const jsonObject = {};
-        const editor = JSON.parse($('#createTestEditorSelect').val());
-        if (editor) {
-            jsonObject["editorId"] = editor.id;
-        }
-        jsonObject["jobTitleId"] = JSON.parse($('#updateTestJobTitleSelect').val()).id;
-        jsonObject["language"] = $('#updateTestLanguageSelect').val();
         const testId = $('#updatedTestId').val();
-        jsonObject["id"] = testId;
+
+        const jsonObject = {
+            jobTitleId: JSON.parse($('#updateTestJobTitleSelect').val()).id,
+            language: $('#updateTestLanguageSelect').val(),
+            id: testId
+        };
 
         $.ajax({
             type: "PUT",
@@ -47,7 +48,7 @@ $(document).ready(() => {
         });
     });
 
-    $("#resultTest").on("click", ".deleteTestButton", function (event) {
+    $("#resultTest").on("click", ".deleteTestButton", (event) => {
 
         const testID = event.target.id.split('-');
 
@@ -57,6 +58,7 @@ $(document).ready(() => {
             success: () => reloadWindow(),
             error: (e) => console.error(e.responseText)
         });
+
     });
 });
 
@@ -74,7 +76,9 @@ function editTest(id) {
             selectAppropriateEditor(data.editorName);
             $('#updateTestLanguageSelect').val(data.language)
         },
-        error: (e) => console.error(e.responseText)
+        error: (e) => {
+            console.error(e.responseText);
+        }
     });
 }
 
@@ -85,16 +89,16 @@ function importTestFromCSV(form) {
 }
 
 function selectAppropriateJobTitle(jobTitleName) {
-    $('[id=updateTestJobTitleSelect] option').filter(function () {
-        return ($(this).text() === jobTitleName);
-    }).prop('selected', true);
+    $('[id=updateTestJobTitleSelect] option')
+        .filter(() => ($(this).text() === jobTitleName))
+        .prop('selected', true);
 }
 
 function selectAppropriateEditor(editorName) {
     if (editorName) {
-        $('[id=updateTestEditorSelect] option').filter(function () {
-            return ($(this).text() === editorName);
-        }).prop('selected', true);
+        $('[id=updateTestEditorSelect] option')
+            .filter(() => ($(this).text() === editorName))
+            .prop('selected', true);
     } else {
         $('#updateTestEditorSelect').val("")
     }
