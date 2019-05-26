@@ -34,7 +34,7 @@ public class UserToUserDTOMapper extends BidirectionalConverter<User, UserDTO> {
                 .email(source.getEmail())
                 .firstName(source.getFirstName())
                 .lastName(source.getLastName())
-                .fullName(source.getFirstName() + " " + source.getLastName())
+                .fullName(source.getFullName())
                 .roles(roles)
                 .build();
     }
