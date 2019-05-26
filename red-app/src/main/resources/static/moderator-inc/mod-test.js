@@ -1,14 +1,15 @@
+import {reloadWindow} from "../js/commons/common-functions";
 //***************************************************************
 //  A P I       T E S T S
 //***************************************************************
 
-test_api = "/api/tests";
+const test_api = "/api/tests";
 
-$(document).ready(function () {
+$(document).ready(() => {
 
-    $("#FormCreateTestButton").click(function () {
-        var jsonObject = {};
-        var editor = JSON.parse($('#createTestEditorSelect').val());
+    $("#FormCreateTestButton").click(() => {
+        const jsonObject = {};
+        const editor = JSON.parse($('#createTestEditorSelect').val());
         if (editor) {
             jsonObject["editorId"] = editor.id;
         }
@@ -20,27 +21,21 @@ $(document).ready(function () {
             contentType: "application/json",
             url: test_api,
             data: JSON.stringify(jsonObject),
-            success: function () {
-                setTimeout(function () {
-                    window.location.reload();
-                }, 200);
-            },
-            error: function (e) {
-                console.error(e.responseText);
-            }
+            success: () => reloadWindow(),
+            error: (e) => console.error(e.responseText)
         });
     });
 
-    $("#FormUpdateTestButton").click(function () {
-        var jsonObject = {};
-        var editor = JSON.parse($('#createTestEditorSelect').val());
+    $("#FormUpdateTestButton").click(() => {
+        const jsonObject = {};
+        const editor = JSON.parse($('#createTestEditorSelect').val());
         if (editor) {
             jsonObject["editorId"] = editor.id;
         }
         jsonObject["jobTitleId"] = JSON.parse($('#updateTestJobTitleSelect').val()).id;
         jsonObject["language"] = $('#updateTestLanguageSelect').val();
-        var testId = $('#updatedTestId').val();
-        jsonObject["id"] = testId
+        const testId = $('#updatedTestId').val();
+        jsonObject["id"] = testId;
 
         $.ajax({
             type: "PUT",
@@ -48,56 +43,39 @@ $(document).ready(function () {
             url: test_api + "/" + testId,
             data: JSON.stringify(jsonObject),
             dataType: 'json',
-            success: function () {
-
-                setTimeout(function () {
-                    window.location.reload();
-                }, 200);
-            },
-            error: function (e) {
-                console.error(e.responseText);
-            }
+            success: () => reloadWindow(),
+            error: (e) => console.error(e.responseText)
         });
     });
 
     $("#resultTest").on("click", ".deleteTestButton", function (event) {
 
-        var testID = event.target.id.split('-');
+        const testID = event.target.id.split('-');
 
         $.ajax({
             type: "DELETE",
             url: test_api + "/" + testID[1],
-            success: function () {
-
-                setTimeout(function () {
-                    window.location.reload();
-                }, 200);
-            },
-            error: function (e) {
-                console.error(e.responseText);
-            }
+            success: () => reloadWindow(),
+            error: (e) => console.error(e.responseText)
         });
-
     });
 });
 
 function editTest(id) {
     resetMessages();
-    var testId = id.split("-");
+    const testId = id.split("-");
 
     $.ajax({
         type: "GET",
         url: test_api + "/" + testId[1],
-        success: function (data) {
+        success: (data) => {
             $('#updatedTestId').val(data.id);
 
             selectAppropriateJobTitle(data.jobTitleName);
             selectAppropriateEditor(data.editorName);
             $('#updateTestLanguageSelect').val(data.language)
         },
-        error: function (e) {
-            console.error(e.responseText);
-        }
+        error: (e) => console.error(e.responseText)
     });
 }
 

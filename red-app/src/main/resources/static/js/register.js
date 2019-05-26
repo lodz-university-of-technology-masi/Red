@@ -1,20 +1,22 @@
+import {reloadWindow} from "./commons/common-functions";
 //***************************************************************
 //  A P I       R E G I S T E R
 //***************************************************************
-register_api = "/register";
+const register_api = "/register";
 
-$(document).ready(function () {
+$(document).ready(() => {
 
-    $("#FormCreateCandidateButton").click(function () {
+    $("#FormCreateCandidateButton").click(() => {
 
-        var dataForm = $('#FormCreateCandidate').serializeArray();
+        const dataForm = $('#FormCreateCandidate').serializeArray();
 
-        var jsonObject = {};
-        jsonObject["username"] = dataForm[0].value;
-        jsonObject["email"] = dataForm[1].value;
-        jsonObject["password"] = dataForm[2].value;
-        jsonObject["firstName"] = dataForm[3].value;
-        jsonObject["lastName"] = dataForm[4].value;
+        const jsonObject = {
+            username: dataForm[0].value,
+            email: dataForm[1].value,
+            password: dataForm[2].value,
+            firstName: dataForm[3].value,
+            lastName: dataForm[4].value
+        };
 
         $.ajax({
             type: "POST",
@@ -22,17 +24,12 @@ $(document).ready(function () {
             url: register_api,
             data: JSON.stringify(jsonObject),
             dataType: 'text',
-            success: function () {
+            success: () => {
                 alert("Utworzono konto... Zaraz nastapi przekierowanie.");
-
-                setTimeout(function () {
-                    window.location.reload();
-                }, 200);
+                reloadWindow()
             },
-            error: function (e) {
-
+            error: (e) => {
                 alert("Cos poszło nie tak... Spróbuj ponownie");
-
                 console.error(e.responseText);
             }
         });

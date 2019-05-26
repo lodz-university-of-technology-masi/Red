@@ -1,14 +1,14 @@
+import {reloadWindow} from "../commons/common-functions";
 //***************************************************************
 //  A P I       T E S T S
 //***************************************************************
 
-test_api = "/api/tests";
+const test_api = "/api/tests";
 
-$(document).ready(function () {
+$(document).ready(() => {
 
-    $("#FormCreateTestButton").click(function () {
-
-        var jsonObject = {
+    $("#FormCreateTestButton").click(() => {
+        const jsonObject = {
             jobTitleId: JSON.parse($('#createTestJobTitleSelect').val()).id,
             language: $('#createTestLanguageSelect').val()
         };
@@ -18,21 +18,15 @@ $(document).ready(function () {
             contentType: "application/json",
             url: test_api,
             data: JSON.stringify(jsonObject),
-            success: function () {
-                setTimeout(function () {
-                    window.location.reload();
-                }, 200);
-            },
-            error: function (e) {
-                console.error(e.responseText);
-            }
+            success: () => reloadWindow(),
+            error: (e) => console.error(e.responseText)
         });
     });
 
-    $("#FormUpdateTestButton").click(function () {
-        var testId = $('#updatedTestId').val();
+    $("#FormUpdateTestButton").click(() => {
+        const testId = $('#updatedTestId').val();
 
-        var jsonObject = {
+        const jsonObject = {
             jobTitleId: JSON.parse($('#updateTestJobTitleSelect').val()).id,
             language: $('#updateTestLanguageSelect').val(),
             id: testId
@@ -44,34 +38,20 @@ $(document).ready(function () {
             url: test_api + "/" + testId,
             data: JSON.stringify(jsonObject),
             dataType: 'json',
-            success: function () {
-
-                setTimeout(function () {
-                    window.location.reload();
-                }, 200);
-            },
-            error: function (e) {
-                console.error(e.responseText);
-            }
+            success: () => reloadWindow(),
+            error: (e) => console.error(e.responseText)
         });
     });
 
-    $("#resultTest").on("click", ".deleteTestButton", function (event) {
+    $("#resultTest").on("click", ".deleteTestButton", (event) => {
 
-        var testID = event.target.id.split('-');
+        const testID = event.target.id.split('-');
 
         $.ajax({
             type: "DELETE",
             url: test_api + "/" + testID[1],
-            success: function () {
-
-                setTimeout(function () {
-                    window.location.reload();
-                }, 200);
-            },
-            error: function (e) {
-                console.error(e.responseText);
-            }
+            success: () => reloadWindow(),
+            error: (e) => console.error(e.responseText)
         });
 
     });
@@ -79,19 +59,19 @@ $(document).ready(function () {
 
 function editTest(id) {
     resetMessages();
-    var testId = id.split("-");
+    const testId = id.split("-");
 
     $.ajax({
         type: "GET",
         url: test_api + "/" + testId[1],
-        success: function (data) {
+        success: (data) => {
             $('#updatedTestId').val(data.id);
 
             selectAppropriateJobTitle(data.jobTitleName);
             selectAppropriateEditor(data.editorName);
             $('#updateTestLanguageSelect').val(data.language)
         },
-        error: function (e) {
+        error: (e) => {
             console.error(e.responseText);
         }
     });
@@ -104,16 +84,16 @@ function importTestFromCSV(form) {
 }
 
 function selectAppropriateJobTitle(jobTitleName) {
-    $('[id=updateTestJobTitleSelect] option').filter(function () {
-        return ($(this).text() === jobTitleName);
-    }).prop('selected', true);
+    $('[id=updateTestJobTitleSelect] option')
+        .filter(() => ($(this).text() === jobTitleName))
+        .prop('selected', true);
 }
 
 function selectAppropriateEditor(editorName) {
     if (editorName) {
-        $('[id=updateTestEditorSelect] option').filter(function () {
-            return ($(this).text() === editorName);
-        }).prop('selected', true);
+        $('[id=updateTestEditorSelect] option')
+            .filter(() => ($(this).text() === editorName))
+            .prop('selected', true);
     } else {
         $('#updateTestEditorSelect').val("")
     }
