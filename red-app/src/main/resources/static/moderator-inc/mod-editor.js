@@ -1,19 +1,20 @@
+import {reloadWindow} from "../js/commons/common-functions";
 //***************************************************************
 //  A P I       E D I T O R
 //***************************************************************
 
-editor_api = "/api/users";
-register_admin_api = "/register/administrative";
+const editor_api = "/api/users";
+const register_admin_api = "/register/administrative";
 
-$(document).ready(function () {
+$(document).ready(() => {
 
-    $("#FormCreateEditorButton").click(function () {
+    $("#FormCreateEditorButton").click(() => {
 
-        var dataForm = $('#FormCreateEditor').serializeArray();
+        const dataForm = $('#FormCreateEditor').serializeArray();
 
-        var roleName = dataForm[3].value;
+        const roleName = dataForm[3].value;
 
-        var jsonObject = {
+        const jsonObject = {
             username: dataForm[0].value,
             email: dataForm[1].value,
             password: dataForm[2].value,
@@ -27,24 +28,17 @@ $(document).ready(function () {
             contentType: "application/json",
             url: register_admin_api,
             data: JSON.stringify(jsonObject),
-            success: function () {
-
-                setTimeout(function () {
-                    window.location.reload();
-                }, 200);
-            },
-            error: function (e) {
-                console.error(e.responseText);
-            }
+            success: () => reloadWindow(),
+            error: (e) => console.error(e.responseText)
         });
 
     });
 
-    $("#FormUpdateEditorButton").click(function () {
+    $("#FormUpdateEditorButton").click(() => {
 
-        var dataForm = $('#FormUpdateEditor').serializeArray();
+        const dataForm = $('#FormUpdateEditor').serializeArray();
 
-        var jsonObject = {
+        const jsonObject = {
             id: parseInt(dataForm[0].value),
             username: dataForm[1].value,
             email: dataForm[2].value,
@@ -60,34 +54,21 @@ $(document).ready(function () {
             url: editor_api + "/" + dataForm[0].value,
             data: JSON.stringify(jsonObject),
             dataType: 'json',
-            success: function () {
-                setTimeout(function () {
-                    window.location.reload();
-                }, 200);
-            },
-            error: function (e) {
-                console.error(e.responseText);
-            }
+            success: () => reloadWindow(),
+            error: (e) => console.error(e.responseText)
         });
     });
 
-    $(".deleteEditorButton").click(function (event) {
+    $(".deleteEditorButton").click((event) => {
 
-        var editorId = event.target.id;
-        var res = editorId.split("-");
+        const editorId = event.target.id;
+        const res = editorId.split("-");
 
         $.ajax({
             type: "DELETE",
             url: editor_api + "/" + res[1],
-            success: function () {
-
-                setTimeout(function () {
-                    window.location.reload();
-                }, 200);
-            },
-            error: function (e) {
-                console.error(e.responseText);
-            }
+            success: () => reloadWindow(),
+            error: (e) => console.error(e.responseText)
         });
     });
 
@@ -96,18 +77,13 @@ $(document).ready(function () {
 
 function editEditor(editorId) {
 
-    var res = editorId.split("-");
+    const res = editorId.split("-");
 
     $.ajax({
         type: "GET",
         url: editor_api + "/" + res[1],
-        success: function (data) {
-
-            insertIntoEditorEditModal(data);
-        },
-        error: function (e) {
-            console.error(e.responseText);
-        }
+        success: (data) => insertIntoEditorEditModal(data),
+        error: (e) => console.error(e.responseText)
     });
 }
 

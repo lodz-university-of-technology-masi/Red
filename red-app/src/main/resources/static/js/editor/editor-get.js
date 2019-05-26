@@ -1,17 +1,17 @@
-window.onload = function () {
+window.onload = () => {
     getJobTitles();
     getTests();
 };
 
-$(document).ready(function () {
+$(document).ready(() => {
     $('#TestTable').DataTable();
 });
 
 function getJobTitles() {
-    $.get("/jobTitles", function (data) {
+    $.get("/jobTitles", (data) => {
         $("#resultJobTitle").html("");
         if (data) {
-            $.each(data, function (i, item) {
+            $.each(data, (i, item) => {
                 $('[id*=JobTitleSelect]').append($('<option>', {
                     value: JSON.stringify(item),
                     text: item.name
@@ -23,14 +23,14 @@ function getJobTitles() {
 
 
 function getTests() {
-    $.get("/api/tests", function (data) {
+    $.get("/api/tests", (data) => {
 
         $("#resultTest").html("");
 
         if (data) {
-            var baseHref = location.href.replace(/\/+$/, "");
+            const baseHref = location.href.replace(/\/+$/, "");
             $.each(data, function (index, value) {
-                var language = null;
+                let language = null;
                 if (value.language === 'EN') {
                     language = 'polski';
                 } else {
@@ -54,16 +54,16 @@ function getTests() {
                     "</div>" +
                     "</div>" +
                     "                </td></tr>");
-                var translateButton = document.getElementById("translate" + value.id);
-                var text = document.createTextNode(language);
+                const translateButton = document.getElementById("translate" + value.id);
+                const text = document.createTextNode(language);
                 translateButton.appendChild(text);
             });
         }
         $("div.dropdown-menu > a").hover(
-            function () {
-                $(this).css('background-color', '#2da447')
+            () => {
+                $(this).css('background-color', '#2da447');
                 $(this).css('cursor', 'pointer');
-            }, function () {
+            }, () => {
                 $(this).css('background-color', '')
             }
         );

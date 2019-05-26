@@ -1,18 +1,18 @@
-var selectedText = "";
+let selectedText = "";
 
-var cntrlIsPressed = false;
+let cntrlIsPressed = false;
 
-$(document).keydown(function (event) {
+$(document).keydown((event) => {
     if (event.which == "17")
         cntrlIsPressed = true;
 });
 
-$(document).keyup(function () {
+$(document).keyup(() => {
     cntrlIsPressed = false;
 });
 
 
-$(document).bind("contextmenu", function (e) {
+$(document).bind("contextmenu", (e) => {
 
     if (cntrlIsPressed) {
         e.preventDefault();
@@ -26,27 +26,27 @@ $(document).bind("contextmenu", function (e) {
 });
 
 function startFocusOut() {
-    $(document).click(function () {
+    $(document).click(() => {
         $("#searchBox").hide();
         $(document).off("click");
     });
 }
 
-$(function () {
-    $('#Wiki').click(function () {
-        var mytext = selectedText;
+$(() => {
+    $('#Wiki').click(() => {
+        const mytext = selectedText;
 
-        var language = $("#testLanguage").text().toLowerCase();
-        var url = 'https://' + language + '.wikipedia.org/w/api.php?action=query&list=search&srsearch=' +
+        const language = $("#testLanguage").text().toLowerCase();
+        const url = 'https://' + language + '.wikipedia.org/w/api.php?action=query&list=search&srsearch=' +
             mytext + '&format=json&origin=*';
-        var wikipediaUrl = 'https://' + language + '.wikipedia.org/wiki/';
+        const wikipediaUrl = 'https://' + language + '.wikipedia.org/wiki/';
 
         $.ajax({
             type: "GET",
             contentType: "application/json",
             url: url,
-            success: function (response) {
-                var pageUrl = wikipediaUrl + response.query.search[0].title;
+            success: (response) => {
+                const pageUrl = wikipediaUrl + response.query.search[0].title;
 
                 $.notify({
                     title: "<b>" + response.query.search[0].title + " : " + response.query.search[0].snippet + "</b>",
@@ -56,31 +56,26 @@ $(function () {
                     allow_dismiss: true,
                     delay: 0
                 });
-
             },
-            error: function (e) {
-                console.error(e.responseText);
-            }
+            error: (e) => console.error(e.responseText)
         });
-
-
     });
 
-    $('#Thes').click(function () {
-        var mytext = selectedText;
+    $('#Thes').click(() => {
+        const mytext = selectedText;
 
-        var key = "G71vOpIjAgJllnPPFq3P";
+        let key = "G71vOpIjAgJllnPPFq3P";
 
-        var language = $("#testLanguage").text().toLowerCase();
-        var lang_upper = language.toUpperCase();
+        const language = $("#testLanguage").text().toLowerCase();
+        let lang_upper = language.toUpperCase();
         if (lang_upper === "EN") {
             lang_upper = "US";
         }
 
-        var url = 'https://thesaurus.altervista.org/thesaurus/v1?key=' + key + '&output=json&word=' + mytext + '&language=' + language + "_" + lang_upper;
-        var ThesaourusUrl = 'https://www.thesaurus.com/browse/' + mytext;
+        const url = 'https://thesaurus.altervista.org/thesaurus/v1?key=' + key + '&output=json&word=' + mytext + '&language=' + language + "_" + lang_upper;
+        const ThesaourusUrl = 'https://www.thesaurus.com/browse/' + mytext;
 
-        var postUrl = "";
+        let postUrl = "";
 
         if (language === "en") {
             postUrl = "<br/><br/><a target='_blank' href='" + ThesaourusUrl + "'>" + ThesaourusUrl + "</a>";
@@ -88,20 +83,20 @@ $(function () {
 
         $.ajax({
             url: url,
-            success: function (data) {
+            success: (data) => {
 
-                var synonyms = [];
+                const synonyms = [];
                 for (key in data.response) {
-                    var output = data.response[key].list.synonyms + "<br>";
-                    var partsOfStr = output.split('|');
+                    const output = data.response[key].list.synonyms + "<br>";
+                    const partsOfStr = output.split('|');
                     synonyms.push(partsOfStr[0]);
                     if (partsOfStr[1]) {
                         synonyms.push(partsOfStr[1])
                     }
                 }
 
-                var synonymString = '';
-                for (var i = 0; i < synonyms.length; i++) {
+                let synonymString = '';
+                for (let i = 0; i < synonyms.length; i++) {
                     synonymString += synonyms[i] + " ";
                 }
 
@@ -115,11 +110,7 @@ $(function () {
                 });
 
             },
-            error: function (e) {
-                console.error(e.responseText);
-            }
+            error: (e) => console.error(e.responseText)
         });
-
     });
-
 });

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(() => {
     $(".rangeInput").slider();
 
     $(".rangeInput").slider({
@@ -11,25 +11,22 @@ $(document).ready(function () {
 function sendTestForm() {
 
 
-    var jobTitleId = $("#jobTitleId").val();
-    var candidateTest = {};
-    candidateTest.testId = parseInt($("#testId").val());
-    candidateTest.username = $("#candidate").val();
-    candidateTest.answers = [];
+    const jobTitleId = $("#jobTitleId").val();
+    const candidateTest = {
+        testId: parseInt($("#testId").val()),
+        username: $("#candidate").val(),
+        answers: []
+    };
 
-    $("form#testAnswerForm input[name^=Q]").each(function (index) {
+    $("form#testAnswerForm input[name^=Q]").each((index) => {
 
-        var QID = $(this).val();
+        const QID = $(this).val();
+        const ASTR = $("[name='A" + QID + "']").val();
 
-        var ASTR = $("[name='A" + QID + "']").val();
-
-        var answerObject = {};
-        answerObject.questionId = parseInt(QID);
-        answerObject.answer = ASTR;
-        candidateTest.answers[index] = answerObject;
+        candidateTest.answers[index] = {questionId: parseInt(QID), answer: ASTR};
     });
 
-    var candidate_api = "/api/kandydat/stanowisko/";
+    const candidate_api = "/api/kandydat/stanowisko/";
 
     $.ajax({
         type: "POST",
@@ -37,22 +34,20 @@ function sendTestForm() {
         url: candidate_api + jobTitleId,
         data: JSON.stringify(candidateTest),
         dataType: 'json',
-        success: function (data) {
+        success: (data) => {
             if (data) {
                 alert("Gratulacje!!! Wypełniono test");
             }
 
             window.location.href = "/kandydat/stanowisko/" + jobTitleId + "/wynik";
         },
-        error: function (e) {
-            console.error(e.responseText);
-        }
+        error: (e) => console.error(e.responseText)
     });
 
 }
 
-$(document).ready(function () {
-    $('input:radio[name=A2]').change(function () {
+$(document).ready(() => {
+    $('input:radio[name=A2]').change(() => {
         alert($(this).val());
     });
 });
