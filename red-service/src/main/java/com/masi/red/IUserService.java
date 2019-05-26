@@ -3,7 +3,6 @@ package com.masi.red;
 import com.masi.red.common.RoleName;
 import com.masi.red.dto.UserDTO;
 import com.masi.red.exception.DuplicateKeyException;
-import com.masi.red.exception.EntityNotFoundException;
 
 import java.util.List;
 
@@ -20,5 +19,5 @@ public interface IUserService {
 
     UserDTO updateUser(UserDTO userDTO, Integer userId);
 
-    UserDTO getUserById(Integer userId) throws EntityNotFoundException;
+    UserDTO getUserById(Integer userId);
 }

@@ -3,12 +3,12 @@ package com.masi.red.controller.api;
 import com.masi.red.IUserService;
 import com.masi.red.common.RoleName;
 import com.masi.red.dto.UserDTO;
-import com.masi.red.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 

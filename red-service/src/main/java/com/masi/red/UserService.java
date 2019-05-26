@@ -5,13 +5,13 @@ import com.masi.red.dto.UserDTO;
 import com.masi.red.entity.Role;
 import com.masi.red.entity.User;
 import com.masi.red.exception.DuplicateKeyException;
-import com.masi.red.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -79,7 +79,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDTO getUserById(Integer userId) throws EntityNotFoundException {
+    public UserDTO getUserById(Integer userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono użytkownika o id: " + userId));
         return mapper.map(user, UserDTO.class);
