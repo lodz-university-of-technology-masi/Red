@@ -4,12 +4,6 @@
 
 const test_api = "/api/tests";
 
-const reloadWindow = () => {
-    setTimeout(() => {
-        window.location.reload();
-    }, 200);
-};
-
 $(document).ready(() => {
 
     $("#FormCreateTestButton").click(() => {

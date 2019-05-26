@@ -3,12 +3,6 @@
 //***************************************************************
 const jobTitle_api = "/jobTitles";
 
-const reloadWindow = () => {
-    setTimeout(() => {
-        window.location.reload();
-    }, 200);
-};
-
 $(document).ready(function () {
 
     $("#FormCreateJobTitleButton").click(function () {
