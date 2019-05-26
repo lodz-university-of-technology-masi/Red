@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CandidateAnswerRepository extends JpaRepository<CandidateAnswer, Integer> {
-    List<CandidateAnswer> findAllByUser_Id(Integer userId);
+    List<CandidateAnswer> findAllByUserId(Integer userId);
 }
