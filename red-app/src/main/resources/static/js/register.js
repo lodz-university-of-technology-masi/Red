@@ -1,8 +1,13 @@
-import {reloadWindow} from "./commons/common-functions";
 //***************************************************************
 //  A P I       R E G I S T E R
 //***************************************************************
 const register_api = "/register";
+
+const reloadWindow = () => {
+    setTimeout(() => {
+        window.location.reload();
+    }, 200);
+};
 
 $(document).ready(() => {
 

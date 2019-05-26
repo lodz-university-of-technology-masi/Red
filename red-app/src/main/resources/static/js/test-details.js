@@ -1,5 +1,3 @@
-import {reloadWindow} from "./commons/common-functions";
-
 $(document).ready(() => {
     $(".rangeInput").slider();
 
@@ -14,6 +12,12 @@ $(document).ready(() => {
 });
 
 const testsApi = '/api/tests/';
+
+const reloadWindow = () => {
+    setTimeout(() => {
+        window.location.reload();
+    }, 200);
+};
 
 function detachQuestionFromTest(questionId, testId) {
     const url = testsApi + testId + "/questions/" + questionId;

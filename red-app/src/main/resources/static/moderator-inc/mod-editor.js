@@ -1,10 +1,15 @@
-import {reloadWindow} from "../js/commons/common-functions";
 //***************************************************************
 //  A P I       E D I T O R
 //***************************************************************
 
 const editor_api = "/api/users";
 const register_admin_api = "/register/administrative";
+
+const reloadWindow = () => {
+    setTimeout(() => {
+        window.location.reload();
+    }, 200);
+};
 
 $(document).ready(() => {
 
