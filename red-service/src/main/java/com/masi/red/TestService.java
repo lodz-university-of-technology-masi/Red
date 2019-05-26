@@ -69,9 +69,9 @@ public class TestService implements ITestService {
 
     @Override
     public TestWithQuestionsDTO getRandomTest(Integer jobTitleId, Integer userId) throws NoTestsAvailableException {
-        List<Test> allTests = testRepository.findAllByJobTitle_Id(jobTitleId);
+        List<Test> allTests = testRepository.findAllByJobTitleId(jobTitleId);
         List<Integer> userTestIds = answerRepository
-                .findAllByUser_Id(userId).stream()
+                .findAllByUserId(userId).stream()
                 .map(CandidateAnswer::getTest)
                 .map(Test::getId).collect(Collectors.toList());
 
@@ -160,7 +160,7 @@ public class TestService implements ITestService {
 
     @Override
     public List<TestDTO> getTestsByUserId(User user) {
-        List<Test> tests = testRepository.findAllByUser_Id(user.getId());
+        List<Test> tests = testRepository.findAllByUserId(user.getId());
         return tests.stream()
                 .map(test -> mapper.map(test, TestDTO.class))
                 .collect(Collectors.toList());
