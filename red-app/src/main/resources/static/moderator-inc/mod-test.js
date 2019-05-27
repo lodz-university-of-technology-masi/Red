@@ -78,10 +78,35 @@ function editTest(id) {
     });
 }
 
-function importTestFromCSV(form) {
-    console.log($('#' + form.id).prop('files')[0]) //todo logika
-    $('.importSuccessfulMessage').removeClass('d-none') //when success
-    // when failed $('.importFailedMessage').removeClass('d-none')
+function importTestFromCSV() {
+    const file = $('#createTestCSVImport').prop('files')[0];
+
+    const data = new FormData();
+    data.append('file', file);
+
+    $.ajax({
+        type: 'POST',
+        contentType: false,
+        url: "/api/tests/import",
+        data: data,
+        processData: false,
+        success: () => {
+            $('.importSuccessfulMessage').removeClass('d-none');
+            $('label[for="createTestCSVImport"] span').text("Wybierz plik CSV z testem");
+            reloadWindow();
+        },
+        error: (e) => {
+            $('.importFailedMessage').removeClass('d-none');
+            $('label[for="createTestCSVImport"] span').text("Wybierz plik CSV z testem");
+            console.error(e.responseText)
+        },
+    });
+}
+
+function refreshFileName(form) {
+    const fileName = $('#' + form.id).prop('files')[0].name;
+
+    $('label[for="createTestCSVImport"] span').text(fileName);
 }
 
 function selectAppropriateJobTitle(jobTitleName) {

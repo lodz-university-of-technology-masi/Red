@@ -4,10 +4,13 @@ import com.masi.red.ICsvService;
 import com.masi.red.ITestService;
 import com.masi.red.dto.*;
 import com.masi.red.entity.User;
+import com.masi.red.exception.EmptyCsvFileException;
+import com.masi.red.exception.InvalidCsvHeaderException;
 import com.masi.red.exception.ResourceAccessForbiddenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -109,10 +112,15 @@ public class TestController {
     }
 
     @PreAuthorize("hasAnyRole('MODERATOR', 'EDITOR')")
-    @PostMapping("/import")
-    public ResponseEntity importTest(@RequestParam("file") MultipartFile file) {
-        TestDTO testDTO = testService.importTest(file);
-        return ResponseEntity.status(HttpStatus.CREATED).body(testDTO);
+    @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity importTest(@RequestParam("file") MultipartFile file,
+                                     @AuthenticationPrincipal User user) {
+        try {
+            csvService.importTestCsv(file, user);
+            return ResponseEntity.ok().build();
+        } catch (IOException | EmptyCsvFileException | InvalidCsvHeaderException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PreAuthorize("hasAnyRole('MODERATOR', 'EDITOR')")

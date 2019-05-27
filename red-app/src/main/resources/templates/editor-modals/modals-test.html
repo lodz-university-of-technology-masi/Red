@@ -99,10 +99,11 @@
                         </div>
                         <div class="form-group row">
                             <div class="col">
-                                <label class="custom-file-label mx-3" for="createTestCSVImport">Wybierz
-                                    plik CSV z testem</label>
+                                <label class="custom-file-label mx-3" for="createTestCSVImport">
+                                    <span>Wybierz plik CSV z testem</span>
+                                </label>
                                 <input id="updateTestCSVImport" class="custom-file-input" type="file"
-                                       onchange="importTestFromCSV(this)">
+                                       onchange="refreshFileName(this)">
                             </div>
                         </div>
                         <div class="row d-none importSuccessfulMessage">
@@ -118,6 +119,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <button id="FormImportTestButton" onclick="importTestFromCSV()" type="button"
+                            class="btn btn-success">Importuj
+                    </button>
                     <button id="FormUpdateTestButton" type="button" class="btn btn-success">Aktualizuj</button>
                     <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Zamknij</button>
                 </div>
