@@ -1,28 +1,34 @@
 package com.masi.red;
 
 import com.masi.red.common.CsvConstants;
+import com.masi.red.common.Language;
 import com.masi.red.common.QuestionType;
 import com.masi.red.common.QuestionTypeMapper;
-import com.masi.red.entity.Question;
-import com.masi.red.entity.ScaleQuestion;
-import com.masi.red.entity.SingleChoiceQuestion;
-import com.masi.red.entity.Test;
+import com.masi.red.dto.TestDTO;
+import com.masi.red.entity.*;
+import com.masi.red.exception.EmptyCsvFileException;
+import com.masi.red.exception.InvalidCsvHeaderException;
 import com.masi.red.helper.EntityFinder;
 import com.opencsv.CSVWriter;
 import com.opencsv.ICSVWriter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import ma.glasnost.orika.MapperFacade;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CsvService implements ICsvService {
 
@@ -30,6 +36,8 @@ public class CsvService implements ICsvService {
             {"numer", "typ", "jezyk", "tresc", "liczba_mozliwych_odpowiedzi", "[tresc_kazdej_odpowiedzi]"};
 
     private final EntityFinder entityFinder;
+    private final TestRepository testRepository;
+    private final MapperFacade mapper;
 
     @Override
     public void exportTestCsv(Integer testId, HttpServletResponse response) throws IOException {
@@ -52,6 +60,77 @@ public class CsvService implements ICsvService {
                 writer.writeNext(csvRow);
             }
         }
+    }
+
+    @Override
+    public TestDTO importTestCsv(MultipartFile file, User user) throws EmptyCsvFileException, InvalidCsvHeaderException, IOException {
+        if (file.isEmpty()) {
+            throw new EmptyCsvFileException("Przesłany plik jest pusty");
+        }
+        Language testLang = Language.PL;
+        String line;
+        List<Question> questionList = new ArrayList<>();
+        try (InputStream inputStream = file.getInputStream();
+             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
+            line = bufferedReader.readLine();
+            String[] sentFileHeaders = line.split(String.valueOf(CsvConstants.CSV_SEPARATOR));
+            if (!Arrays.equals(sentFileHeaders, TEST_CSV_HEADER)) {
+                throw new InvalidCsvHeaderException("Przesłany plik ma nieprawidłowe nagłówek");
+            }
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] questionArray = line.split(String.valueOf(CsvConstants.CSV_SEPARATOR));
+
+                String type = questionArray[1];
+                Language language = Language.valueOf(questionArray[2]);
+                String questionContent = questionArray[3];
+                String possibleAnswers = questionArray[5];
+
+                possibleAnswers = possibleAnswers.substring(1, possibleAnswers.length() - 1);
+                String[] possibleAnswersArray = possibleAnswers.split(CsvConstants.DEFAULT_POSSIBLE_ANSWERS_DELIMITER);
+                String suggestedAnswer = getSuggestedAnswer(possibleAnswersArray);
+
+                Question question = null;
+                if (Objects.equals(type, QuestionType.SCALE.getSymbol())) {
+                    double minVal = Double.parseDouble(possibleAnswersArray[0]);
+                    double maxVal = Double.parseDouble(possibleAnswersArray[possibleAnswersArray.length - 1]);
+                    double interval = Double.parseDouble(possibleAnswersArray[1]) - minVal;
+                    question = new ScaleQuestion(minVal, maxVal, interval);
+                } else if (Objects.equals(type, QuestionType.SINGLE_CHOICE.getSymbol())) {
+                    question = new SingleChoiceQuestion(new HashSet<>(Arrays.asList(possibleAnswersArray)));
+                } else if (Objects.equals(type, QuestionType.NUMERIC.getSymbol())) {
+                    question = new NumericQuestion();
+                } else if (Objects.equals(type, QuestionType.OPEN.getSymbol())) {
+                    question = new OpenQuestion();
+                }
+                if (question != null) {
+                    question.setLanguage(language);
+                    question.setSuggestedAnswer(suggestedAnswer);
+                    question.setContent(questionContent);
+                    question.setOriginalQuestion(question);
+                    questionList.add(question);
+                }
+                testLang = language;
+            }
+            Test test = Test.builder()
+                    .user(user)
+                    .language(testLang)
+                    .questions(questionList)
+                    .build();
+            Test save = testRepository.save(test);
+            return mapper.map(save, TestDTO.class);
+        }
+    }
+
+    private String getSuggestedAnswer(String[] scaleAnswers) {
+        String suggestedAnswer = Strings.EMPTY;
+        for (int i = 0; i < scaleAnswers.length; i++) {
+            if (scaleAnswers[i].endsWith(CsvConstants.DEFAULT_SUGGESTED_ANSWER_MARKER)) {
+                scaleAnswers[i] = scaleAnswers[i]
+                        .replace(CsvConstants.DEFAULT_SUGGESTED_ANSWER_MARKER, Strings.EMPTY);
+                suggestedAnswer = scaleAnswers[i];
+            }
+        }
+        return suggestedAnswer;
     }
 
     private String[] getCsvQuestionRow(Question question) {

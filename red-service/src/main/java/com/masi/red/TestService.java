@@ -11,12 +11,12 @@ import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -101,19 +101,25 @@ public class TestService implements ITestService {
         }
 
         mapper.map(editedTest, testToEdit);
-        if (jobTitleChanged(editedTest, testToEdit)) {
+        if (testToEdit.getJobTitle() == null) {
+            JobTitle jobTitle = entityFinder.findJobTitleById(editedTest.getJobTitleId());
+            testToEdit.setJobTitle(jobTitle);
+        } else if (jobTitleChanged(editedTest, testToEdit)) {
             JobTitle jobTitle = entityFinder.findJobTitleById(editedTest.getJobTitleId());
             testToEdit.getJobTitle().detachTest(testToEdit);
             testToEdit.setJobTitle(jobTitle);
             testToEdit.getJobTitle().attachTest(testToEdit);
         }
+
         testToEdit.setUser(testOwner);
         //testToEdit.setQuestions(editedTest.getQuestions()); TODO implement
         return mapper.map(testToEdit, TestDTO.class);
     }
 
     private boolean jobTitleChanged(EditedTestDTO editedTest, Test testToEdit) {
-        return !editedTest.getJobTitleId().equals(testToEdit.getJobTitle().getId());
+        JobTitle jobTitle = testToEdit.getJobTitle();
+        if (jobTitle == null) return true;
+        return !Objects.equals(editedTest.getJobTitleId(), jobTitle.getId());
     }
 
     @Override
@@ -165,11 +171,6 @@ public class TestService implements ITestService {
         return tests.stream()
                 .map(test -> mapper.map(test, TestDTO.class))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public TestDTO importTest(MultipartFile file) {
-        return null;
     }
 
     private boolean isTestAccessForbidden(User user, Test test) {
