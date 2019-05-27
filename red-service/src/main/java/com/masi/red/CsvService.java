@@ -69,7 +69,7 @@ public class CsvService implements ICsvService {
         if (Objects.equals(type, QuestionType.SINGLE_CHOICE.getSymbol())) {
             suggestedAnswer = getSingleChoiceQuestionCsvAnswers(question);
         } else if (Objects.equals(type, QuestionType.SCALE.getSymbol())) {
-            suggestedAnswer = getScalaQuestionCsvAnswers(question);
+            suggestedAnswer = getScaleQuestionCsvAnswers(question);
         } else {
             suggestedAnswer = question.getSuggestedAnswer() == null ? Strings.EMPTY : question.getSuggestedAnswer();
             suggestedAnswer += CsvConstants.DEFAULT_SUGGESTED_ANSWER_MARKER;
@@ -79,7 +79,7 @@ public class CsvService implements ICsvService {
                 + CsvConstants.DEFAULT_ARRAY_CLOSE;
     }
 
-    private String getScalaQuestionCsvAnswers(Question question) {
+    private String getScaleQuestionCsvAnswers(Question question) {
         double minValue = ((ScaleQuestion) question).getMinValue();
         double maxValue = ((ScaleQuestion) question).getMaxValue();
         double interval = ((ScaleQuestion) question).getInterval();
@@ -123,7 +123,7 @@ public class CsvService implements ICsvService {
         double minValue = question.getMinValue();
         double maxValue = question.getMaxValue();
         double interval = question.getInterval();
-        double possibleAnswersNumber = (maxValue - minValue) / interval;
+        double possibleAnswersNumber = ((maxValue - minValue) / interval) + 1;
         return String.valueOf((int) possibleAnswersNumber);
     }
 
