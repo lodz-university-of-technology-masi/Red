@@ -4,6 +4,7 @@ import com.masi.red.dto.*;
 import com.masi.red.entity.User;
 import com.masi.red.exception.NoTestsAvailableException;
 import com.masi.red.exception.ResourceAccessForbiddenException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -26,4 +27,6 @@ public interface ITestService {
     void attachQuestionToTest(QuestionDTO question, Integer testId, User user) throws ResourceAccessForbiddenException;
 
     List<TestDTO> getTestsByUserId(User user);
+
+    TestDTO importTest(MultipartFile file);
 }

@@ -1,5 +1,6 @@
 package com.masi.red.controller.api;
 
+import com.masi.red.ICsvService;
 import com.masi.red.ITestService;
 import com.masi.red.dto.*;
 import com.masi.red.entity.User;
@@ -11,9 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -22,6 +26,7 @@ import java.util.List;
 public class TestController {
 
     private final ITestService testService;
+    private final ICsvService csvService;
 
     @PreAuthorize("hasAnyRole('MODERATOR', 'EDITOR')")
     @GetMapping
@@ -93,8 +98,8 @@ public class TestController {
     @PreAuthorize("hasAnyRole('MODERATOR', 'EDITOR')")
     @PostMapping("/{testId}/questions")
     public ResponseEntity attachQuestionToTest(@PathVariable Integer testId,
-                                                       @Valid @RequestBody QuestionDTO question,
-                                                       @AuthenticationPrincipal User user) {
+                                               @Valid @RequestBody QuestionDTO question,
+                                               @AuthenticationPrincipal User user) {
         try {
             testService.attachQuestionToTest(question, testId, user);
             return ResponseEntity.noContent().build();
@@ -102,4 +107,19 @@ public class TestController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
     }
+
+    @PreAuthorize("hasAnyRole('MODERATOR', 'EDITOR')")
+    @PostMapping("/import")
+    public ResponseEntity importTest(@RequestParam("file") MultipartFile file) {
+        TestDTO testDTO = testService.importTest(file);
+        return ResponseEntity.status(HttpStatus.CREATED).body(testDTO);
+    }
+
+    @PreAuthorize("hasAnyRole('MODERATOR', 'EDITOR')")
+    @GetMapping("/{testId}/export")
+    public void exportTest(@PathVariable Integer testId, HttpServletResponse response) throws IOException {
+        csvService.exportTestCsv(testId, response);
+    }
+
+
 }

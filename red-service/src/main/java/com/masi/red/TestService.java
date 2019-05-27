@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -88,7 +89,7 @@ public class TestService implements ITestService {
     @Override
     public TestDTO updateTest(Integer id, EditedTestDTO editedTest, User user) throws ResourceAccessForbiddenException {
         Test testToEdit = entityFinder.findTestById(id);
-        if (!isTestAccessAuthorized(user, testToEdit)) {
+        if (isTestAccessForbidden(user, testToEdit)) {
             throw new ResourceAccessForbiddenException("Edycja testu dozwolona dla moderatorów i właścicieli testu");
         }
         Set<@NotNull RoleName> roles = mapRoleSetToRoleNameSet(user);
@@ -119,7 +120,7 @@ public class TestService implements ITestService {
     public void deleteTest(Integer testId, User user) throws ResourceAccessForbiddenException {
         Test test = testRepository.findById(testId)
                 .orElseThrow(() -> new EntityNotFoundException("Test o id: " + testId + " nie istnieje"));
-        if (!isTestAccessAuthorized(user, test)) {
+        if (isTestAccessForbidden(user, test)) {
             throw new ResourceAccessForbiddenException("Usunięcie testu dozwolone dla moderatorów i właścicieli testu");
         }
         testRepository.deleteById(testId);
@@ -128,7 +129,7 @@ public class TestService implements ITestService {
     @Override
     public void detachQuestionFromTest(Integer testId, Integer questionId, User user) throws ResourceAccessForbiddenException {
         Test test = entityFinder.findTestById(testId);
-        if (!isTestAccessAuthorized(user, test)) {
+        if (isTestAccessForbidden(user, test)) {
             throw new ResourceAccessForbiddenException("Odpięcie pytania od testu dozwolone dla moderatorów i właścicieli testu");
         }
         test.getQuestions().stream()
@@ -141,7 +142,7 @@ public class TestService implements ITestService {
     @Override
     public void attachQuestionToTest(QuestionDTO questionDTO, Integer testId, User user) throws ResourceAccessForbiddenException {
         Test test = entityFinder.findTestById(testId);
-        if (!isTestAccessAuthorized(user, test)) {
+        if (isTestAccessForbidden(user, test)) {
             throw new ResourceAccessForbiddenException("Przypięcie pytania do testu dozwolone dla moderatorów i właścicieli testu");
         }
         Question question;
@@ -166,12 +167,17 @@ public class TestService implements ITestService {
                 .collect(Collectors.toList());
     }
 
-    private boolean isTestAccessAuthorized(User user, Test test) {
+    @Override
+    public TestDTO importTest(MultipartFile file) {
+        return null;
+    }
+
+    private boolean isTestAccessForbidden(User user, Test test) {
         Set<@NotNull RoleName> roles = mapRoleSetToRoleNameSet(user);
         boolean isModerator = roles.contains(RoleName.MODERATOR);
         boolean isEditorOwner = roles.contains(RoleName.EDITOR)
                 && test.getUser().getId().equals(user.getId());
-        return isModerator || isEditorOwner;
+        return !isModerator && !isEditorOwner;
     }
 
     private Set<@NotNull RoleName> mapRoleSetToRoleNameSet(User user) {
