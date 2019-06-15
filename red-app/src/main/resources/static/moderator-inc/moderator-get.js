@@ -104,11 +104,11 @@ function getTests() {
                     "                    <a id=\'T-" + value.id + "\' class=\"dropdown-item deleteTestButton\" ><i class=\"material-icons md-24\">remove_circle_outline</i> Usuń test</a>\n" +
                     "                    <a href=\'" + baseHref + "/tests/" + value.id + "\' class=\"dropdown-item\"><i class=\"material-icons md-24\">add_circle_outline</i> Zarządzaj pytaniami</a>\n" +
                     "                    <a class=\"dropdown-item \" ><i class=\"material-icons md-24\">import_export</i> Eksport do csv</a>\n" +
-                    "                    <a id =\'translate" + value.id + "\' class=\"dropdown-item \" ><i class=\"material-icons md-24\">translate</i> Tłumaczenie testu na </a>\n" +
+                    "                    <a id =\'translate-" + value.id + "\' class=\"dropdown-item \" onClick=\"translateTest(this.id) \" ><i class=\"material-icons md-24\">translate</i> Tłumaczenie testu na </a>\n" +
                     "</div>" +
                     "</div>" +
                     "                </td></tr>");
-                var translateButton = document.getElementById("translate" + value.id);
+                var translateButton = document.getElementById("translate-" + value.id);
                 var text = document.createTextNode(language);
                 translateButton.appendChild(text);
             });

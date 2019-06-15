@@ -11,6 +11,7 @@ public interface ITestService {
     TestDTO addTest(NewTestDTO test);
     List<TestDTO> getAllTests();
     TestWithQuestionsDTO getTestById(Integer id);
+    NewTestDTO getTestById1(Integer id);
     TestWithQuestionsDTO getRandomTest(Integer jobTitleId, Integer userId) throws NoTestsAvailableException;
     TestDTO updateTest(Integer id, EditedTestDTO test);
     void deleteTest(Integer id);

@@ -62,6 +62,12 @@ public class TestService implements ITestService {
     }
 
     @Override
+    public NewTestDTO getTestById1(Integer id) {
+        Test test = entityFinder.findTestById(id);
+        return mapper.map(test, NewTestDTO.class);
+    }
+
+    @Override
     public TestWithQuestionsDTO getRandomTest(Integer jobTitleId, Integer userId) throws NoTestsAvailableException {
         List<Test> allTests = testRepository.findAllByJobTitle_Id(jobTitleId);
         List<Integer> userTestIds = answerRepository
