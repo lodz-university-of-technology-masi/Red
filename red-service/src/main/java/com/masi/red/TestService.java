@@ -162,7 +162,7 @@ public class TestService implements ITestService {
             question = entityFinder.findQuestionById(questionDTO.getId());
         }
         test.attachQuestion(question);
-        question.attachtoTest(test);
+        question.attachToTest(test);
     }
 
     @Override

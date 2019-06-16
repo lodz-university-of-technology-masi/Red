@@ -105,7 +105,7 @@ public class TestController {
                                                @AuthenticationPrincipal User user) {
         try {
             testService.attachQuestionToTest(question, testId, user);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.status(HttpStatus.OK).body("Pomyślnie dodano pytanie do testu");
         } catch (ResourceAccessForbiddenException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
