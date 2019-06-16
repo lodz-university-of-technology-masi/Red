@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" >
+
+<th:block th:fragment="modals">
+
+    <!-- The Modal N E W   E D I T O R -->
+    <div class="modal" id="createEditor">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">Dodaj Redaktora</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form id="FormCreateEditor">
+
+                        <div class="form-group">
+                            <label for="FCEUsername" class=" col-form-label">Nazwa Użytkownika</label>
+
+                                <input type="text" class="form-control rounded-1" id="FCEUsername" name="FCEUsername" required>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="FCEMail" class=" col-form-label">Email</label>
+
+                                <input type="email" class="form-control rounded-1" id="FCEMail" name="FCEMail" required>
+
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="FCEPassword" class=" col-form-label">Hasło</label>
+
+                                <input type="password" class="form-control rounded-1" id="FCEPassword" name="FCEPassword" required>
+
+                        </div>
+
+                        <!--                        <div class="form-group row">-->
+                        <!--                            <label for="FCERole" class="col-sm-2 col-form-label">Rola</label>-->
+                        <!--                            <div class="col-sm-10">-->
+                        <!--                                <input type="text" class="form-control" id="FCERole" name="FCERole" required>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+
+                        <div class="form-group">
+                            <label for="FCERole" class=" col-form-label">Rola</label>
+                            <select class="form-control sm-10 rounded-1" id="FCERole" name="FCERole">
+                                <option value="MODERATOR">MODERATOR</option>
+                                <option value="EDITOR">EDITOR</option>
+                                <option value="CANDIDATE">CANDIDATE</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="FCEName" class=" col-form-label">Imie</label>
+
+                                <input type="text" class="form-control rounded-1" id="FCEName" name="FCEName" required>
+
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="FCESurname" class=" col-form-label">Nazwisko</label>
+
+                                <input type="text" class="form-control rounded-1" id="FCESurname" name="FCESurname" required>
+
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="FormCreateEditorButton" type="button" class="btn btn-success" >Zapisz</button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Zamknij</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal E D I T   E D I T O R -->
+    <div class="modal" id="updateEditor">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Edytuj Redaktora</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form id="FormUpdateEditor">
+
+                        <div class="form-group ">
+                            <label for="FUEId" class=" col-form-label">ID Użytkownika</label>
+                            <input type="text" class="form-control rounded-1" id="FUEId" name="FUEId" readonly required>
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="FUEUsername" class=" col-form-label">Nazwa Użytkownika</label>
+                                <input type="text" class="form-control rounded-1" id="FUEUsername" name="FUEUsername" required>
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="FUEMail" class=" col-form-label">Email</label>
+                            <input type="email" class="form-control rounded-1" id="FUEMail" name="FUEMail" required>
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="FUEPassword" class=" col-form-label">Hasło</label>
+                            <input type="password" class="form-control rounded-1" id="FUEPassword" name="FUEPassword" required>
+                        </div>
+
+                        <!--                        <div class="form-group row">-->
+                        <!--                            <label for="FCERole" class="col-sm-2 col-form-label">Rola</label>-->
+                        <!--                            <div class="col-sm-10">-->
+                        <!--                                <input type="text" class="form-control" id="FCERole" name="FCERole" required>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+
+                        <div class="form-group ">
+                            <label for="FUERole" class=" col-form-label">Rola</label>
+                            <select class="form-control sm-10 rounded-1" id="FUERole" name="FUERole">
+                                <option value="MODERATOR">MODERATOR</option>
+                                <option value="EDITOR">EDITOR</option>
+                                <option value="CANDIDATE">CANDIDATE</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="FUEName" class=" col-form-label">Imie</label>
+                            <input type="text" class="form-control rounded-1" id="FUEName" name="FUEName" required>
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="FUESurname" class=" col-form-label">Nazwisko</label>
+                            <input type="text" class="form-control rounded-1" id="FUESurname" name="FUESurname" required>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="FormUpdateEditorButton" type="button" class="btn btn-success" >Aktualizuj</button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Zamknij</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+</th:block>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="includes :: header" />
+
+    <script type="text/javascript" th:src="@{/js/test-page.js}" src="/resources/static/js/test-page.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.css"
+          rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/index.css}" href="/resources/static/css/index.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script type="text/javascript" th:src="@{/js/metric/metric.js}" src="../static/js/metric/metric.js"></script>
+
+</head>
+<body>
+<th:block th:include="includes :: menu" />
+
+<div class="parallax-2">
+    <div class="text-center title-2" >MASI RED.2</div>
+</div>
+
+<div class="container text-center mt-2">
+    <h1><th:span th:text="${test?.jobTitleName}" /></h1>
+    <h4><th:span th:text="|TEST ${test?.id}|"/></h4>
+    <hr/>
+</div>
+
+<div class="container text-center">
+    <form id="testAnswerForm">
+    <input style="display: none" th:id="questionCount" th:value="${test.questions.size()}" />
+    <input style="display: none" th:id="testId" th:value="${test?.id}" />
+    <input style="display: none" th:id="candidate" th:value="${candidate}" />
+    <input style="display: none" th:id="jobTitleId" th:value="${jobTitle?.id}" />
+        <th:block th:each="question : ${test.questions}">
+        <div class="row mb-2" th:id="|question${question.id}|">
+            <div class="col-2 text-right font-weight-bold" th:text="${questionStat.index} + 1 + ."></div>
+            <div class="col text-left">
+                <div class="row">
+                    <strong th:text="${question.content}"></strong>
+                </div>
+                <input style="display: none" th:name="|Q${question.id}|" th:id="|Q${question.id}|" th:value="${question.id}"/>
+                <div th:if="${question instanceof T(com.masi.red.dto.SingleChoiceQuestionDTO)}">
+                    <th:block th:each="possibleAnswer : ${question.possibleAnswers}">
+                        <div class="row form-check">
+                            <input class="form-check-input" type="radio"
+                                   th:name="|A${question.id}|" th:value="${possibleAnswer}"
+                                   th:id="|A${question.id}possibleAnswer${possibleAnswerStat.index}|" />
+                            <label th:text="${possibleAnswer}" class="form-check-label"
+                                   th:for="|A${question.id}possibleAnswer${possibleAnswerStat.index}|"></label>
+                        </div>
+                    </th:block>
+                </div>
+                <div th:if="${question instanceof T(com.masi.red.dto.ScaleQuestionDTO)}">
+                    <div class="row align-items-end">
+                        <div class="col">
+                            <p class="row mb-0" th:text="|Minimalna wartość: ${question.minValue ?:0}|"></p>
+                            <p class="row mb-0" th:text="|Maksymalna wartość: ${question.maxValue ?: 10}|"></p>
+                            <p class="row mb-0" th:text="|Skok: ${question.interval ?:1}|"></p>
+                        </div>
+                        <div class="col">
+                            <label class="mr-2" th:for="|A${question.id}range|">Podgląd: </label>
+                            <input class="rangeInput" type="range" th:data-slider-min="${question.minValue}"
+                                   th:data-slider-max="${question.maxValue}" th:name="|A${question.id}|"
+                                   th:data-slider-step="${question.interval}" th:id="|A${question.id}range|">
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${question instanceof T(com.masi.red.dto.OpenQuestionDTO)}">
+                    <div class="form-group">
+                        <textarea class="row form-control rounded-1 blue-input" th:id="|A${question.id}textArea|" th:name="|A${question.id}|"
+                                   rows="3"></textarea>
+                    </div>
+                </div>
+                <div th:if="${question instanceof T(com.masi.red.dto.NumericQuestionDTO)}">
+                    <div class="form-group">
+                        <input type="number" class="form-control rounded-1 blue-input row"
+                               th:id="|A${question.id}numericInput|" th:name="|A${question.id}|"  >
+                    </div>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </th:block>
+        <button type="button" class="button rounded-1 btn btn-success" onclick="sendTestForm();">Wyślij rozwiązanie</button>
+    </form>
+</div>
+
+</body>
+</html>

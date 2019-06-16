@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:include="includes :: header"/>
+    <link type="text/css" rel="stylesheet" href="/webjars/datatables/1.10.19/css/dataTables.bootstrap4.min.css"/>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+    <script type="text/javascript" th:src="@{/js/redactor.js}" src="/resources/static/js/redactor.js"></script>
+    <script type="text/javascript" th:src="@{/js/editor/editor-test.js}"
+            src="/resources/static/js/editor/editor-test.js"></script>
+    <script type="text/javascript" th:src="@{/js/editor/editor-get.js}"
+            src="/resources/static/js/editor/editor-get.js"></script>
+
+
+    <script type="text/javascript" th:src="@{/js/metric/metric.js}" src="../static/js/metric/metric.js"></script>
+
+    <title>MASI-RED</title>
+</head>
+<body>
+
+<th:block th:include="includes :: menu"/>
+
+<div class="container mt-lg-5">
+    <div class="tab-content" id="myTabContent">
+
+        <div class="tab-pane fade show active" id="test" role="tabpanel" aria-labelledby="contact-tab">
+            <button class="btn btn-outline-success btn-block mt-5 mb-5" data-toggle="modal" data-target="#createTest"><i
+                    class="material-icons md-24">add_circle</i> Dodaj/Importuj test
+            </button>
+
+            <table id="TestTable" class="table " style="width:100%">
+                <thead>
+                <tr>
+                    <th style="width:5%">ID</th>
+                    <th style="width:15%">Stanowisko</th>
+                    <th style="width: 5%">Język</th>
+                    <th style="width:20%">Redaktor</th>
+                    <th style="width:10%">Liczba pytań</th>
+                    <th style="width:25%">Data utworzenia</th>
+                    <th style="width:20%">Opcje</th>
+                </tr>
+                </thead>
+                <tbody id="resultTest">
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<th:block th:include="editor-modals/modals-test :: modals"/>
+
+</body>
+</html>

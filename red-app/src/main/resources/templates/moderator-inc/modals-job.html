@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" >
+
+<th:block th:fragment="modals">
+
+
+    <!-- The Modal N E W   J O B    T I T L E -->
+    <div class="modal" id="createJobTitle">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Dodaj Stanowisko</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form id="FormCreateJobTitle">
+
+                        <div class="form-group row">
+                            <label for="FCJTname" class="col-sm-2 col-form-label">Nazwa</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="FCJTname" name="FCJTname">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="FCJTactive" class="col-sm-2 col-form-label">Aktywność</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="FCJTactive" name="FCJTactive" value="true" readonly>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="FormCreateJobTitleButton" type="button" class="btn btn-success" >Zapisz</button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Zamknij</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal E D I T   J O B      T I T L E -->
+    <div class="modal" id="updateJobTitle">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Edytuj Stanowisko</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form id="FormUpdateJobTitle">
+
+                        <div class="form-group row">
+                            <label for="FUJTID" class="col-sm-2 col-form-label">ID</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="FUJTID" name="FUJTID" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="FUJTName" class="col-sm-2 col-form-label">Nazwa</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="FUJTName" name="FUJTName">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="FUJTActive" class="col-sm-2 col-form-label">Aktywność</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="FUJTActive" name="FUJTActive">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="FormUpdateJobTitleButton" type="button" class="btn btn-success" >Aktualizuj</button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Zamknij</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal A T T A C H   J O B    T E S T -->
+    <div class="modal" id="attachJobTest">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Podepnij Test pod Stanowisko</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form id="FormAttachJobTest">
+
+                        <div class="form-group row">
+                            <label for="FAJTID" class="col-sm-2 col-form-label">ID Stanowiska</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="FAJTID" name="FAJTID">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="FAJTIDT" class="col-sm-2 col-form-label">ID Testu</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="FAJTIDT" name="FAJTIDT">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="FormAttachJobTestButton" type="button" class="btn btn-success" >Dodaj</button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Zamknij</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</th:block>
+</html>

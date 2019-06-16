@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="includes :: header" />
+
+    <script type="text/javascript" th:src="@{/js/test-page.js}" src="/resources/static/js/test-page.js"></script>
+    <link rel="stylesheet" th:href="@{/css/index.css}" href="/resources/static/css/index.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script type="text/javascript" th:src="@{/js/metric/metric.js}" src="../static/js/metric/metric.js"></script>
+
+</head>
+<body>
+<th:block th:include="includes :: menu" />
+
+<div class="parallax-2">
+    <div class="text-center title-2" >MASI RED.2</div>
+</div>
+
+<div class="container text-center mt-2">
+    <h1><th:span th:text="${jobTitle?.name}" /></h1>
+    <hr/>
+</div>
+
+<div class="container text-center mt-lg-2">
+    <br/>
+    <h1>Zakończono rozwiązywanie testu.</h1>
+    <h2>Dziękujemy i prosimy czekać na kontakt.</h2>
+</div>
+
+<div class="container text-center mt-lg-2">
+    <br/>
+    <button class="btn btn-outline-success text-uppercase rounded-1" onclick="window.open('', '_self', ''); window.close();">zamknij stronę</button>
+</div>
+
+</body>
+</html>

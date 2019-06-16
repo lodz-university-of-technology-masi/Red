@@ -1,0 +1,32 @@
+.btn > i{
+vertical-align: middle !important;
+}
+
+nav > a {
+    color: white !important;
+}
+
+nav .nav-link {
+    color: white !important;
+    border-collapse: collapse;
+}
+
+nav .active{
+    border-bottom: 2px solid #d13c46 !important;
+}
+
+.rounded-1{
+    border-radius: 1px !important;
+}
+
+.blue-input{
+    border: 2px solid #364299 !important;
+}
+
+.tooltip-main {
+    opacity: 1;
+}
+
+.custom-file-input ~ .custom-file-label::after {
+    content: "Szukaj";
+}

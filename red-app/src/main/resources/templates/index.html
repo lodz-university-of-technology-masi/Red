@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <th:block th:include="includes :: header" />
+
+    <link rel="stylesheet" th:href="@{/css/index.css}" href="../static/css/index.css" />
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+
+    <script type="text/javascript" th:src="@{/js/metric/metric.js}" src="../static/js/metric/metric.js"></script>
+
+</head>
+<body>
+<div class="parallax">
+    <div class="text-center title" >MASI RED.2</div>
+</div>
+<div class="container" >
+    <div class="row justify-content-md-center mt-lg-5">
+        <div class="col col-lg-2">
+            <a href="/moderator" class="btn btn-outline-danger btn-lg text-uppercase moderator-btn" style="width: 200px;">moderator</a>
+        </div>
+    </div>
+    <div class="row justify-content-md-center mt-lg-5">
+        <div class="col col-lg-2">
+            <a href="/kandydat" class="btn btn-outline-dark btn-lg text-uppercase moderator-btn" style="width: 200px;">kandydat</a>
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center mt-lg-5">
+        <div class="col col-lg-2">
+            <a href="/redaktor" class="btn btn-outline-primary btn-lg text-uppercase moderator-btn" style="width: 200px;">redaktor</a>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+</body>
+</html>
