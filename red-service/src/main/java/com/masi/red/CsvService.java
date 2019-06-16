@@ -53,8 +53,6 @@ public class CsvService implements ICsvService {
                              ICSVWriter.DEFAULT_ESCAPE_CHARACTER,
                              ICSVWriter.DEFAULT_LINE_END)) {
 
-            writer.writeNext(TEST_CSV_HEADER);
-
             for (Question question : test.getQuestions()) {
                 String[] csvRow = getCsvQuestionRow(question);
                 writer.writeNext(csvRow);
@@ -72,11 +70,6 @@ public class CsvService implements ICsvService {
         List<Question> questionList = new ArrayList<>();
         try (InputStream inputStream = file.getInputStream();
              BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
-            line = bufferedReader.readLine();
-            String[] sentFileHeaders = line.split(String.valueOf(CsvConstants.CSV_SEPARATOR));
-            if (!Arrays.equals(sentFileHeaders, TEST_CSV_HEADER)) {
-                throw new InvalidCsvHeaderException("Przesłany plik ma nieprawidłowe nagłówek");
-            }
             while ((line = bufferedReader.readLine()) != null) {
                 String[] questionArray = line.split(String.valueOf(CsvConstants.CSV_SEPARATOR));
 
