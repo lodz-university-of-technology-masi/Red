@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,13 +43,16 @@ public class UsabilityDataController {
         System.setProperty("java.awt.headless", "false");
     }
 
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("HH-mm-ss");
 
-    //TODO: GET CURRENT USERNAME AND SAVE IT AS PART OF FILENAME...
     @PostMapping(value="/screencap")
     public ResponseEntity<Object> captureScreen(@Valid @RequestBody MetricScreenCap capture) throws Exception {
 
-        System.out.println(capture.toString());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        System.out.println(capture.toString() + " " + username);
 
         //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Rectangle screenRectangle = new Rectangle(capture.getWidth(),capture.getHeight());
@@ -57,7 +62,7 @@ public class UsabilityDataController {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String filedate = sdf.format(timestamp);
 
-        String filename = filedate + "-" + capture.getStatus();
+        String filename = username + "-" + filedate;
 
         ImageIO.write(image, "png", new File("screens/"+ filename + ".png"));
 
