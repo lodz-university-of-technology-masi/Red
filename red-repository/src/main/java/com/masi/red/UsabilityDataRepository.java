@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UsabilityDataRepository extends JpaRepository<UsabilityData, Integer> {
+
+    UsabilityData findTopByUsernameOrderByMeasurementNumberDesc(String username);
 }

@@ -2,9 +2,11 @@ package com.masi.red.controller.api;
 
 import com.masi.red.IUsabilityDataService;
 import com.masi.red.entity.UsabilityData;
+import com.masi.red.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +22,8 @@ public class UsabilityDataController {
     private final IUsabilityDataService usabilityDataService;
 
     @PostMapping
-    public ResponseEntity<UsabilityData> persist(@Valid @RequestBody UsabilityData usabilityData) {
-        return ResponseEntity.ok(usabilityDataService.persist(usabilityData));
+    public ResponseEntity<UsabilityData> persist(@Valid @RequestBody UsabilityData usabilityData,
+                                                 @AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(usabilityDataService.persist(usabilityData, user));
     }
 }
