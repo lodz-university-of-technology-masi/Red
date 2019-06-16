@@ -35,7 +35,7 @@ public class UsabilityData {
     private int measurementNumber;
 
     @Column(name = "SAVETIME", nullable = false)
-    private OffsetDateTime createdAt;
+    private OffsetDateTime creationTime;
 
     @Column(name = "RES_W", nullable = false)
     private int resolutionWidth;
@@ -57,4 +57,9 @@ public class UsabilityData {
 
     @Column(name = "ERROR")
     private int errorType;
+
+    @PrePersist
+    private void initializeCreationTime() {
+        creationTime = OffsetDateTime.now();
+    }
 }

@@ -4,8 +4,10 @@ import com.masi.red.entity.UsabilityData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UsabilityDataRepository extends JpaRepository<UsabilityData, Integer> {
 
-    UsabilityData findTopByUsernameOrderByMeasurementNumberDesc(String username);
+    Optional<UsabilityData> findTopByUsernameOrderByMeasurementNumberDesc(String username);
 }
