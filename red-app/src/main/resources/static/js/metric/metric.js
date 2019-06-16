@@ -2,36 +2,50 @@
 var map = {}; // You could also use an array
 
 
-//***********************************
-// C A P T U R E    K E Y S
-//***********************************
+//**********************************************************
+//  C A P T U R E    K E Y S    +   M A I N     L O G I C
+//**********************************************************
 onkeydown = onkeyup = function(e){
     e = e || event; // to deal with IE
     map[e.keyCode] = e.type == 'keydown';
 
     var session = localStorage.getItem('session');
 
+
+    // SHIFT + D || START || STOP ||
     if(map[16] && map[68]){
         alert('Shift +  D');
 
         if(session == "true"){ //THEN STOP REDORDING
+
             doScreenCapture("finish");
 
-            alert("STOPPED");
-            localStorage.setItem('session','false');
-            //TODO: SEND ALL DATA TO API
-        }else if(session == "false" || session == null || session == ""){
-            localStorage.setItem('session','true');
-            doScreenCapture("start");
+            var elapsed = timeStop();
+            alert("elapsed : " + elapsed);
 
-            alert("STARTED");
+            console.log("STOPPED METRIC");
+            localStorage.setItem('session','false');
+
+            //TODO: SEND ALL DATA TO API
+
+
+
+        }else if(session == "false" || session == null || session == ""){
+
+            localStorage.setItem('session','true');
+
+            doScreenCapture("start");
+            timeStart();
+
+
+            console.log("STARTED METRIC");
         }
 
         map = {};
         return false;
     }
 
-
+    // SHIFT + R || FAILED ||
     if(map[16] && map[82]){
         alert('Shift +  R');
 
@@ -47,6 +61,7 @@ onkeydown = onkeyup = function(e){
         return false;
     }
 
+    // SHIFT + W || ABORTED ||
     if(map[16] && map[87]){
         alert('Shift +  W');
 
@@ -58,7 +73,6 @@ onkeydown = onkeyup = function(e){
         map = {};
         return false;
     }
-
 }
 
 //****************************************************
@@ -68,13 +82,16 @@ onkeydown = onkeyup = function(e){
 //The keys and the values are always strings (note that, as with objects, integer keys will be automatically converted to strings).
 //https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 
-localStorage.setItem('myCat', 'Tom');
-var cat = localStorage.getItem('myCat');
-console.log(cat);
+// WHAT WE HAVE FOR NOW IN SESSION STORAGE
+// localStorage.getItem('screenWidth');     // Screen width
+// localStorage.getItem('screenHeight');    // Screen height
+// localStorage.getItem('timeStart');       // Timme of started session
+// localStorage.getItem('timeStop');        // Time of stopped session
+// localStorage.getItem('session';          // TRUE - metric session is recording || FALSE - metric session if stopped
 
-//*****************************************************
-// S C R E E N   C A P T U R E  +  R E S O L U T I O N
-//*****************************************************
+//*************************
+//  R E S O L U T I O N
+//*************************
 
 var screenWidth;
 var screenHeight;
@@ -84,7 +101,16 @@ $(document).ready(function(){
     screenWidth = screen.width;
     screenHeight = screen.height;
 
+
+    localStorage.setItem('screenWidth', screenWidth.toString() );
+    localStorage.setItem('screenHeight', screenHeight.toString() );
+
 });
+
+
+//******************************
+// S C R E E N   C A P T U R E
+//******************************
 
 function doScreenCapture(metricpart) {
     console.log("screen cap " + metricpart);
@@ -129,11 +155,40 @@ document.addEventListener("click", function(){
 
 });
 
+//TODO : CALCULATE DISTANCE FROM METRIC SPECIFICAZTION + ADD DISTANCE TO LOCAL STORAGE.
+
 
 //***************************************************
 //  T I M E     E L A P S E     C O U N T
 //***************************************************
+function timeStart(){
 
+    var startTimestamp = new Date();
+    var temp = startTimestamp/1000;
+
+    localStorage.setItem('timeStart', temp.toString() );
+}
+
+function timeStop(){
+
+    var stopTimestamp = new Date();
+    var temp = stopTimestamp/1000;
+
+    localStorage.setItem('timeStop', temp.toString() );
+
+
+    return calculateElapsedTime();
+}
+
+function calculateElapsedTime(){
+
+    var startTime = localStorage.getItem('timeStart');
+    var stopTime = localStorage.getItem('timeStop');
+
+    var timeDiff = ( parseInt(stopTime) - parseInt(startTime) ) * 1000; // CONVERT TO MS
+
+    return timeDiff;
+}
 
 //***************************************************
 //  M O U S E       C L I C K S
