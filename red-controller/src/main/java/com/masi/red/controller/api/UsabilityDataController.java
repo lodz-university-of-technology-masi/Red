@@ -1,6 +1,7 @@
 package com.masi.red.controller.api;
 
 import com.masi.red.IUsabilityDataService;
+import com.masi.red.entity.MetricScreenCap;
 import com.masi.red.entity.UsabilityData;
 import com.masi.red.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -44,18 +45,19 @@ public class UsabilityDataController {
 
     //TODO: GET CURRENT USERNAME AND SAVE IT AS PART OF FILENAME...
     @PostMapping(value="/screencap")
-    public ResponseEntity<Object> captureScreen() throws Exception {
+    public ResponseEntity<Object> captureScreen(@Valid @RequestBody MetricScreenCap capture) throws Exception {
 
-
-        System.out.println("hello");
+        System.out.println(capture.toString());
 
         //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Rectangle screenRectangle = new Rectangle(1920,1080);
+        Rectangle screenRectangle = new Rectangle(capture.getWidth(),capture.getHeight());
         Robot robot = new Robot();
         BufferedImage image = robot.createScreenCapture(screenRectangle);
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        String filename = sdf.format(timestamp);
+        String filedate = sdf.format(timestamp);
+
+        String filename = filedate + "-" + capture.getStatus();
 
         ImageIO.write(image, "png", new File("screens/"+ filename + ".png"));
 
