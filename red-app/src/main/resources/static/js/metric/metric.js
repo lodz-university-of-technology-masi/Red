@@ -23,12 +23,14 @@ onkeydown = onkeyup = function(e){
             var elapsed = timeStop();
             alert("elapsed : " + elapsed);
 
+            var sumclicks = getMouseClicks();
+            console.log("clicks : " + sumclicks );
             console.log("STOPPED METRIC");
             localStorage.setItem('session','false');
 
             //TODO: SEND ALL DATA TO API
 
-
+            resetLocalStorage();
 
         }else if(session == "false" || session == null || session == ""){
 
@@ -55,6 +57,8 @@ onkeydown = onkeyup = function(e){
             alert("FAILED");
             localStorage.setItem('session','false');
             //TODO: SEND ALL DATA TO API
+
+            resetLocalStorage();
         }
 
         map = {};
@@ -68,6 +72,8 @@ onkeydown = onkeyup = function(e){
         if(session == "true"){ //THEN STOP REDORDING
             alert("CANCELED");
             localStorage.setItem('session','false');
+
+            resetLocalStorage();
         }
 
         map = {};
@@ -88,6 +94,16 @@ onkeydown = onkeyup = function(e){
 // localStorage.getItem('timeStart');       // Timme of started session
 // localStorage.getItem('timeStop');        // Time of stopped session
 // localStorage.getItem('session';          // TRUE - metric session is recording || FALSE - metric session if stopped
+// localStorage.getItem('mouseClicks');     // Sum of mouse clicks
+
+function resetLocalStorage(){
+    localStorage.setItem('screenWidth', '');
+    localStorage.setItem('screenHeight', '');
+    localStorage.setItem('timeStart', '');
+    localStorage.setItem('timeStop', '');
+    localStorage.setItem('mouseClicks', '');
+}
+
 
 //*************************
 //  R E S O L U T I O N
@@ -127,8 +143,8 @@ function doScreenCapture(metricpart) {
         url: screen_api,
         contentType: "application/json",
         data: JSON.stringify(jsonObject),
-        success: (e) => console.log(e.responseText),
-        error: (e) => console.error(e.responseText)
+        success: (e) => console.log(e),
+        error: (e) => console.error(e)
     });
 
 }
@@ -193,3 +209,58 @@ function calculateElapsedTime(){
 //***************************************************
 //  M O U S E       C L I C K S
 //***************************************************
+
+var button = document.querySelector('html');
+button.addEventListener('mouseup', logMouseButton);
+
+function logMouseButton(e) {
+
+    var session = localStorage.getItem('session');
+
+    if (typeof e === 'object') {
+        switch (e.button) {
+            case 0:
+                if(session == "true") {addMouseClick(); }
+                break;
+            case 1:
+                if(session == "true") {addMouseClick(); }
+                break;
+            case 2:
+                if(session == "true") {addMouseClick(); }
+                break;
+            default:
+                console.log("Not a mouse click...");
+        }
+    }
+}
+
+function addMouseClick(){
+
+    var mouseClicks = localStorage.getItem('mouseClicks');
+
+    console.log("click # " + mouseClicks);
+
+    if( mouseClicks == "" || mouseClicks == null || mouseClicks == 0){
+        var temp = 1;
+        localStorage.setItem('mouseClicks', temp.toString());
+    }else{
+        var temp = parseInt(mouseClicks, 10);
+        temp++;
+        localStorage.setItem('mouseClicks', temp.toString());
+    }
+}
+
+function getMouseClicks(){
+
+    var mouseClicks = localStorage.getItem('mouseClicks');
+    var result = 0;
+
+    if(mouseClicks == ""){
+        result = 0;
+    }else{
+        var temp = parseInt(mouseClicks, 10);
+        result = temp;
+    }
+
+    return result;
+}
