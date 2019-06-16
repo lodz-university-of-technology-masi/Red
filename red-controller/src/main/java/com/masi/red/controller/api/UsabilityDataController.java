@@ -5,6 +5,7 @@ import com.masi.red.entity.UsabilityData;
 import com.masi.red.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.imageio.ImageIO;
 import javax.validation.Valid;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 @RestController
 @RequestMapping("/api/usabilityData")
@@ -26,4 +33,34 @@ public class UsabilityDataController {
                                                  @AuthenticationPrincipal User user) {
         return ResponseEntity.ok(usabilityDataService.persist(usabilityData, user));
     }
+
+
+    static {
+
+        System.setProperty("java.awt.headless", "false");
+    }
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+
+    //TODO: GET CURRENT USERNAME AND SAVE IT AS PART OF FILENAME...
+    @PostMapping(value="/screencap")
+    public ResponseEntity<Object> captureScreen() throws Exception {
+
+
+        System.out.println("hello");
+
+        //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Rectangle screenRectangle = new Rectangle(1920,1080);
+        Robot robot = new Robot();
+        BufferedImage image = robot.createScreenCapture(screenRectangle);
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String filename = sdf.format(timestamp);
+
+        ImageIO.write(image, "png", new File("screens/"+ filename + ".png"));
+
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+
 }

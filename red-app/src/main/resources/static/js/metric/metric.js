@@ -38,11 +38,13 @@ onkeydown = onkeyup = function(e){
 // S C R E E N    D A T A
 //***********************************
 
+// TODO : SEND SCREEN WIDTH AND HEIGTH AS PARAMETERS...
+
 function doScreenCapture() {
 
     console.log("screen cap");
 
-    var screen_api = "http://localhost:6067/metryka/screen";
+    var screen_api = "http://localhost:6067/api/usabilityData/screencap";
     var filename = "screencapture.png";
 
 
@@ -58,7 +60,7 @@ function doScreenCapture() {
 
 
 //**************************************************
-// M E A S U R E    C L I C K     D I S T A N C E
+// M E A S U R E    C L I C K     D I S T A N C E ?
 //**************************************************
 
 var previousMouseX = 0;
