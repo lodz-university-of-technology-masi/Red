@@ -114,9 +114,10 @@ public class TestController {
     @PreAuthorize("hasAnyRole('MODERATOR', 'EDITOR')")
     @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity importTest(@RequestParam("file") MultipartFile file,
+                                     @RequestParam("test") NewTestDTO testDTO,
                                      @AuthenticationPrincipal User user) {
         try {
-            csvService.importTestCsv(file, user);
+            csvService.importTestCsv(testDTO, file, user);
             return ResponseEntity.ok().build();
         } catch (IOException | EmptyCsvFileException | InvalidCsvHeaderException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -85,8 +85,14 @@ function editTest(id) {
 function importTestFromCSV() {
     const file = $('#createTestCSVImport').prop('files')[0];
 
+    const jsonObject = {
+        jobTitleId: JSON.parse($('#createTestJobTitleSelect').val()).id,
+        language: $('#createTestLanguageSelect').val()
+    };
+
     const data = new FormData();
     data.append('file', file);
+    data.append('test', JSON.stringify(jsonObject));
 
     $.ajax({
         type: 'POST',
@@ -113,16 +119,16 @@ function refreshFileName(form) {
     $('label[for="createTestCSVImport"] span').text(fileName);
 }
 function selectAppropriateJobTitle(jobTitleName) {
-    $('[id=updateTestJobTitleSelect] option')
-        .filter(() => ($(this).text() === jobTitleName))
-        .prop('selected', true);
+    $('[id=updateTestJobTitleSelect] option').filter(function () {
+        return ($(this).text() === jobTitleName);
+    }).prop('selected', true);
 }
 
 function selectAppropriateEditor(editorName) {
     if (editorName) {
-        $('[id=updateTestEditorSelect] option')
-            .filter(() => ($(this).text() === editorName))
-            .prop('selected', true);
+        $('[id=updateTestEditorSelect] option').filter(function () {
+            return ($(this).text() === editorName);
+        }).prop('selected', true);
     } else {
         $('#updateTestEditorSelect').val("")
     }

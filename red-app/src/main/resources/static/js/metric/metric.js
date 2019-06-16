@@ -33,7 +33,6 @@ onkeydown = onkeyup = function(e){
             doScreenCapture("start");
             timeStart();
 
-
             console.log("STARTED METRIC");
         }
 

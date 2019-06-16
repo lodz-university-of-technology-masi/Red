@@ -12,7 +12,6 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <h5 class="d-flex justify-content-center" style="margin: 10px 0;">Dodaj</h5>
                     <form id="FormCreateTest" class="container">
                         <div class="form-group row">
                             <div class="col">
@@ -32,13 +31,13 @@
                                 </select>
                             </div>
                         </div>
-                        <h5 class="d-flex justify-content-center" style="margin: 10px 0;">Importuj</h5>
                         <div class="form-group row">
                             <div class="col">
-                                <label class="custom-file-label mx-3" for="createTestCSVImport">Wybierz
-                                    plik CSV z testem</label>
+                                <label class="custom-file-label mx-3" for="createTestCSVImport">
+                                    <span>Wybierz plik CSV z testem</span>
+                                </label>
                                 <input id="createTestCSVImport" class="custom-file-input" type="file"
-                                       onchange="importTestFromCSV(this)">
+                                       onchange="refreshFileName(this)">
                             </div>
                         </div>
                         <div class="row d-none importSuccessfulMessage">
@@ -53,7 +52,11 @@
                         </div>
                     </form>
                 </div>
+
                 <div class="modal-footer">
+                    <button id="FormImportTestButton" onclick="importTestFromCSV()" type="button"
+                            class="btn btn-success">Importuj
+                    </button>
                     <button id="FormCreateTestButton" type="button" class="btn btn-success">Zapisz</button>
                     <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Zamknij</button>
                 </div>
