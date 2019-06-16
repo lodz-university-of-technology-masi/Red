@@ -18,4 +18,5 @@ public class EditedTestDTO {
     private Set<Integer> questionsIds;
     private Language language;
     private User editor; //TODO replace with UserDTO
+    private Integer editorId;
 }

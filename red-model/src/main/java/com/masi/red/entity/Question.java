@@ -24,7 +24,7 @@ public abstract class Question {
     @Setter(AccessLevel.NONE)
     @GeneratedValue(generator = "optimized-sequence")
     @Column(name = "id", nullable = false, unique = true)
-    private int id;
+    private Integer id;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "questions", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -56,7 +56,7 @@ public abstract class Question {
         creationTime = OffsetDateTime.now();
     }
 
-    public void attachtoTest(Test test) {
+    public void attachToTest(Test test) {
         if(!testList.contains(test)) {
             testList.add(test);
         }

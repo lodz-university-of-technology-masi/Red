@@ -8,6 +8,7 @@ import ma.glasnost.orika.converter.BidirectionalConverter;
 import ma.glasnost.orika.metadata.Type;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,7 @@ public class SingleChoiceQuestionDTOMapper extends BidirectionalConverter<Single
                 .creationTime(source.getCreationTime())
                 .language(source.getLanguage())
                 .possibleAnswers(source.getPossibleAnswers())
+                .testList(new ArrayList<>())
                 .build();
     }
 }

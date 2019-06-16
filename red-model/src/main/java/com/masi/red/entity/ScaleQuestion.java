@@ -1,5 +1,6 @@
 package com.masi.red.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import javax.persistence.Table;
 @Data
 @SuperBuilder
 @NoArgsConstructor
+@AllArgsConstructor
 public class ScaleQuestion extends Question {
 
     @Column(name = "min_value", nullable = false)

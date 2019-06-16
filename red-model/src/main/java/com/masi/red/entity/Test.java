@@ -24,6 +24,7 @@ public class Test {
     @Setter(AccessLevel.NONE)
     private int id;
 
+    @ToString.Exclude
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "test_question",
             joinColumns = {@JoinColumn(name = "test_id")},
@@ -39,6 +40,7 @@ public class Test {
     @Column(name = "creation_time", nullable = false)
     private OffsetDateTime creationTime;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

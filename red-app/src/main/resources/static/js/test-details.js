@@ -1,31 +1,37 @@
-$(document).ready(function () {
+$(document).ready(() => {
     $(".rangeInput").slider();
 
     $(".rangeInput").slider({
         tooltip: 'always',
         tooltip_position: 'top'
     });
-    $('time').each(function (i, e) {
-        var time = moment($(e).attr('datetime')).format('YYYY-MM-DD HH:mm:ss');
+    $('time').each((i, e) => {
+        const time = moment($(e).attr('datetime')).format('YYYY-MM-DD HH:mm:ss');
         $(e).html('<span>' + time + '</span>');
     });
 });
 
-testsApi = '/api/tests/';
+const testsApi = '/api/tests/';
+
+const reloadWindow = () => {
+    setTimeout(() => {
+        window.location.reload();
+    }, 200);
+};
 
 function detachQuestionFromTest(questionId, testId) {
-    var url = testsApi + testId + "/questions/" + questionId;
+    const url = testsApi + testId + "/questions/" + questionId;
     $.ajax({
         type: "DELETE",
         contentType: "application/json",
         url: url,
-        success: function (response) {
+        success: (response) => {
             $("#question" + questionId).remove();
             alert(response)
         },
-        error: function (e) {
-            alert('Wystąpił błąd podczas odpinania pytania od testu')
-            console.log("ERROR : ", e);
+        error: (e) => {
+            alert('Wystąpił błąd podczas odpinania pytania od testu');
+            console.error(e.responseText);
         }
     });
 }
@@ -34,20 +40,27 @@ function toggleNewQuestionFieldsVisibility(element) {
     $("#possibleAnswersFields").addClass("d-none");
     $("#newQuestionScaleProperties").addClass("d-none");
     $("#newQuestionSuggestedAnswer").attr("type", "text");
-    if(element.value === 'SingleChoice') {
-        $("#possibleAnswersFields").removeClass("d-none")
-    } else if(element.value === 'Open') {
-    } else if(element.value === 'Numeric') {
-        $("#newQuestionSuggestedAnswer").attr("type", "number");
-    } else if(element.value === 'Scale') {
-        $("#newQuestionScaleProperties").removeClass("d-none");
-        $("#newQuestionSuggestedAnswer").attr("type", "number");
-    } else {
-        alert('Wybrano zły typ pytania')
+    switch (element.value) {
+        case 'SingleChoice':
+            $("#possibleAnswersFields").removeClass("d-none")
+            break;
+        case 'Open':
+            break;
+        case 'Numeric':
+            $("#newQuestionSuggestedAnswer").attr("type", "number");
+            break;
+        case 'Scale':
+            $("#newQuestionScaleProperties").removeClass("d-none");
+            $("#newQuestionSuggestedAnswer").attr("type", "number");
+            break;
+        default:
+            alert('Wybrano zły typ pytania');
+            break;
     }
 }
 
-var possibleAnswerId = 1;
+let possibleAnswerId = 1;
+
 function addPossibleAnswer() {
     possibleAnswerId++;
     $("#possibleAnswers").append("<div id=\'newQuestionPossibleAnswer" + possibleAnswerId + "\'><label class=\"row\" for=\'newQuestionPossibleAnswerInput" + possibleAnswerId + "\'>Możliwa odpowiedź: \n" +
@@ -73,51 +86,48 @@ function hideAddNewQuestionForm() {
 }
 
 function addQuestionToTest(testId) {
-    var existingQuestion = $("#existingQuestionSelect").val();
-    var jsonObject = {};
-    if(existingQuestion) {
+    let existingQuestion = $("#existingQuestionSelect").val();
+    const jsonObject = {};
+    if (existingQuestion) {
         existingQuestion = $.parseJSON(existingQuestion);
         jsonObject["id"] = existingQuestion.id;
         jsonObject["creationTime"] = existingQuestion.creationTime;
         jsonObject["originalQuestionId"] = existingQuestion.originalQuestionId;
     }
-    var type = $("#newQuestionType").val();
+    const type = $("#newQuestionType").val();
     jsonObject["type"] = type;
     jsonObject["content"] = $("#newQuestionContent").val();
     jsonObject["language"] = $("#newQuestionLanguage").val();
     jsonObject["suggestedAnswer"] = $("#newQuestionSuggestedAnswer").val();
-    if(type === "Scale") {
+    if (type === "Scale") {
         jsonObject["minValue"] = $("#newQuestionMinValueInput").val();
         jsonObject["maxValue"] = $("#newQuestionMaxValueInput").val();
         jsonObject["interval"] = $("#newQuestionIntervalInput").val();
-    } else if(type === "SingleChoice") {
-        jsonObject["possibleAnswers"] = jQuery.map( $("[id*=newQuestionPossibleAnswerInput]"), function( item ) {
-            return ( item.value );
-        });
+    } else if (type === "SingleChoice") {
+        jsonObject["possibleAnswers"] =
+            jQuery.map($("[id*=newQuestionPossibleAnswerInput]"), item => item.value);
     }
 
-    var url = testsApi + testId + '/questions';
+    const url = testsApi + testId + '/questions';
 
     $.ajax({
         type: "POST",
         contentType: "application/json",
         url: url,
         data: JSON.stringify(jsonObject),
-        success: function (response) {
+        success: (response) => {
             alert(response);
-            setTimeout(function () {
-                window.location.reload(true);
-            }, 1000);
+            reloadWindow()
         },
-        error: function (e) {
-            console.log(e);
+        error: (e) => {
+            console.error(e.responseText);
             alert('Nie udało się dodać pytania.')
         }
     });
 }
 
 function updateNewQuestionFields() {
-    var question = $.parseJSON($("#existingQuestionSelect").val());
+    const question = $.parseJSON($("#existingQuestionSelect").val());
     $("#newQuestionType").val(question.type);
     $("#newQuestionType").prop('disabled', true);
     $("#newQuestionType").change();
@@ -134,8 +144,8 @@ function updateNewQuestionFields() {
     $("#newQuestionIntervalInput").val(question.interval);
     $("#newQuestionIntervalInput").prop('disabled', true);
     $("[id*=newQuestionPossibleAnswer]").remove();
-    if(question.possibleAnswers) {
-        for(var i = 0; i < question.possibleAnswers.length; i++) {
+    if (question.possibleAnswers) {
+        for (let i = 0; i < question.possibleAnswers.length; i++) {
             addPossibleAnswer();
             $("#newQuestionPossibleAnswerInput" + possibleAnswerId).val(question.possibleAnswers[i]);
             $("#newQuestionPossibleAnswerInput" + possibleAnswerId).prop('disabled', true);
@@ -144,7 +154,7 @@ function updateNewQuestionFields() {
 }
 
 function resetFields() {
-    $("#existingQuestionSelect").val("")
+    $("#existingQuestionSelect").val("");
     $("#newQuestionType").val("");
     $("#newQuestionType").prop('disabled', false);
     $("#newQuestionContent").val("");

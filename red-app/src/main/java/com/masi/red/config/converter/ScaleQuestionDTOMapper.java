@@ -8,6 +8,7 @@ import ma.glasnost.orika.converter.BidirectionalConverter;
 import ma.glasnost.orika.metadata.Type;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,6 +42,7 @@ public class ScaleQuestionDTOMapper extends BidirectionalConverter<ScaleQuestion
                 .minValue(source.getMinValue())
                 .maxValue(source.getMaxValue())
                 .interval(source.getInterval())
+                .testList(new ArrayList<>())
                 .build();
     }
 }
