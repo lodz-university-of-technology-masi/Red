@@ -4,12 +4,6 @@ window.onload = () => {
     getTests();
 };
 
-$(document).ready(() => {
-    $('#EditorsTable').DataTable();
-    $('#JobTitleTable').DataTable();
-    $('#TestTable').DataTable();
-});
-
 function getEditors() {
     $.get("/api/users/all?role=EDITOR", (data) => {
         $("#resultEditor").html("");
