@@ -154,7 +154,7 @@ public class TestService implements ITestService {
         Question question;
         if (questionDTO.getId() == null) {
             question = mapper.map(questionDTO, QuestionTypeMapper.getEntityClass(questionDTO));
-            if (question.getOriginalQuestion() == null || question.getOriginalQuestion().getId() == questionDTO.getId()) {
+            if (question.getOriginalQuestion() == null || Objects.equals(question.getOriginalQuestion().getId(), questionDTO.getId())) {
                 question.setOriginalQuestion(question);
             }
             question = questionRepository.save(question);
