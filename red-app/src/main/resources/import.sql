@@ -40,7 +40,7 @@ INSERT INTO masi.test(id, creation_time, job_title_id, language, user_id) VALUES
 ALTER SEQUENCE masi.test_seq RESTART WITH 3;
 
 INSERT INTO masi.test_question(test_id, question_id) VALUES (1, 1);
---INSERT INTO masi.test_question(test_id, question_id) VALUES (1, 2);
+INSERT INTO masi.test_question(test_id, question_id) VALUES (1, 2);
 INSERT INTO masi.test_question(test_id, question_id) VALUES (2, 3);
 INSERT INTO masi.test_question(test_id, question_id) VALUES (2, 4);
 
