@@ -119,16 +119,16 @@ function refreshFileName(form) {
     $('label[for="createTestCSVImport"] span').text(fileName);
 }
 function selectAppropriateJobTitle(jobTitleName) {
-    $('[id=updateTestJobTitleSelect] option')
-        .filter(() => ($(this).text() === jobTitleName))
-        .prop('selected', true);
+    $('[id=updateTestJobTitleSelect] option').filter(function () {
+        return ($(this).text() === jobTitleName);
+    }).prop('selected', true);
 }
 
 function selectAppropriateEditor(editorName) {
     if (editorName) {
-        $('[id=updateTestEditorSelect] option')
-            .filter(() => ($(this).text() === editorName))
-            .prop('selected', true);
+        $('[id=updateTestEditorSelect] option').filter(function () {
+            return ($(this).text() === editorName);
+        }).prop('selected', true);
     } else {
         $('#updateTestEditorSelect').val("")
     }
