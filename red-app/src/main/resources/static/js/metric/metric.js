@@ -14,18 +14,19 @@ onkeydown = onkeyup = function(e){
 
     // SHIFT + D || START || STOP ||
     if(map[16] && map[68]){
-        alert('Shift +  D');
+        //alert('Shift +  D');
 
         if(session == "true"){ //THEN STOP REDORDING
-
+            console.log("DONE");
             doScreenCapture("finish");
 
             var elapsed = timeStop();
-            alert("elapsed : " + elapsed);
-
             var sumclicks = getMouseClicks();
-            console.log("clicks : " + sumclicks );
-            console.log("STOPPED METRIC");
+            var distance = getTotalDistance();
+            var height = parseInt(localStorage.getItem('screenHeight'));
+            var width = parseInt(localStorage.getItem('screenWidth'));
+
+
             localStorage.setItem('session','false');
 
             //TODO: SEND ALL DATA TO API
@@ -49,7 +50,7 @@ onkeydown = onkeyup = function(e){
 
     // SHIFT + R || FAILED ||
     if(map[16] && map[82]){
-        alert('Shift +  R');
+        //alert('Shift +  R');
 
         if(session == "true"){ //THEN STOP REDORDING
             doScreenCapture("finish");
@@ -67,7 +68,7 @@ onkeydown = onkeyup = function(e){
 
     // SHIFT + W || ABORTED ||
     if(map[16] && map[87]){
-        alert('Shift +  W');
+        //alert('Shift +  W');
 
         if(session == "true"){ //THEN STOP REDORDING
             alert("CANCELED");
@@ -102,6 +103,7 @@ function resetLocalStorage(){
     localStorage.setItem('timeStart', '');
     localStorage.setItem('timeStop', '');
     localStorage.setItem('mouseClicks', '');
+    localStorage.setItem('distance', '');
 }
 
 
@@ -129,7 +131,7 @@ $(document).ready(function(){
 //******************************
 
 function doScreenCapture(metricpart) {
-    console.log("screen cap " + metricpart);
+    //console.log("screen cap " + metricpart);
 
     var screen_api = "http://localhost:6067/api/usabilityData/screencap";
 
@@ -159,19 +161,50 @@ var previousMouseY = 0;
 
 document.addEventListener("click", function(){
 
-    var mouse_X = event.clientX;
-    var mouse_Y = event.clientY;
+    var session = localStorage.getItem('session');
 
-    var distance = Math.sqrt( Math.pow( previousMouseX - mouse_X , 2) + Math.pow(previousMouseY-mouse_Y, 2) );
+    if(session == "true"){
 
-    console.log("Current : X." + mouse_X + " Y." + mouse_Y + " | Previous : X." + previousMouseX + " Y." + previousMouseY + " | Distance : " + distance);
+        var mouse_X = event.clientX;
+        var mouse_Y = event.clientY;
 
-    previousMouseX = mouse_X;
-    previousMouseY = mouse_Y;
+        var distance = Math.sqrt( Math.pow( previousMouseX - mouse_X , 2) + Math.pow(previousMouseY-mouse_Y, 2) );
+
+        //console.log("Current : X." + mouse_X + " Y." + mouse_Y + " | Previous : X." + previousMouseX + " Y." + previousMouseY + " | Distance : " + distance);
+
+        var distanceCount = localStorage.getItem('distance');
+
+        if( distanceCount == "" || distanceCount == null){
+            var temp = 0;
+            localStorage.setItem('distance', temp.toString());
+        }else{
+            var temp = parseInt(distanceCount, 10);
+            temp += distance;
+            localStorage.setItem('distance', temp.toString());
+        }
+
+        previousMouseX = mouse_X;
+        previousMouseY = mouse_Y;
+    }
+
 
 });
 
-//TODO : CALCULATE DISTANCE FROM METRIC SPECIFICAZTION + ADD DISTANCE TO LOCAL STORAGE.
+function getTotalDistance() {
+
+    var totalDistance = localStorage.getItem('distance');
+    var result = 0;
+
+    if(totalDistance == ""){
+        result = 0;
+    }else{
+        var temp = parseInt(totalDistance, 10);
+        result = temp;
+    }
+
+    return result;
+
+}
 
 
 //***************************************************

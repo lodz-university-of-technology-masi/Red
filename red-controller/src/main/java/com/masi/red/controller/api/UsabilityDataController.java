@@ -52,8 +52,6 @@ public class UsabilityDataController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        System.out.println(capture.toString() + " " + username);
-
         //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Rectangle screenRectangle = new Rectangle(capture.getWidth(),capture.getHeight());
         Robot robot = new Robot();
