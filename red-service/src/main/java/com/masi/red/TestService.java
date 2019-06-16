@@ -47,7 +47,6 @@ public class TestService implements ITestService {
         Test test = mapper.map(testDTO, Test.class);
         test.setUser(testOwner);
         test.setJobTitle(jobTitle);
-        //TODO: implement set questions
         jobTitle.attachTest(test);
 
         return mapper.map(testRepository.save(test), TestDTO.class);
@@ -112,7 +111,6 @@ public class TestService implements ITestService {
         }
 
         testToEdit.setUser(testOwner);
-        //testToEdit.setQuestions(editedTest.getQuestions()); TODO implement
         return mapper.map(testToEdit, TestDTO.class);
     }
 

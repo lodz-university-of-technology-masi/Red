@@ -1,21 +1,32 @@
 package com.masi.red.controller.api;
 
 import com.masi.red.IUsabilityDataService;
+<<<<<<< HEAD
+=======
 import com.masi.red.entity.MetricScreenCap;
+>>>>>>> 08b53b377fc153f2ba13ee374c10ab3af3970cd7
 import com.masi.red.entity.UsabilityData;
 import com.masi.red.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+=======
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+>>>>>>> 08b53b377fc153f2ba13ee374c10ab3af3970cd7
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+<<<<<<< HEAD
+import javax.validation.Valid;
+=======
 import javax.imageio.ImageIO;
 import javax.validation.Valid;
 import java.awt.*;
@@ -23,6 +34,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+>>>>>>> 08b53b377fc153f2ba13ee374c10ab3af3970cd7
 
 @RestController
 @RequestMapping("/api/usabilityData")
@@ -36,7 +48,6 @@ public class UsabilityDataController {
                                                  @AuthenticationPrincipal User user) {
         return ResponseEntity.ok(usabilityDataService.persist(usabilityData, user));
     }
-
 
     static {
 
@@ -66,6 +77,5 @@ public class UsabilityDataController {
 
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
-
 
 }
