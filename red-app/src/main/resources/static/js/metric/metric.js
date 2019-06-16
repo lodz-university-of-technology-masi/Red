@@ -1,6 +1,6 @@
 
 var map = {}; // You could also use an array
-
+const USABILITY_DATA_URL = '/api/usabilityData';
 
 //**********************************************************
 //  C A P T U R E    K E Y S    +   M A I N     L O G I C
@@ -20,26 +20,18 @@ onkeydown = onkeyup = function(e){
             console.log("DONE");
             doScreenCapture("finish");
 
-            var elapsed = timeStop();
-            var sumclicks = getMouseClicks();
-            var distance = getTotalDistance();
-            var height = parseInt(localStorage.getItem('screenHeight'));
-            var width = parseInt(localStorage.getItem('screenWidth'));
-
-
             localStorage.setItem('session','false');
 
-            //TODO: SEND ALL DATA TO API
-
-            resetLocalStorage();
-
+            $.get('https://api.ipify.org', (ip) => {
+                persistUsabilityData(ip, 0, 0);
+                resetLocalStorage();
+            });
         }else if(session == "false" || session == null || session == ""){
 
             localStorage.setItem('session','true');
-
+            saveScreenResolution();
             doScreenCapture("start");
             timeStart();
-
 
             console.log("STARTED METRIC");
         }
@@ -57,9 +49,11 @@ onkeydown = onkeyup = function(e){
 
             alert("FAILED");
             localStorage.setItem('session','false');
-            //TODO: SEND ALL DATA TO API
 
-            resetLocalStorage();
+            $.get('https://api.ipify.org', (ip) => {
+                persistUsabilityData(ip, 1, 1);
+                resetLocalStorage();
+            });
         }
 
         map = {};
@@ -82,6 +76,50 @@ onkeydown = onkeyup = function(e){
     }
 }
 
+function persistUsabilityData(ip, failed, errorType) {
+    var elapsed = timeStop();
+    var sumclicks = getMouseClicks();
+    var distance = getTotalDistance();
+    var height = parseInt(localStorage.getItem('screenHeight'));
+    var width = parseInt(localStorage.getItem('screenWidth'));
+
+    const jsonObject = {
+        ip: ip,
+        browser: getBrowserCode(),
+        resolutionWidth: width,
+        resolutionHeight: height,
+        mouseClicksNumber: sumclicks,
+        timeElapsed: elapsed,
+        distanceTravelled: distance,
+        failed: failed,
+        errorType: errorType
+    };
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: USABILITY_DATA_URL,
+        data: JSON.stringify(jsonObject),
+        success: () =>  alert("Zapisano dane."),
+        error: (e) => console.error(e.responseText)
+    });
+}
+
+function getBrowserCode() {
+    var isIE = /*@cc_on!@*/false || !!document.documentMode;
+    var isEdge = !isIE && !!window.StyleMedia;
+    var isFirefox = typeof InstallTrigger !== 'undefined';
+    var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+    if(isIE || isEdge) {
+        return "I";
+    } else if (isFirefox) {
+        return "F";
+    } else if (isChrome) {
+        return "C";
+    } else {
+        return "UNKNOWN";
+    }
+}
 //****************************************************
 // S E S I O N      D A T A     S T O R A G E
 //****************************************************
@@ -92,9 +130,9 @@ onkeydown = onkeyup = function(e){
 // WHAT WE HAVE FOR NOW IN SESSION STORAGE
 // localStorage.getItem('screenWidth');     // Screen width
 // localStorage.getItem('screenHeight');    // Screen height
-// localStorage.getItem('timeStart');       // Timme of started session
+// localStorage.getItem('timeStart');       // Time of started session
 // localStorage.getItem('timeStop');        // Time of stopped session
-// localStorage.getItem('session';          // TRUE - metric session is recording || FALSE - metric session if stopped
+// localStorage.getItem('session');         // TRUE - metric session is recording || FALSE - metric session if stopped
 // localStorage.getItem('mouseClicks');     // Sum of mouse clicks
 
 function resetLocalStorage(){
@@ -116,16 +154,16 @@ var screenHeight;
 
 $(document).ready(function(){
 
-    screenWidth = screen.width;
-    screenHeight = screen.height;
-
-
-    localStorage.setItem('screenWidth', screenWidth.toString() );
-    localStorage.setItem('screenHeight', screenHeight.toString() );
-
+    saveScreenResolution();
 });
 
+function saveScreenResolution() {
 
+    screenWidth = screen.width;
+    screenHeight = screen.height;
+    localStorage.setItem('screenWidth', screenWidth.toString() );
+    localStorage.setItem('screenHeight', screenHeight.toString() );
+}
 //******************************
 // S C R E E N   C A P T U R E
 //******************************

@@ -37,7 +37,6 @@ public class UsabilityDataController {
         return ResponseEntity.ok(usabilityDataService.persist(usabilityData, user));
     }
 
-
     static {
 
         System.setProperty("java.awt.headless", "false");
@@ -66,6 +65,5 @@ public class UsabilityDataController {
 
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
-
 
 }
