@@ -1,9 +1,7 @@
 package com.masi.red;
 
-import com.masi.red.common.CsvConstants;
-import com.masi.red.common.Language;
-import com.masi.red.common.QuestionType;
-import com.masi.red.common.QuestionTypeMapper;
+import com.masi.red.common.*;
+import com.masi.red.dto.NewTestDTO;
 import com.masi.red.dto.TestDTO;
 import com.masi.red.entity.*;
 import com.masi.red.exception.EmptyCsvFileException;
@@ -20,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,11 +60,11 @@ public class CsvService implements ICsvService {
     }
 
     @Override
-    public TestDTO importTestCsv(MultipartFile file, User user) throws EmptyCsvFileException, InvalidCsvHeaderException, IOException {
+    public TestDTO importTestCsv(NewTestDTO testDTO, MultipartFile file, User user) throws EmptyCsvFileException, InvalidCsvHeaderException, IOException {
         if (file.isEmpty()) {
             throw new EmptyCsvFileException("Przesłany plik jest pusty");
         }
-        Language testLang = Language.PL;
+        Language testLang = testDTO.getLanguage();
         String line;
         List<Question> questionList = new ArrayList<>();
         try (InputStream inputStream = file.getInputStream();
@@ -104,11 +103,20 @@ public class CsvService implements ICsvService {
                 }
                 testLang = language;
             }
+            JobTitle jobTitle = entityFinder.findJobTitleById(testDTO.getJobTitleId());
+            User testOwner;
+            if (testDTO.getEditorId() != null) {
+                testOwner = entityFinder.findUserById(testDTO.getEditorId());
+            } else {
+                testOwner = user;
+            }
             Test test = Test.builder()
-                    .user(user)
+                    .user(testOwner)
+                    .jobTitle(jobTitle)
                     .language(testLang)
                     .questions(questionList)
                     .build();
+            jobTitle.attachTest(test);
             Test save = testRepository.save(test);
             return mapper.map(save, TestDTO.class);
         }

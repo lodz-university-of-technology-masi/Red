@@ -6,6 +6,7 @@ bootJar {
 }
 
 dependencies {
+    compile("org.json:json:20180813")
     compile project(':red-model')
     compile project(':red-repository')
     compile project(':red-api')

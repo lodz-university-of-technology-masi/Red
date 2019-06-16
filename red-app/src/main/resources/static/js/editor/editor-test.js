@@ -85,8 +85,14 @@ function editTest(id) {
 function importTestFromCSV() {
     const file = $('#createTestCSVImport').prop('files')[0];
 
+    const jsonObject = {
+        jobTitleId: JSON.parse($('#createTestJobTitleSelect').val()).id,
+        language: $('#createTestLanguageSelect').val()
+    };
+
     const data = new FormData();
     data.append('file', file);
+    data.append('test', JSON.stringify(jsonObject));
 
     $.ajax({
         type: 'POST',
