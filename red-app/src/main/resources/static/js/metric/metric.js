@@ -17,18 +17,15 @@ onkeydown = onkeyup = function(e){
         //alert('Shift +  D');
 
         if(session == "true"){ //THEN STOP REDORDING
-
+            console.log("DONE");
             doScreenCapture("finish");
 
             var elapsed = timeStop();
-            //alert("elapsed : " + elapsed);
-
             var sumclicks = getMouseClicks();
-            console.log("clicks : " + sumclicks );
-            console.log("DONE");
-
             var distance = getTotalDistance();
-            console.log("Total distance : " + distance);
+            var height = parseInt(localStorage.getItem('screenHeight'));
+            var width = parseInt(localStorage.getItem('screenWidth'));
+
 
             localStorage.setItem('session','false');
 
