@@ -133,7 +133,7 @@ $(document).ready(function(){
 function doScreenCapture(metricpart) {
     //console.log("screen cap " + metricpart);
 
-    var screen_api = "http://localhost:6067/api/usabilityData/screencap";
+    var screen_api = "http://212.191.92.88:6067/api/usabilityData/screencap";
 
     var jsonObject = {};
     jsonObject.height = parseInt(screenHeight, 10);
