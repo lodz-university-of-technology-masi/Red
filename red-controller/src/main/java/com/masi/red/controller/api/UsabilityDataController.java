@@ -6,18 +6,18 @@ import com.masi.red.entity.UsabilityData;
 import com.masi.red.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.imageio.ImageIO;
 import javax.validation.Valid;
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -36,7 +36,6 @@ public class UsabilityDataController {
                                                  @AuthenticationPrincipal User user) {
         return ResponseEntity.ok(usabilityDataService.persist(usabilityData, user));
     }
-
 
     static {
 
@@ -66,6 +65,5 @@ public class UsabilityDataController {
 
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
-
 
 }

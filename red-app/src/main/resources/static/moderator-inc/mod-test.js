@@ -3,6 +3,7 @@
 //***************************************************************
 
 const test_api = "/api/tests";
+const translate_api = "/api/translate";
 
 $(document).ready(() => {
 
@@ -132,5 +133,124 @@ function selectAppropriateEditor(editorName) {
     } else {
         $('#updateTestEditorSelect').val("")
     }
+
+}
+
+
+function translateTest(id) {
+    var testId = id.split("-");
+    var url = "https://translate.yandex.net/api/v1.5/tr.json/translate",
+        keyAPI = "trnsl.1.1.20190526T182448Z.7b7ab41004a59b15.e43446553cfbc62f604c9a85415a3b64f58ca47e";
+    var responseData;
+    var translateLanguage;
+    var jsonObject = {};
+    $.ajax({
+        type: "GET",
+        url: translate_api + "/" + testId[1],
+        success: function (data) {
+            window.newTestId = null;
+            var language = null;
+            if (data.language === 'EN') {
+                language = 'pl';
+            } else {
+                language = 'en';
+            }
+            translateLanguage = language.toUpperCase();
+
+            jsonObject["editorId"] = data.editorId;
+            jsonObject["jobTitleId"] = data.jobTitleId;
+            jsonObject["language"] = translateLanguage;
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: test_api,
+                data: JSON.stringify(jsonObject),
+                async: false,
+                success: function (data) {
+                    var arrayData = data.split(" ");
+                    window.newTestId = arrayData[1];
+                    setTimeout(function () {
+                        window.location.reload(true);
+                    }, 2000);
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                }
+            });
+
+            $.each(data.questions, function (index, value) {
+                var jsonObject = {};
+                if (value.type === "SingleChoice") {
+                    var questionData = `${value.content}/${value.suggestedAnswer}`;
+                    var i;
+                    questionData = questionData + "/" + value.possibleAnswers[0];
+                    for (i = 1; i < value.possibleAnswers.length; i++) {
+                        questionData = questionData + "/" + value.possibleAnswers[i];
+                    }
+                } else
+                    var questionData = `${value.content}/${value.suggestedAnswer}`;
+
+                var request = new XMLHttpRequest(),
+                    data = "key=" + keyAPI + "&text=" + questionData + "&lang=" + language;
+                request.open("POST", url, false);
+                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                request.send(data);
+                if (request.status == 200) {
+                    var res = request.responseText;
+                    var json = JSON.parse(res);
+                    responseData = json.text[0];
+                }
+
+                var arrayData = responseData.toString();
+                var splitData = arrayData.split("/");
+
+
+                var parseId = parseInt(window.newTestId);
+                var urlTranslate = test_api + "/" + parseId + '/questions';
+                jsonObject["type"] = value.type;
+                jsonObject["content"] = splitData[0];
+                jsonObject["language"] = translateLanguage;
+                jsonObject["suggestedAnswer"] = splitData[1];
+                if (value.type === "Scale") {
+                    jsonObject["minValue"] = value.minValue;
+                    jsonObject["maxValue"] = value.maxValue;
+                    jsonObject["interval"] = value.interval;
+                } else if (value.type === "SingleChoice") {
+                    item = [];
+                    var j;
+                    for (j = 0; j < value.possibleAnswers.length; j++) {
+                        item.push(splitData[j + 2])
+                    }
+
+                    jsonObject["possibleAnswers"] = item;
+                }
+                console.log(jsonObject);
+
+                $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: urlTranslate,
+                        data: JSON.stringify(jsonObject),
+                        async: false,
+                        success: function () {
+                            setTimeout(function () {
+                                window.location.reload(true);
+                            }, 1000);
+                        },
+                        error: function (e) {
+                            console.log(e);
+                            alert('Nie udało się dodać pytania.')
+                        }
+                    }
+                );
+
+
+            });
+
+        },
+        error: function (e) {
+            console.error(e);
+        }
+    });
 
 }

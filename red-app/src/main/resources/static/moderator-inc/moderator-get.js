@@ -4,12 +4,6 @@ window.onload = () => {
     getTests();
 };
 
-$(document).ready(() => {
-    $('#EditorsTable').DataTable();
-    $('#JobTitleTable').DataTable();
-    $('#TestTable').DataTable();
-});
-
 function getEditors() {
     $.get("/api/users/all?role=EDITOR", (data) => {
         $("#resultEditor").html("");
@@ -93,11 +87,11 @@ function getTests() {
                     "                    <a id=\'T-" + value.id + "\' class=\"dropdown-item deleteTestButton\" ><i class=\"material-icons md-24\">remove_circle_outline</i> Usuń test</a>\n" +
                     "                    <a href=\'" + baseHref + "/tests/" + value.id + "\' class=\"dropdown-item\"><i class=\"material-icons md-24\">add_circle_outline</i> Zarządzaj pytaniami</a>\n" +
                     "                    <a class=\"dropdown-item \" href=\'/api/tests/" + value.id + "/export\' target='_blank' download'><i class=\"material-icons md-24\">import_export</i> Eksport do csv</a>\n" +
-                    "                    <a id =\'translate" + value.id + "\' class=\"dropdown-item \" ><i class=\"material-icons md-24\">translate</i> Tłumaczenie testu na </a>\n" +
+                    "                    <a id =\'translate-" + value.id + "\' class=\"dropdown-item \" onClick=\"translateTest(this.id) \" ><i class=\"material-icons md-24\">translate</i> Tłumaczenie testu na </a>\n" +
                     "</div>" +
                     "</div>" +
                     "                </td></tr>");
-                const translateButton = document.getElementById("translate" + value.id);
+                const translateButton = document.getElementById("translate-" + value.id);
                 const text = document.createTextNode(language);
                 translateButton.appendChild(text);
             });

@@ -47,7 +47,6 @@ public class TestService implements ITestService {
         Test test = mapper.map(testDTO, Test.class);
         test.setUser(testOwner);
         test.setJobTitle(jobTitle);
-        //TODO: implement set questions
         jobTitle.attachTest(test);
 
         return mapper.map(testRepository.save(test), TestDTO.class);
@@ -66,6 +65,12 @@ public class TestService implements ITestService {
     public TestWithQuestionsDTO getTestById(Integer id) {
         Test test = entityFinder.findTestById(id);
         return mapper.map(test, TestWithQuestionsDTO.class);
+    }
+
+    @Override
+    public NewTestDTO getTestByIdNewTestDTO(Integer id) {
+        Test test = entityFinder.findTestById(id);
+        return mapper.map(test, NewTestDTO.class);
     }
 
     @Override
@@ -112,7 +117,6 @@ public class TestService implements ITestService {
         }
 
         testToEdit.setUser(testOwner);
-        //testToEdit.setQuestions(editedTest.getQuestions()); TODO implement
         return mapper.map(testToEdit, TestDTO.class);
     }
 
