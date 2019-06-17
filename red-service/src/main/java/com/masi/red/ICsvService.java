@@ -1,5 +1,6 @@
 package com.masi.red;
 
+import com.masi.red.dto.NewTestDTO;
 import com.masi.red.dto.TestDTO;
 import com.masi.red.entity.User;
 import com.masi.red.exception.EmptyCsvFileException;
@@ -12,5 +13,5 @@ import java.io.IOException;
 public interface ICsvService {
     void exportTestCsv(Integer testId, HttpServletResponse response) throws IOException;
 
-    TestDTO importTestCsv(MultipartFile file, User user) throws EmptyCsvFileException, IOException, InvalidCsvHeaderException;
+    TestDTO importTestCsv(NewTestDTO testDTO, MultipartFile file, User user) throws EmptyCsvFileException, IOException, InvalidCsvHeaderException;
 }
