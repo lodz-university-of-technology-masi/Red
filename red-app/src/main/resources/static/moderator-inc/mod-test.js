@@ -5,7 +5,6 @@
 const test_api = "/api/tests";
 const translate_api = "/api/translate";
 
-
 $(document).ready(() => {
 
     $("#FormCreateTestButton").click(() => {
