@@ -69,7 +69,7 @@ public class TestService implements ITestService {
     }
 
     @Override
-    public NewTestDTO getTestById1(Integer id) {
+    public NewTestDTO getTestByIdNewTestDTO(Integer id) {
         Test test = entityFinder.findTestById(id);
         return mapper.map(test, NewTestDTO.class);
     }

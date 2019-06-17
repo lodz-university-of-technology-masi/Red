@@ -198,7 +198,7 @@ function translateTest(id) {
 
 
                 var parseId = parseInt(window.newTestId);
-                var url1 = test_api + "/" + parseId + '/questions';
+                var urlTranslate = test_api + "/" + parseId + '/questions';
                 jsonObject["type"] = value.type;
                 jsonObject["content"] = splitData[0];
                 jsonObject["language"] = translateLanguage;
@@ -221,10 +221,10 @@ function translateTest(id) {
                 $.ajax({
                         type: "POST",
                         contentType: "application/json",
-                        url: url1,
+                        url: urlTranslate,
                         data: JSON.stringify(jsonObject),
                         async: false,
-                        success: function (response) {
+                        success: function () {
                             setTimeout(function () {
                                 window.location.reload(true);
                             }, 1000);

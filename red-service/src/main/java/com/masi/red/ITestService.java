@@ -15,7 +15,7 @@ public interface ITestService {
 
     TestWithQuestionsDTO getTestById(Integer id);
 
-    NewTestDTO getTestById1(Integer id);
+    NewTestDTO getTestByIdNewTestDTO(Integer id);
 
     TestWithQuestionsDTO getRandomTest(Integer jobTitleId, Integer userId) throws NoTestsAvailableException;
 
