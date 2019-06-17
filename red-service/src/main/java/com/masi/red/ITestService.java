@@ -15,6 +15,8 @@ public interface ITestService {
 
     TestWithQuestionsDTO getTestById(Integer id);
 
+    NewTestDTO getTestByIdNewTestDTO(Integer id);
+
     TestWithQuestionsDTO getRandomTest(Integer jobTitleId, Integer userId) throws NoTestsAvailableException;
 
     TestDTO updateTest(Integer id, EditedTestDTO test, User user) throws ResourceAccessForbiddenException;
